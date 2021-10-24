@@ -1,6 +1,7 @@
 
 # Outputs
 src/**/*.js
+!/src/**/typescript.js
 src/**/*.js.map
 
 # IDEs
