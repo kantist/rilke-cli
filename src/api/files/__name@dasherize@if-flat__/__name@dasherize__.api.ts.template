@@ -1,0 +1,47 @@
+import { ApiService } from '@core/services/api/api.service';
+import { IApiCall } from '@core/models/api-call';
+import { tap } from 'rxjs/operators';
+
+<% if (provideIn) {%>import { Injectable } from '@angular/core';
+
+@Injectable({
+	providedIn: 'root'
+})
+<% }%>export class <%= classify(name) %>Api {
+	constructor(private apiService: ApiService) { }
+
+	getAll(apiCall: IApiCall) {
+		apiCall.path = '';
+		return this.apiService.get(apiCall).pipe(
+			tap((res: any) => res)
+		);
+	}
+
+	get(apiCall: IApiCall) {
+		apiCall.path = '';
+		return this.apiService.get(apiCall).pipe(
+			tap((res: any) => res)
+		);
+	}
+
+	add(apiCall: IApiCall) {
+		apiCall.path = '';
+		return this.apiService.post(apiCall).pipe(
+			tap((res: any) => res)
+		);
+	}
+
+	patch(apiCall: IApiCall) {
+		apiCall.path = '';
+		return this.apiService.patch(apiCall).pipe(
+			tap((res: any) => res)
+		);
+	}
+
+	delete(apiCall: IApiCall) {
+		apiCall.path = '';
+		return this.apiService.delete(apiCall).pipe(
+			tap((res: any) => res)
+		);
+	}
+}

@@ -1,0 +1,16 @@
+import { TestBed } from '@angular/core/testing';
+
+import { <%= classify(name) %>Api } from './<%= dasherize(name) %>.api';
+
+describe('<%= classify(name) %>Api', () => {
+	let api: <%= classify(name) %>Api;
+
+	beforeEach(() => {
+		TestBed.configureTestingModule({});
+		api = TestBed.inject(<%= classify(name) %>Api);
+	});
+
+	it('should be created', () => {
+		expect(api).toBeTruthy();
+	});
+});

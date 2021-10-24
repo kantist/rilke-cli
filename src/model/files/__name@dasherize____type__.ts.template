@@ -1,0 +1,9 @@
+export interface <%= prefix %><%= classify(name) %> {
+}
+
+export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %> {
+	constructor(
+		<%= camelize(name) %>: <%= prefix %><%= classify(name) %>
+	) {
+	}
+}

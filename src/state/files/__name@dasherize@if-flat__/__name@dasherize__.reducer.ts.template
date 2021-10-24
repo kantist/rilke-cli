@@ -1,0 +1,31 @@
+import * as <%= classify(name) %>Actions from './<%= dasherize(name) %>.action';
+
+export type Action = <%= classify(name) %>Actions.All;
+
+// Default app state
+const defaultData: any = {
+	property: ''
+};
+
+// Helper function to create new state object
+const newState = (state: any, newData: any) => {
+	return Object.assign({}, state, newData);
+}
+
+// Reducer function
+export function <%= classify(name) %>Reducer(state: any = defaultData, action: Action) {
+	switch (action.type) {
+		case <%= classify(name) %>Actions.SET: {
+			return action.data;
+		}
+		case <%= classify(name) %>Actions.UPDATE: {
+			return newState(state, action.data);
+		}
+		case <%= classify(name) %>Actions.RESET: {
+			return state = defaultData;
+		}
+		default: {
+			return state;
+		}
+	}
+}

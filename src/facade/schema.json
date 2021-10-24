@@ -1,0 +1,80 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "SchematicsAngularFacade",
+	"title": "Angular Facade Options Schema",
+	"type": "object",
+	"additionalProperties": false,
+	"description": "Creates a new, generic facade definition in the given or default project.",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "The name of the facade.",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What name would you like to use for the facade?"
+		},
+		"path": {
+			"type": "string",
+			"format": "path",
+			"description": "The path at which to create the facade, relative to the workspace root.",
+			"visible": false
+		},
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		},
+		"flat": {
+			"type": "boolean",
+			"default": false,
+			"description": "When true, creates files at the top level of the project."
+		},
+		"skipTests": {
+			"type": "boolean",
+			"description": "Do not create \"spec.ts\" test files for the new facade.",
+			"default": false,
+			"x-user-analytics": 12
+		},
+		"provideIn": {
+			"type": "boolean",
+			"description": "Determine provideIn option.",
+			"default": false
+		},
+		"layer": {
+			"description": "Determine which layer it belongs to.",
+			"type": "string",
+			"alias": "l",
+			"default": "features",
+			"enum": ["features", "layouts", "shared"],
+			"x-prompt": {
+				"message": "Which layer would you like to use it in?",
+				"type": "list",
+				"items": [
+					{ "value": "features", "label": "Features" },
+					{ "value": "layouts", "label": "Layouts" },
+					{ "value": "shared", "label": "Shared" }
+				]
+			},
+			"x-user-analytics": 5
+		},
+		"module": {
+			"type": "string",
+			"description": "The declaring NgModule.",
+			"alias": "m",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "Which NgModule would you like to use this facade?"
+		},
+		"moduleName": {
+			"type": "string",
+			"description": "The declaring NgModule name."
+		}
+	},
+	"required": ["name","layer","module"]
+}

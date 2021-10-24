@@ -1,0 +1,71 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "SchematicsAngularFeature",
+	"title": "Angular Feature Options Schema",
+	"type": "object",
+	"additionalProperties": false,
+	"description": "Creates a new, generic NgModule definition in the given or default project.",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "The name of the NgModule.",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What name would you like to use for the NgModule?"
+		},
+		"path": {
+			"type": "string",
+			"format": "path",
+			"description": "The path at which to create the NgModule, relative to the workspace root.",
+			"visible": false
+		},
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		},
+		"routing": {
+			"type": "boolean",
+			"description": "Create a routing module.",
+			"default": true,
+			"x-prompt": "That module has a routing?",
+			"x-user-analytics": 17
+		},
+		"route": {
+			"type": "string",
+			"description": "The route path for a module. When supplied adds the child route to that routes."
+		},
+		"flat": {
+			"type": "boolean",
+			"description": "Create the new files at the top level of the current project root. ",
+			"default": false
+		},
+		"sharedLayer": {
+			"type": "boolean",
+			"description": "The new NgModule imports \"SharedLayer\". ",
+			"default": true,
+			"visible": false
+		},
+		"layout": {
+			"type": "string",
+			"description": "The declaring Layout.",
+			"alias": "l",
+			"x-prompt": "Which layout would you like to use this module?"
+		},
+		"module": {
+			"type": "string",
+			"description": "The declaring NgModule.",
+			"default": "features",
+			"alias": "m"
+		},
+		"moduleName": {
+			"type": "string",
+			"description": "The declaring NgModule name."
+		}
+	},
+	"required": ["name"]
+}

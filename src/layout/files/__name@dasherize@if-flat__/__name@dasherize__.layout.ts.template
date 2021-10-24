@@ -1,0 +1,10 @@
+import { NgModule } from '@angular/core';<% if (sharedLayer) { %>
+import { SharedLayer } from '@shared/shared.layer';<% } %>
+
+@NgModule({
+	imports: [<% if (sharedLayer) { %>
+		SharedLayer<% } %>
+	],
+	declarations: []
+})
+export class <%= classify(name) %>Layout { }

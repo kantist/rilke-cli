@@ -1,0 +1,23 @@
+
+# Outputs
+src/**/*.js
+src/**/*.js.map
+
+# IDEs
+.idea/
+jsconfig.json
+.vscode/
+
+# Misc
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Mac OSX Finder files.
+**/.DS_Store
+.DS_Store
+
+desktop.ini
+Thumbs.db
+node_modules
+package-lock.json

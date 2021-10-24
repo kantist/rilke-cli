@@ -1,0 +1,70 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "SchematicsAngularState",
+	"title": "Angular State Options Schema",
+	"type": "object",
+	"additionalProperties": false,
+	"description": "Creates a new, generic state definition in the given or default project.",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "The name of the state.",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What name would you like to use for the state?"
+		},
+		"path": {
+			"type": "string",
+			"format": "path",
+			"description": "The path at which to create the state, relative to the workspace root.",
+			"visible": false
+		},
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		},
+		"flat": {
+			"type": "boolean",
+			"default": false,
+			"description": "When true, creates files at the top level of the project."
+		},
+		"layer": {
+			"description": "Determine which layer it belongs to.",
+			"type": "string",
+			"alias": "l",
+			"default": "features",
+			"enum": ["features", "layouts", "shared", "core"],
+			"x-prompt": {
+				"message": "Which layer would you like to use it in?",
+				"type": "list",
+				"items": [
+					{ "value": "features", "label": "Features" },
+					{ "value": "layouts", "label": "Layouts" },
+					{ "value": "shared", "label": "Shared" },
+					{ "value": "core", "label": "Core" }
+				]
+			},
+			"x-user-analytics": 5
+		},
+		"module": {
+			"type": "string",
+			"description": "The declaring NgModule.",
+			"alias": "m",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "Which NgModule would you like to use this state?"
+		},
+		"moduleName": {
+			"type": "string",
+			"description": "The declaring NgModule name."
+		}
+	},
+	"required": ["name","layer","module"]
+}
