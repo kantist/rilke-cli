@@ -1,5 +1,5 @@
 /**
- * Angular Interceptor Options Schema
+ * Rilke Interceptor Options Schema
  * Creates a new, generic interceptor definition in the given or default project.
  */
  export interface Schema {

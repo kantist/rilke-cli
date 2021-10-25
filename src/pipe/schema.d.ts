@@ -1,5 +1,5 @@
 /**
- * Angular Pipe Options Schema
+ * Rilke Pipe Options Schema
  * Creates a new, generic pipe definition in the given or default project.
  */
  export interface Schema {

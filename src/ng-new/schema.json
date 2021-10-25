@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsAngularNgNew",
-	"title": "Angular Ng New Options Schema",
+	"$id": "SchematicsRilkeNgNew",
+	"title": "Rilke Ng New Options Schema",
 	"type": "object",
 	"description": "Creates a new project by combining the workspace and application schematics.",
 	"additionalProperties": false,

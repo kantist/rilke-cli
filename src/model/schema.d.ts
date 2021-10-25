@@ -1,5 +1,5 @@
 /**
- * Angular Model Options Schema
+ * Rilke Model Options Schema
  * Creates a new, generic model definition in the given or default project.
  */
  export interface Schema {

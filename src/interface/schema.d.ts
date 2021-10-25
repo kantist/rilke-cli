@@ -1,5 +1,5 @@
 /**
- * Angular Interface Options Schema
+ * Rilke Interface Options Schema
  * Creates a new, generic interface definition in the given or default project.
  */
  export interface Schema {

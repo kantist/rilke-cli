@@ -1,5 +1,5 @@
 /**
- * Angular Application Options Schema
+ * Rilke Application Options Schema
  * Generates a new basic app definition in the "projects" subfolder of the workspace.
  */
  export interface Schema {

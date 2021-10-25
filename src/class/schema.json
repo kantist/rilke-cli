@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsAngularClass",
-	"title": "Angular Class Options Schema",
+	"$id": "SchematicsRilkeClass",
+	"title": "Rilke Class Options Schema",
 	"type": "object",
 	"description": "Creates a new, generic class definition in the given or default project.",
 	"additionalProperties": false,

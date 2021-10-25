@@ -1,5 +1,5 @@
 /**
- * Angular Enum Options Schema
+ * Rilke Enum Options Schema
  * Generates a new, generic enum definition for the given or default project.
  */
  export interface Schema {

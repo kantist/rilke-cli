@@ -1,5 +1,5 @@
 /**
- * Angular Layout Options Schema
+ * Rilke Layout Options Schema
  * Creates a new, generic NgModule definition in the given or default project.
  */
  export interface Schema {

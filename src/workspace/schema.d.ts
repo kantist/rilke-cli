@@ -1,5 +1,5 @@
 /**
- * Angular Workspace Options Schema
+ * Rilke Workspace Options Schema
  * Initializes an empty workspace and adds the necessary dependencies required by an Angular application.
  */
  export interface Schema {

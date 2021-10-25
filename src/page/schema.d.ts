@@ -1,5 +1,5 @@
 /**
- * Angular Page Options Schema
+ * Rilke Page Options Schema
  * Creates a new, generic Page definition in the given or default project.
  */
  export interface Schema {

@@ -1,5 +1,5 @@
 /**
- * Angular Guard Options Schema
+ * Rilke Guard Options Schema
  * Generates a new, generic route guard definition in the given or default project.
  */
  export interface Schema {

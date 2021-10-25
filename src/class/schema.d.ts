@@ -1,5 +1,5 @@
 /**
- * Angular Class Options Schema
+ * Rilke Class Options Schema
  * Creates a new, generic class definition in the given or default project.
  */
  export interface Schema {

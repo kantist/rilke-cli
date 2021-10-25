@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsAngularInterface",
-	"title": "Angular Interface Options Schema",
+	"$id": "SchematicsRilkeInterface",
+	"title": "Rilke Interface Options Schema",
 	"type": "object",
 	"additionalProperties": false,
 	"description": "Creates a new, generic interface definition in the given or default project.",

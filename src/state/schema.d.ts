@@ -1,5 +1,5 @@
 /**
- * Angular Service Options Schema
+ * Rilke Service Options Schema
  * Creates a new, generic service definition in the given or default project.
  */
  export interface Schema {

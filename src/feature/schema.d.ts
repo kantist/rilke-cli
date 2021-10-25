@@ -1,5 +1,5 @@
 /**
- * Angular Feature Options Schema
+ * Rilke Feature Options Schema
  * Creates a new, generic NgModule definition in the given or default project.
  */
  export interface Schema {

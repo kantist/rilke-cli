@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "SchematicsAngularWorkspace",
-  "title": "Angular Workspace Options Schema",
+  "$id": "SchematicsRilkeWorkspace",
+  "title": "Rilke Workspace Options Schema",
   "description": "Initializes an empty workspace and adds the necessary dependencies required by an Angular application.",
   "type": "object",
   "additionalProperties": false,

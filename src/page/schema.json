@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsAngularPage",
-	"title": "Angular Page Options Schema",
+	"$id": "SchematicsRilkePage",
+	"title": "Rilke Page Options Schema",
 	"type": "object",
 	"description": "Creates a new, generic page definition in the given or default project.",
 	"additionalProperties": false,

@@ -1,5 +1,5 @@
 /**
- * Angular Ng New Options Schema
+ * Rilke Ng New Options Schema
  * Creates a new project by combining the workspace and application schematics.
  */
  export interface Schema {

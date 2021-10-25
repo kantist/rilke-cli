@@ -1,5 +1,5 @@
 /**
- * Angular Component Options Schema
+ * Rilke Component Options Schema
  * Creates a new, generic component definition in the given or default project.
  */
  export interface Schema {

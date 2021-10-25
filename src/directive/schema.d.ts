@@ -1,5 +1,5 @@
 /**
- * Angular Directive Options Schema
+ * Rilke Directive Options Schema
  * Creates a new, generic directive definition in the given or default project.
  */
  export interface Schema {

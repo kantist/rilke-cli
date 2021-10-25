@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsAngularFacade",
-	"title": "Angular Facade Options Schema",
+	"$id": "SchematicsRilkeFacade",
+	"title": "Rilke Facade Options Schema",
 	"type": "object",
 	"additionalProperties": false,
 	"description": "Creates a new, generic facade definition in the given or default project.",

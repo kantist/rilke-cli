@@ -1,5 +1,5 @@
 /**
- * Angular resolver Options Schema
+ * Rilke resolver Options Schema
  * Generates a new, generic resolver definition in the given or default project.
  */
  export interface Schema {
@@ -23,4 +23,16 @@
      * The name of the project.
      */
     project?: string;
+	/**
+	 * Determine which layer it belongs to.
+	 */
+	layer?: "features" | "layouts" | "shared" | "core";
+	/**
+	 * The declaring NgModule.
+	 */
+	module?: string;
+	/**
+	 * The declaring NgModule name.
+	 */
+	moduleName?: string;
 }

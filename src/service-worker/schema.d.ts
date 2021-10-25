@@ -1,5 +1,5 @@
 /**
- * Angular Service Worker Options Schema
+ * Rilke Service Worker Options Schema
  * Pass this schematic to the "run" command to create a service worker
  */
  export interface Schema {

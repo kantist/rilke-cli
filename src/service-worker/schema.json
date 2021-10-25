@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsAngularServiceWorker",
-	"title": "Angular Service Worker Options Schema",
+	"$id": "SchematicsRilkeServiceWorker",
+	"title": "Rilke Service Worker Options Schema",
 	"type": "object",
 	"additionalProperties": false,
 	"description": "Pass this schematic to the \"run\" command to create a service worker",
