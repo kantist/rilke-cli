@@ -85,26 +85,26 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 			componentSchematicsOptions.style = options.style;
 		}
 
-		schematics['@schematics/angular:component'] = componentSchematicsOptions;
+		schematics['@kantist/rilke-cli:component'] = componentSchematicsOptions;
 	}
 
 	if (options.skipTests || options.minimal) {
 		['class', 'component', 'directive', 'guard', 'interceptor', 'pipe', 'service'].forEach(
 			(type) => {
-				if (!(`@schematics/angular:${type}` in schematics)) {
-					schematics[`@schematics/angular:${type}`] = {};
+				if (!(`@kantist/rilke-cli:${type}` in schematics)) {
+					schematics[`@kantist/rilke-cli:${type}`] = {};
 				}
-				(schematics[`@schematics/angular:${type}`] as JsonObject).skipTests = true;
+				(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).skipTests = true;
 			},
 		);
 	}
 
 	if (options.strict) {
-		if (!('@schematics/angular:application' in schematics)) {
-			schematics['@schematics/angular:application'] = {};
+		if (!('@kantist/rilke-cli:application' in schematics)) {
+			schematics['@kantist/rilke-cli:application'] = {};
 		}
 
-		(schematics['@schematics/angular:application'] as JsonObject).strict = true;
+		(schematics['@kantist/rilke-cli:application'] as JsonObject).strict = true;
 	}
 
 	const sourceRoot = join(normalize(projectRoot), 'src');
