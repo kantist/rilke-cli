@@ -286,24 +286,6 @@ export default function (options: ApplicationOptions): Rule {
 				]),
 				MergeStrategy.Overwrite,
 			),
-			schematic('module', {
-				name: 'app',
-				commonModule: false,
-				flat: true,
-				routing: options.routing,
-				routingScope: 'Root',
-				path: sourceDir,
-				project: options.name,
-			}),
-			schematic('component', {
-				name: 'app',
-				selector: appRootSelector,
-				flat: true,
-				path: sourceDir,
-				skipImport: true,
-				project: options.name,
-				...componentOptions,
-			}),
 			mergeWith(
 				apply(url('./other-files'), [
 					options.strict ? noop() : filter((path) => path !== '/package.json.template'),
