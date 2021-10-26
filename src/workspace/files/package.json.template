@@ -33,7 +33,7 @@
 		"@angular-eslint/eslint-plugin-template": "<%= latestVersions['eslint'] %>",
 		"@angular-eslint/schematics": "<%= latestVersions['eslint'] %>",
 		"@angular-eslint/template-parser": "<%= latestVersions['eslint'] %>",
-		"eslint": "^7.26.0",
+		"eslint": "^8.0.1",
 		"@angular/cli": "<%= '~' + version %>",
 		"@kantist/rilke-cli": "<%= latestVersions.Rilke %>",
 		"@angular/compiler-cli": "<%= latestVersions.Angular %>",<% if (!minimal) { %>
