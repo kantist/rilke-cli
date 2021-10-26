@@ -1,8 +1,12 @@
 /**
- * Rilke Enum Options Schema
- * Generates a new, generic enum definition for the given or default project.
+ * @license
+ * Copyright Kant Yazılım A.Ş. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://rilke.io/license
  */
- export interface Schema {
+
+export interface Schema {
 	/**
 	 * The name of the enum.
 	 */

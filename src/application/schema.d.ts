@@ -1,8 +1,12 @@
 /**
- * Rilke Application Options Schema
- * Generates a new basic app definition in the "projects" subfolder of the workspace.
+ * @license
+ * Copyright Kant Yazılım A.Ş. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://rilke.io/license
  */
- export interface Schema {
+
+export interface Schema {
 	/**
 	 * The root directory of the new app.
 	 */

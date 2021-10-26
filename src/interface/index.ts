@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://rilke.io/license
  */
 
-import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { normalize } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
+import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { generateFromFiles } from '../utility/generate-from-files';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as InterfaceOptions } from './schema';

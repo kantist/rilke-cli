@@ -16,12 +16,13 @@ import {
 	chain,
 	mergeWith,
 	move,
-	url,
-	schematic
+	schematic,
+	url
 } from '@angular-devkit/schematics';
+import { Schema as ComponentOptions } from '../component/schema';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addFeatureRouteForLayout, addImportToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
-import { applyToUpdateRecorder, InsertChange } from '../utility/change';
+import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import {
 	buildRelativePath,
 	findModuleFromOptions,
@@ -29,7 +30,6 @@ import {
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as LayoutOptions } from './schema';
-import { Schema as ComponentOptions } from '../component/schema';
 
 function buildRelativeModulePath(options: LayoutOptions, modulePath: string): string {
 	const importModulePath = normalize(
@@ -58,7 +58,7 @@ function addImportPackageToModule(
 	importModule: string,
 	importPath: string,
 ) {
-	let moduleSource = readIntoSourceFile(host, modulePath);
+	const moduleSource = readIntoSourceFile(host, modulePath);
 	if (!isImported(moduleSource, importModule, importPath)) {
 		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
 		if (importChange) {
@@ -109,7 +109,7 @@ function addDeclarationToNgModule(options: LayoutOptions): Rule {
 function addRouteDeclarationToNgModule(
 	options: LayoutOptions,
 	routingModulePath: Path | undefined,
-	featuresRoutePath: Path | undefined,
+	featuresRoutePath: Path | undefined,
 ): Rule {
 	return (host: Tree) => {
 		if (!options.route) {
@@ -174,7 +174,7 @@ function addRouteDeclarationToNgModule(
 function addFeaturesRouteDeclaration(
 	options: LayoutOptions,
 	routingModulePath: Path | undefined,
-	featuresRoutePath: Path | undefined,
+	featuresRoutePath: Path | undefined,
 ): Rule {
 	return (host: Tree) => {
 		if (!options.route) {
@@ -199,7 +199,7 @@ function addFeaturesRouteDeclaration(
 		const classifiedRoute = strings.camelize(options.name as string)+'Routes';
 
 		// add layout route to features route
-		let constant = `\n\nexport const ${classifiedRoute}: Routes = [];`;
+		const constant = `\n\nexport const ${classifiedRoute}: Routes = [];`;
 		const addFeatures = addFeatureRouteForLayout(
 			readIntoSourceFile(host, featuresRoutePath as string),
 			featuresRoutePath as string,
@@ -235,7 +235,7 @@ function getLayoutComponentPath(options: LayoutOptions) {
 }
 
 function buildPath(options: LayoutOptions) {
-	let path = normalize(`${options.path}/layouts/`);
+	const path = normalize(`${options.path}/layouts/`);
 
 	return path;
 }
@@ -267,11 +267,9 @@ export default function (options: LayoutOptions): Rule {
 
 		options.path = buildDefaultPath(project); // src/app/
 
-		let routingModulePath: Path | undefined;
-		routingModulePath = getRoutingModulePath(host, options.path);
+		const routingModulePath: Path | undefined = getRoutingModulePath(host, options.path);
 
-		let featuresRoutePath: Path | undefined;
-		featuresRoutePath = getFeatureRoutePath(host, options.path);
+		const featuresRoutePath: Path | undefined = getFeatureRoutePath(host, options.path);
 
 		options.module = findModuleFromOptions(host, options);
 

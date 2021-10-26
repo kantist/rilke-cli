@@ -5,6 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://rilke.io/license
  */
+
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { Change } from './change';
 /**

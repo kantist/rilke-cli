@@ -6,14 +6,14 @@
  * found in the LICENSE file at https://rilke.io/license
  */
 
- import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
- import { normalize } from '@angular-devkit/core';
- import { dasherize } from '@angular-devkit/core/src/utils/strings';
- import { generateFromFiles } from '../utility/generate-from-files';
- import { buildDefaultPath, getWorkspace } from '../utility/workspace';
- import { Schema as EnumOptions } from './schema';
+import { normalize } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
+import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { generateFromFiles } from '../utility/generate-from-files';
+import { buildDefaultPath, getWorkspace } from '../utility/workspace';
+import { Schema as EnumOptions } from './schema';
  
- function buildPath(options: EnumOptions) {
+function buildPath(options: EnumOptions) {
 	 const modulePath = normalize(dasherize(`${options.moduleName}`));
  
 	 let path;
@@ -24,9 +24,9 @@
 	 }
  
 	 return path;
- }
+}
  
- export default function (options: EnumOptions): Rule {
+export default function (options: EnumOptions): Rule {
 	 return async (host: Tree) => {
 		 options.type = options.type ? `.${options.type}` : 'Class';
  
@@ -51,5 +51,5 @@
 			 'if-flat': (s: string) => (flat ? '' : s),
 		 });
 	 };
- }
+}
  

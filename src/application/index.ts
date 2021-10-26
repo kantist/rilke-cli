@@ -204,18 +204,18 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 			test: options.minimal
 				? undefined
 				: {
-						builder: Builders.Karma,
-						options: {
-							main: `${sourceRoot}/test.ts`,
-							polyfills: `${sourceRoot}/polyfills.ts`,
-							tsConfig: `${projectRoot}tsconfig.spec.json`,
-							karmaConfig: `${projectRoot}karma.conf.js`,
-							inlineStyleLanguage,
-							assets: [`${sourceRoot}/favicon.ico`, `${sourceRoot}/assets`],
-							styles: [`${sourceRoot}/styles.${options.style}`],
-							scripts: [],
-						},
+					builder: Builders.Karma,
+					options: {
+						main: `${sourceRoot}/test.ts`,
+						polyfills: `${sourceRoot}/polyfills.ts`,
+						tsConfig: `${projectRoot}tsconfig.spec.json`,
+						karmaConfig: `${projectRoot}karma.conf.js`,
+						inlineStyleLanguage,
+						assets: [`${sourceRoot}/favicon.ico`, `${sourceRoot}/assets`],
+						styles: [`${sourceRoot}/styles.${options.style}`],
+						scripts: [],
 					},
+				},
 		},
 	};
 
@@ -247,19 +247,19 @@ export default function (options: ApplicationOptions): Rule {
 		const appRootSelector = `${options.prefix}-root`;
 		const componentOptions: Partial<ComponentOptions> = !options.minimal
 			? {
-					inlineStyle: options.inlineStyle,
-					inlineTemplate: options.inlineTemplate,
-					skipTests: options.skipTests,
-					style: options.style,
-					viewEncapsulation: options.viewEncapsulation,
-				}
+				inlineStyle: options.inlineStyle,
+				inlineTemplate: options.inlineTemplate,
+				skipTests: options.skipTests,
+				style: options.style,
+				viewEncapsulation: options.viewEncapsulation,
+			}
 			: {
-					inlineStyle: options.inlineStyle ?? true,
-					inlineTemplate: options.inlineTemplate ?? true,
-					skipTests: true,
-					style: options.style,
-					viewEncapsulation: options.viewEncapsulation,
-				};
+				inlineStyle: options.inlineStyle ?? true,
+				inlineTemplate: options.inlineTemplate ?? true,
+				skipTests: true,
+				style: options.style,
+				viewEncapsulation: options.viewEncapsulation,
+			};
 
 		const workspace = await getWorkspace(host);
 		const newProjectRoot = (workspace.extensions.newProjectRoot as string | undefined) || '';

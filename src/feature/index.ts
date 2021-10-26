@@ -22,13 +22,13 @@ import {
 } from '@angular-devkit/schematics';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addImportToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
-import { applyToUpdateRecorder, InsertChange } from '../utility/change';
+import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import {
 	FEATURE_EXT,
+	LAYER_EXT,
 	ROUTING_MODULE_EXT,
 	buildRelativePath,
 	findModuleFromOptions,
-	LAYER_EXT,
 } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
@@ -61,7 +61,7 @@ function addImportPackageToModule(
 	importModule: string,
 	importPath: string,
 ) {
-	let moduleSource = readIntoSourceFile(host, modulePath);
+	const moduleSource = readIntoSourceFile(host, modulePath);
 	if (!isImported(moduleSource, importModule, importPath)) {
 		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
 		if (importChange) {
@@ -179,7 +179,7 @@ function getRoutingModulePath(host: Tree, modulePath: string): Path | undefined 
 }
 
 function buildPath(options: FeatureOptions) {
-	let path = normalize(`${options.path}/features/`);
+	const path = normalize(`${options.path}/features/`);
 
 	return path;
 }

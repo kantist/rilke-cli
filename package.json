@@ -1,15 +1,31 @@
 {
 	"name": "@kantist/rilke-cli",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
 		"build:watch": "tsc -p tsconfig.json --watch",
+		"lint": "eslint --cache --max-warnings=0 \"**/*.ts\"",
+		"lint:fix": "eslint --fix \"**/*.ts\"",
 		"test": "npm run build"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kantist/rilke-cli.git"
+	},
+	"homepage": "https://github.com/kantist/rilke-cli",
+	"bugs": {
+		"url": "https://github.com/kantist/kantist-cli/issues"
+	},
 	"keywords": [
+		"angular",
+		"framework",
 		"schematics",
-		"architect"
+		"architect",
+		"typescript",
+		"pwa",
+		"angular-cli",
+		"architecture"
 	],
 	"author": "@kantist",
 	"license": "MIT",
@@ -23,6 +39,14 @@
 	"devDependencies": {
 		"@types/node": "^12.11.1",
 		"@types/jasmine": "~3.8.0",
-		"jasmine": "^3.5.0"
+		"jasmine": "^3.5.0",
+		"@typescript-eslint/eslint-plugin": "5.1.0",
+		"@typescript-eslint/parser": "5.1.0",
+		"esbuild": "0.13.8",
+		"esbuild-wasm": "0.13.8",
+		"eslint": "8.0.1",
+		"eslint-config-prettier": "8.3.0",
+		"eslint-plugin-header": "3.1.1",
+		"eslint-plugin-import": "2.25.2"
 	}
 }

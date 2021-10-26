@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://rilke.io/license
  */
 
-import { Path, strings } from '@angular-devkit/core';
+import { Path, normalize , strings } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	FileOperator,
 	Rule,
@@ -22,16 +23,14 @@ import {
 	noop,
 	url,
 } from '@angular-devkit/schematics';
-import { normalize } from '@angular-devkit/core';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addDeclarationToModule, addExportToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
-import { applyToUpdateRecorder, InsertChange } from '../utility/change';
-import { buildRelativePath, FEATURE_EXT, findModuleFromOptions, ROUTING_MODULE_EXT } from '../utility/find-module';
+import { InsertChange, applyToUpdateRecorder } from '../utility/change';
+import { FEATURE_EXT, ROUTING_MODULE_EXT, buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { validateHtmlSelector, validateName } from '../utility/validation';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as PageOptions } from './schema';
-import { dasherize } from '@angular-devkit/core/src/utils/strings';
 
 function readIntoSourceFile(host: Tree, modulePath: string): ts.SourceFile {
 	const text = host.read(modulePath);
@@ -201,7 +200,7 @@ function addImportPackageToModule(
 	importModule: string,
 	importPath: string,
 ) {
-	let moduleSource = readIntoSourceFile(host, modulePath);
+	const moduleSource = readIntoSourceFile(host, modulePath);
 	if (!isImported(moduleSource, importModule, importPath)) {
 		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
 		if (importChange) {
@@ -256,13 +255,13 @@ export default function (options: PageOptions): Rule {
 			}),
 			!options.type
 				? forEach(((file) => {
-						return file.path.includes('..')
-							? {
-									content: file.content,
-									path: file.path.replace('..', '.'),
-								}
-							: file;
-					}) as FileOperator)
+					return file.path.includes('..')
+						? {
+							content: file.content,
+							path: file.path.replace('..', '.'),
+						}
+						: file;
+				}) as FileOperator)
 				: noop(),
 			move(parsedPath.path),
 		]);

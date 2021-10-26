@@ -1,8 +1,12 @@
 /**
- * Rilke Workspace Options Schema
- * Initializes an empty workspace and adds the necessary dependencies required by an Angular application.
+ * @license
+ * Copyright Kant Yazılım A.Ş. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://rilke.io/license
  */
- export interface Schema {
+
+export interface Schema {
     /**
      * The name of the workspace.
      */

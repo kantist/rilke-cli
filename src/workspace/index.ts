@@ -8,27 +8,27 @@
 
 import { strings } from '@angular-devkit/core';
 import {
-  Rule,
-  apply,
-  applyTemplates,
-  filter,
-  mergeWith,
-  noop,
-  url,
+	Rule,
+	apply,
+	applyTemplates,
+	filter,
+	mergeWith,
+	noop,
+	url,
 } from '@angular-devkit/schematics';
 import { latestVersions } from '../utility/latest-versions';
 import { Schema as WorkspaceOptions } from './schema';
 
 export default function (options: WorkspaceOptions): Rule {
-  return mergeWith(
-    apply(url('./files'), [
-      options.minimal ? filter((path) => !path.endsWith('editorconfig.template')) : noop(),
-      applyTemplates({
-        utils: strings,
-        ...options,
-        'dot': '.',
-        latestVersions,
-      }),
-    ]),
-  );
+	return mergeWith(
+		apply(url('./files'), [
+			options.minimal ? filter((path) => !path.endsWith('editorconfig.template')) : noop(),
+			applyTemplates({
+				utils: strings,
+				...options,
+				'dot': '.',
+				latestVersions,
+			}),
+		]),
+	);
 }

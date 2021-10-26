@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://rilke.io/license
  */
 
-import { strings } from '@angular-devkit/core';
+import { normalize , strings } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	FileOperator,
 	Rule,
@@ -22,7 +23,6 @@ import {
 	noop,
 	url,
 } from '@angular-devkit/schematics';
-import { normalize } from '@angular-devkit/core';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addDeclarationToModule, addExportToModule } from '../utility/ast-utils';
 import { InsertChange } from '../utility/change';
@@ -31,7 +31,6 @@ import { parseName } from '../utility/parse-name';
 import { validateHtmlSelector, validateName } from '../utility/validation';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as ComponentOptions } from './schema';
-import { dasherize } from '@angular-devkit/core/src/utils/strings';
 
 function readIntoSourceFile(host: Tree, modulePath: string): ts.SourceFile {
 	const text = host.read(modulePath);
@@ -163,13 +162,13 @@ export default function (options: ComponentOptions): Rule {
 			}),
 			!options.type
 				? forEach(((file) => {
-						return file.path.includes('..')
-							? {
-									content: file.content,
-									path: file.path.replace('..', '.'),
-								}
-							: file;
-					}) as FileOperator)
+					return file.path.includes('..')
+						? {
+							content: file.content,
+							path: file.path.replace('..', '.'),
+						}
+						: file;
+				}) as FileOperator)
 				: noop(),
 			move(parsedPath.path),
 		]);

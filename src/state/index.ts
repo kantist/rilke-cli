@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://rilke.io/license
  */
 
-import { strings, tags } from '@angular-devkit/core';
+import { normalize, strings , tags } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	Rule,
 	SchematicsException,
@@ -18,7 +19,6 @@ import {
 	move,
 	url,
 } from '@angular-devkit/schematics';
-import { normalize } from '@angular-devkit/core';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addStateDeclarationToModule, addSymbolToNgModuleMetadata, getStoreModuleDeclaration, insertImport, isImported } from '../utility/ast-utils';
 import { applyToUpdateRecorder } from '../utility/change';
@@ -26,7 +26,6 @@ import { buildRelativePath, findModuleFromOptions } from '../utility/find-module
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as StateOptions } from './schema';
-import { dasherize } from '@angular-devkit/core/src/utils/strings';
 
 function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
 	const buffer = host.read(path);
@@ -71,13 +70,13 @@ function addConfigurationToNgModule(options: StateOptions): Rule {
 			'@ngrx/store'
 		);
 
-		let importText = tags.stripIndent`
+		const importText = tags.stripIndent`
 			StoreModule.forRoot({
 				${objectProperty}
 			})
 		`;
 		// Add StoreModule to module imports if not exist
-		let moduleSource = getTsSourceFile(host, modulePath);
+		const moduleSource = getTsSourceFile(host, modulePath);
 		if (!getStoreModuleDeclaration(moduleSource)) {
 			const importChanges = addSymbolToNgModuleMetadata(
 				moduleSource,
@@ -101,7 +100,7 @@ function addConfigurationToNgModule(options: StateOptions): Rule {
 }
 
 function addReducerStoreModule(host: Tree, modulePath: string, objectProperty: string) {
-	let moduleSource = getTsSourceFile(host, modulePath);
+	const moduleSource = getTsSourceFile(host, modulePath);
 
 	const recorder = host.beginUpdate(modulePath);
 	const metadataChange = addStateDeclarationToModule(
@@ -123,7 +122,7 @@ function addImportPackageToModule(
 	importModule: string,
 	importPath: string,
 ) {
-	let moduleSource = getTsSourceFile(host, modulePath);
+	const moduleSource = getTsSourceFile(host, modulePath);
 	if (!isImported(moduleSource, importModule, importPath)) {
 		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
 		if (importChange) {

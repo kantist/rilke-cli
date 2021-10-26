@@ -1,8 +1,17 @@
+/**
+ * @license
+ * Copyright Kant Yazılım A.Ş. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://rilke.io/license
+ */
+
 export function indentBy(indentations: number) {
 	let i = '';
 	while (indentations--) {
 		i += '	';
 	}
+
 	return (strings: any, ...values: any) => {
 		return i + stripIndent(strings, ...values).replace(/\n/g, '\n' + i);
 	};
@@ -18,5 +27,6 @@ function stripIndent(strings: any, ...values: any) {
 	}
 	const indent = Math.min(...match.map((el) => el.length));
 	const regexp = new RegExp('^[ \\t]{' + indent + '}', 'gm');
+
 	return (indent > 0 ? endResult.replace(regexp, '') : endResult).trim();
 }

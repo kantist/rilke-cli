@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://rilke.io/license
  */
 
-import { strings } from '@angular-devkit/core';
+import { normalize , strings } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	Rule,
 	SchematicsException,
@@ -20,15 +21,13 @@ import {
 	noop,
 	url,
 } from '@angular-devkit/schematics';
-import { normalize } from '@angular-devkit/core';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addProviderToModule, insertImport, isImported } from '../utility/ast-utils';
-import { applyToUpdateRecorder, InsertChange } from '../utility/change';
+import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import { buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as InterceptorOptions } from './schema';
-import { dasherize } from '@angular-devkit/core/src/utils/strings';
 
 function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
 	const buffer = host.read(path);
@@ -74,8 +73,8 @@ function addProviderToNgModule(options: InterceptorOptions): Rule {
 		host.commitUpdate(providerRecorder);
 
 		// Add import HTTP_INTERCEPTOR to module if not exist
-		let importModule = 'HTTP_INTERCEPTORS';
-		let importPath = '@angular/common/http';
+		const importModule = 'HTTP_INTERCEPTORS';
+		const importPath = '@angular/common/http';
 
 		moduleSource = getTsSourceFile(host, modulePath);
 		if (!isImported(moduleSource, importModule, importPath)) {

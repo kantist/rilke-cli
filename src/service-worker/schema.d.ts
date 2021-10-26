@@ -1,8 +1,12 @@
 /**
- * Rilke Service Worker Options Schema
- * Pass this schematic to the "run" command to create a service worker
+ * @license
+ * Copyright Kant Yazılım A.Ş. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://rilke.io/license
  */
- export interface Schema {
+
+export interface Schema {
 	/**
 	 * The name of the project.
 	 */

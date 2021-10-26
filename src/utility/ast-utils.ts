@@ -251,11 +251,11 @@ function _angularImportsFromNode(node: ts.ImportDeclaration): { [name: string]: 
 	const ms = node.moduleSpecifier;
 	let modulePath: string;
 	switch (ms.kind) {
-		case ts.SyntaxKind.StringLiteral:
-			modulePath = (ms as ts.StringLiteral).text;
-			break;
-		default:
-			return {};
+	case ts.SyntaxKind.StringLiteral:
+		modulePath = (ms as ts.StringLiteral).text;
+		break;
+	default:
+		return {};
 	}
 
 	if (!modulePath.startsWith('@angular/')) {
@@ -650,7 +650,7 @@ export function addRouteDeclarationToModule(
 	routesName: string,
 	routeLiteral: string
 ): Change | undefined {
-	let routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
+	const routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
 		return v.declarationList.declarations[0].name.getText() === routesName;
 	});
 
@@ -661,8 +661,7 @@ export function addRouteDeclarationToModule(
 		);
 	}
 
-	let routesArr: ts.ArrayLiteralExpression | undefined;
-	routesArr = findNodes(
+	const routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
 		routesVar,
 		ts.SyntaxKind.ArrayLiteralExpression,
 		1,
@@ -732,14 +731,15 @@ export function getStoreModuleDeclaration(source: ts.SourceFile): ts.Expression 
 // TODO: remove this function
 const getCircularReplacer = () => {
 	const seen = new WeakSet();
-	return (key:any, value: any) => {
-		if (key) {}
+
+	return (value: string) => {
 		if (typeof value === "object" && value !== null) {
 			if (seen.has(value)) {
 				return;
 			}
 			seen.add(value);
 		}
+
 		return value;
 	};
 };
@@ -792,6 +792,7 @@ export function addStateDeclarationToModule(
 		const routeText = `${indentation[0] || ' '}${reducerLiteral}`;
 
 		reducer = `,${routeText}`;
+
 		return [new InsertChange(fileToAdd, insertPos, reducer)];
 	} else {
 		throw new Error(
