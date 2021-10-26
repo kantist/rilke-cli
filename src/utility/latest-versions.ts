@@ -16,7 +16,7 @@ export const latestVersions: Record<string, string> & {
 	...require('./latest-versions/package.json')['dependencies'],
 
 	// As Angular CLI works with same minor versions of Angular Framework, a tilde match for the current
-	Angular: '~12.2.5',
+	Angular: '~12.2.11',
 
 	Rilke: '~' + require('../../package.json')['version'],
 

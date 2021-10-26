@@ -156,8 +156,11 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 					polyfills: `${sourceRoot}/polyfills.ts`,
 					tsConfig: `${projectRoot}tsconfig.app.json`,
 					inlineStyleLanguage,
-					assets: [`${sourceRoot}/favicon.ico`, `${sourceRoot}/assets`],
-					styles: [`${sourceRoot}/styles.${options.style}`],
+					assets: [`${sourceRoot}/assets`],
+					styles: [
+						`${sourceRoot}/assets/style/styles.${options.style}`,
+						`${sourceRoot}/assets/style/variables.${options.style}`
+					],
 					scripts: [],
 				},
 				configurations: {
@@ -210,8 +213,11 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						tsConfig: `${projectRoot}tsconfig.spec.json`,
 						karmaConfig: `${projectRoot}karma.conf.js`,
 						inlineStyleLanguage,
-						assets: [`${sourceRoot}/favicon.ico`, `${sourceRoot}/assets`],
-						styles: [`${sourceRoot}/styles.${options.style}`],
+						assets: [`${sourceRoot}/assets`],
+						styles: [
+							`${sourceRoot}/assets/style/styles.${options.style}`,
+							`${sourceRoot}/assets/style/variables.${options.style}`
+						],
 						scripts: [],
 					},
 				},

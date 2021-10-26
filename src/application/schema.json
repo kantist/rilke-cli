@@ -64,15 +64,15 @@
 					{ "value": "css", "label": "CSS" },
 					{
 						"value": "scss",
-						"label": "SCSS   [ https://sass-lang.com/documentation/syntax#scss                ]"
+						"label": "SCSS"
 					},
 					{
 						"value": "sass",
-						"label": "Sass   [ https://sass-lang.com/documentation/syntax#the-indented-syntax ]"
+						"label": "Sass"
 					},
 					{
 						"value": "less",
-						"label": "Less   [ http://lesscss.org                                             ]"
+						"label": "Less"
 					}
 				]
 			},
