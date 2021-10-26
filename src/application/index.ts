@@ -20,7 +20,6 @@ import {
 	mergeWith,
 	move,
 	noop,
-	schematic,
 	url,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
