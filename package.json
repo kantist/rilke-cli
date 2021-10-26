@@ -1,6 +1,6 @@
 {
 	"name": "@kantist/rilke-cli",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
@@ -8,6 +8,9 @@
 		"lint": "eslint --cache --max-warnings=0 \"**/*.ts\"",
 		"lint:fix": "eslint --fix \"**/*.ts\"",
 		"test": "npm run build"
+	},
+	"bin": {
+		"rilke": "ng"
 	},
 	"repository": {
 		"type": "git",

@@ -9,6 +9,7 @@
 export const latestVersions: Record<string, string> & {
 	Angular: string;
 	DevkitBuildAngular: string;
+	Rilke: string;
 } = {
 	// We could have used TypeScripts' `resolveJsonModule` to make the `latestVersion` object typesafe,
 	// but ts_library doesn't support JSON inputs.
@@ -16,6 +17,8 @@ export const latestVersions: Record<string, string> & {
 
 	// As Angular CLI works with same minor versions of Angular Framework, a tilde match for the current
 	Angular: '~12.2.5',
+
+	Rilke: '~' + require('../../package.json')['version'],
 
 	// Since @angular-devkit/build-angular and @schematics/angular are always
 	// published together from the same monorepo, and they are both

@@ -35,7 +35,7 @@
 		"@angular-eslint/template-parser": "<%= latestVersions['eslint'] %>",
 		"eslint": "^7.26.0",
 		"@angular/cli": "<%= '~' + version %>",
-		"@kantist/rilke-cli": "^1.0.3",
+		"@kantist/rilke-cli": "<%= latestVersions.Rilke %>",
 		"@angular/compiler-cli": "<%= latestVersions.Angular %>",<% if (!minimal) { %>
 		"@types/jasmine": "<%= latestVersions['@types/jasmine'] %>",<% } %>
  		"typescript": "<%= latestVersions['typescript'] %>"
