@@ -1,0 +1,33 @@
+import { environment as env } from '@env';
+
+export interface IApiCall {
+	path: string;
+	body?: any;
+	options?: IApiCallOptions,
+	getFullPath?(): string
+}
+
+export interface IApiCallOptions {
+	headers?: any;
+	params?: any;
+	body?: any;
+}
+
+export class ApiCall implements IApiCall {
+	path: string;
+	body?: any;
+	options?: IApiCallOptions;
+
+	constructor(
+		apiCall: IApiCall
+	) {
+		this.path = apiCall.path;
+		this.body = apiCall.body;
+		this.options = apiCall.options;
+
+	}
+
+	getFullPath(): string {
+		return env.apiUrl + this.path;
+	}
+}

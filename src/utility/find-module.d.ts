@@ -5,10 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://rilke.io/license
  */
-
 import { Path } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
-
 export interface ModuleOptions {
     layer?: string;
     module?: string;

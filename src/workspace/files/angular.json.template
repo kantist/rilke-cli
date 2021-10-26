@@ -1,10 +1,11 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,<% if (packageManager) { %>
-  "cli": {
-    "packageManager": "<%= packageManager %>"
-  },<% } %>
-  "newProjectRoot": "<%= newProjectRoot %>",
-  "projects": {
-  }
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"cli": {
+		"defaultCollection": "@kantist/rilke-cli"<% if (packageManager) { %>,
+		"packageManager": "<%= packageManager %>"<% } %>
+	},
+	"newProjectRoot": "<%= newProjectRoot %>",
+	"projects": {
+	}
 }

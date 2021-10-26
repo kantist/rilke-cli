@@ -230,6 +230,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 		});
 	});
 }
+
 function minimalPathFilter(path: string): boolean {
 	const toRemoveList = /(test.ts|tsconfig.spec.json|karma.conf.js).template$/;
 

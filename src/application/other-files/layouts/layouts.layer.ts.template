@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { SharedLayer } from '@shared/shared.layer';
+
+@NgModule({
+	imports: [
+		RouterModule,
+		SharedLayer
+	],
+	declarations: []
+})
+export class LayoutLayer { }

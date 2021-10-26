@@ -137,6 +137,7 @@
 		"packageManager": {
 			"description": "The package manager used to install dependencies.",
 			"type": "string",
+			"default": "npm",
 			"enum": ["npm", "yarn", "pnpm", "cnpm"]
 		}
 	},

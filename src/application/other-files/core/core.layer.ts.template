@@ -1,0 +1,21 @@
+import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+	declarations: [],
+	imports: [
+		CommonModule,
+		HttpClientModule
+	],
+	exports: []
+})
+export class CoreLayer {
+	constructor(@Optional() @SkipSelf() presentInParent: CoreLayer) {
+		console.log(presentInParent);
+		if (presentInParent) {
+			throw new Error('CoreLayer halihazırda yüklü. Yalnızca AppModule tarafından yüklenebilir');
+		}
+	}
+
+}
