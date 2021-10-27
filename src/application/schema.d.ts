@@ -28,6 +28,10 @@ export interface Schema {
 	 */
 	viewEncapsulation?: "Emulated" | "None" | "ShadowDom";
 	/**
+	 * Determine which locale it belongs to.
+	 */
+	locale?: "tr" | "en" | "fr" | "ru" | "de" | "es" | "ar";
+	/**
 	 * Create a routing NgModule.
 	 */
 	routing?: boolean;

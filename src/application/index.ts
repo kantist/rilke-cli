@@ -143,7 +143,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 		root: normalize(projectRoot),
 		sourceRoot,
 		projectType: ProjectType.Application,
-		prefix: options.prefix || 'app',
+		prefix: options.prefix || '',
 		schematics,
 		targets: {
 			build: {
@@ -225,7 +225,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 				builder: Builders.Server,
 				options: {
 					outputPath: 'dist/server',
-					main: `${sourceRoot}/main.ts`,
+					main: `${projectRoot}server.ts`,
 					tsConfig: `${projectRoot}tsconfig.server.json`,
 				},
 				configurations: {

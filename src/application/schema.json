@@ -38,6 +38,26 @@
 			"type": "string",
 			"x-user-analytics": 11
 		},
+		"locale": {
+			"description": "Determine which locale it belongs to.",
+			"type": "string",
+			"default": "tr",
+			"enum": ["tr", "en", "fr", "ru", "de", "es", "ar"],
+			"x-prompt": {
+				"message": "Which locale would you like to use it in?",
+				"type": "list",
+				"items": [
+					{ "value": "tr", "label": "Turkish" },
+					{ "value": "en", "label": "English" },
+					{ "value": "fr", "label": "French" },
+					{ "value": "ru", "label": "Russian" },
+					{ "value": "de", "label": "German" },
+					{ "value": "es", "label": "Esnapol" },
+					{ "value": "ar", "label": "Arabic" }
+				]
+			},
+			"x-user-analytics": 5
+		},
 		"routing": {
 			"type": "boolean",
 			"description": "Create a routing NgModule.",
