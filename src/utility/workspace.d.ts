@@ -5,8 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://rilke.ist/license
  */
+
 import { json, workspaces } from '@angular-devkit/core';
 import { Rule, Tree } from '@angular-devkit/schematics';
+
 export declare function updateWorkspace(updater: (workspace: workspaces.WorkspaceDefinition) => void | Rule | PromiseLike<void | Rule>): Rule;
 export declare function updateWorkspace(workspace: workspaces.WorkspaceDefinition): Rule;
 export declare function getWorkspace(tree: Tree, path?: string): Promise<workspaces.WorkspaceDefinition>;
