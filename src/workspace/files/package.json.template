@@ -10,8 +10,8 @@
 		"lint": "ng lint",
 		"lint:fix": "ng lint --fix",
 		"serve:ssr": "node dist/server/main.js",
-		"build:ssr": "ng build --prod && ng run <%= dasherize(name) %>:server:production",
-		"dev-build:ssr": "ng build && ng run <%= dasherize(name) %>:server"
+		"build:ssr": "ng build --prod && ng run <%= utils.dasherize(name) %><:server:production",
+		"dev-build:ssr": "ng build && ng run <%= utils.dasherize(name) %>:server"
 	},
 	"private": true,
 	"dependencies": {
