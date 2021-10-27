@@ -3,7 +3,7 @@
  * Copyright Kant Yazılım A.Ş. All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://rilke.io/license
+ * found in the LICENSE file at https://rilke.ist/license
  */
 
 import { normalize } from '@angular-devkit/core';
@@ -11,9 +11,9 @@ import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { generateFromFiles } from '../utility/generate-from-files';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
-import { Schema as EnumOptions } from './schema';
+import { Schema as ClassOptions } from './schema';
  
-function buildPath(options: EnumOptions) {
+function buildPath(options: ClassOptions) {
 	 const modulePath = normalize(dasherize(`${options.moduleName}`));
  
 	 let path;
@@ -26,7 +26,7 @@ function buildPath(options: EnumOptions) {
 	 return path;
 }
  
-export default function (options: EnumOptions): Rule {
+export default function (options: ClassOptions): Rule {
 	 return async (host: Tree) => {
 		 options.type = options.type ? `.${options.type}` : 'Class';
  

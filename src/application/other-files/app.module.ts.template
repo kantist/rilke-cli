@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 		AppComponent
 	],
 	imports: [
-		BrowserModule,<% if (routing) { %>
+		BrowserModule.withServerTransition({ appId: 'serverApp' }),<% if (routing) { %>
 		AppRoutingModule,<% } %>
 		CoreLayer,
 		LayoutLayer,

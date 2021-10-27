@@ -118,6 +118,11 @@
 			"factory": "./facade",
 			"description": "Create a facade.",
 			"schema": "./facade/schema.json"
+		},
+		"docker": {
+			"factory": "./docker",
+			"description": "Create a dockerfile.",
+			"schema": "./docker/schema.json"
 		}
 	}
 }

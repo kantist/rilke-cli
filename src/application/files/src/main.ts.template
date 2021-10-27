@@ -7,12 +7,11 @@ import { environment } from './environments/environment';
 if (environment.production) {
 	enableProdMode();
 }
-<% if(!!viewEncapsulation) { %>
-platformBrowserDynamic().bootstrapModule(AppModule, {
-	defaultEncapsulation: ViewEncapsulation.<%= viewEncapsulation %>
-})
-	.catch(err => console.error(err));
+
+document.addEventListener('DOMContentLoaded', () => {<% if(!!viewEncapsulation) { %>
+	platformBrowserDynamic().bootstrapModule(AppModule, {
+		defaultEncapsulation: ViewEncapsulation.<%= viewEncapsulation %>
+	}).catch(err => console.error(err));
 <% } else { %>
-platformBrowserDynamic().bootstrapModule(AppModule)
-	.catch(err => console.error(err));
-<% } %>
+	platformBrowserDynamic().bootstrapModule(AppModule).catch(err => console.error(err));
+<% } %>});

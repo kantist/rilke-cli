@@ -3,7 +3,7 @@
  * Copyright Kant Yazılım A.Ş. All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://rilke.io/license
+ * found in the LICENSE file at https://rilke.ist/license
  */
 
 import { JsonObject, join, normalize, strings } from '@angular-devkit/core';
@@ -150,7 +150,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 				builder: Builders.Browser,
 				defaultConfiguration: 'production',
 				options: {
-					outputPath: `dist/${options.name}`,
+					outputPath: `dist/browser`,
 					index: `${sourceRoot}/index.html`,
 					main: `${sourceRoot}/main.ts`,
 					polyfills: `${sourceRoot}/polyfills.ts`,
@@ -221,6 +221,27 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						scripts: [],
 					},
 				},
+			server: {
+				builder: Builders.Server,
+				options: {
+					outputPath: 'dist/server',
+					main: `${sourceRoot}/main.ts`,
+					tsConfig: `${projectRoot}tsconfig.server.json`,
+				},
+				configurations: {
+					production: {
+						outputHashing: 'media',
+						fileReplacements: [
+							{
+								replace: `${sourceRoot}/environments/environment.ts`,
+								with: `${sourceRoot}/environments/environment.prod.ts`,
+							}
+						],
+						sourceMap: false,
+						optimization: true
+					}
+				}
+			},
 		},
 	};
 

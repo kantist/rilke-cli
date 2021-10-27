@@ -1,0 +1,29 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "SchematicsRilkeDocker",
+	"title": "Rilke Docker Options Schema",
+	"type": "object",
+	"description": "Creates a new, generic dockerfile definition in the given or default project.",
+	"additionalProperties": false,
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "The name of the new dockerfile.",
+			"default": "Dockerfile"
+		},
+		"path": {
+			"type": "string",
+			"format": "path",
+			"default": "",
+			"description": "The path at which to create the class, relative to the workspace root.",
+			"visible": false
+		},
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		}
+	}
+}

@@ -93,6 +93,7 @@
 		},
 		"routing": {
 			"type": "boolean",
+			"default": true,
 			"description": "Generate a routing module for the initial project.",
 			"x-user-analytics": 17
 		},
@@ -100,13 +101,13 @@
 			"type": "string",
 			"format": "html-selector",
 			"description": "The prefix to apply to generated selectors for the initial project.",
-			"minLength": 1,
-			"default": "app",
+			"default": "",
 			"alias": "p"
 		},
 		"style": {
 			"description": "The file extension or preprocessor to use for style files.",
 			"type": "string",
+			"default": "scss",
 			"enum": ["css", "scss", "sass", "less"],
 			"x-user-analytics": 5
 		},
