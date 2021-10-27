@@ -119,10 +119,10 @@
 			"description": "Create a facade.",
 			"schema": "./facade/schema.json"
 		},
-		"docker": {
-			"factory": "./docker",
+		"dockerfile": {
+			"factory": "./dockerfile",
 			"description": "Create a dockerfile.",
-			"schema": "./docker/schema.json"
+			"schema": "./dockerfile/schema.json"
 		}
 	}
 }

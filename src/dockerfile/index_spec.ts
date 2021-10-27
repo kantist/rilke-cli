@@ -9,14 +9,14 @@
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { Schema as ApplicationOptions } from '../application/schema';
 import { Schema as WorkspaceOptions } from '../workspace/schema';
-import { Schema as DockerOptions } from './schema';
+import { Schema as DockerfileOptions } from './schema';
 
 describe('Class Schematic', () => {
 	const schematicRunner = new SchematicTestRunner(
 		'@schematics/angular',
 		require.resolve('../collection.json'),
 	);
-	const defaultOptions: DockerOptions = {
+	const defaultOptions: DockerfileOptions = {
 		name: 'foo',
 		project: 'bar',
 	};
