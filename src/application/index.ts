@@ -221,6 +221,15 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						scripts: [],
 					},
 				},
+			lint: {
+				builder: "@angular-eslint/builder:lint",
+				options: {
+					lintFilePatterns: [
+						"**/*.ts",
+						"**/*.html"
+					]
+				}
+			},
 			server: {
 				builder: Builders.Server,
 				options: {

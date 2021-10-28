@@ -4,10 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SharedLayer } from '@shared/shared.layer';
 
 @NgModule({
-	imports: [
-		RouterModule,
-		SharedLayer
-	],
-	declarations: []
+	imports: [RouterModule, SharedLayer],
+	declarations: [],
 })
-export class LayoutLayer { }
+export class LayoutLayer {}

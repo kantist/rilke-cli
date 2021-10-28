@@ -18,10 +18,9 @@ import { Subscription } from 'rxjs';<% }%>
 export class <%= classify(name) %><%= classify(type) %> implements OnInit<% if(subscriptionManagement) { %>, OnDestroy<% }%> {<% if (subscriptionManagement) {%>
 	private readonly subscriptions: Subscription[] = [];
 <% }%>
-	constructor() { }
+	constructor() {}
 
-	ngOnInit() {
-	}<% if (subscriptionManagement) {%>
+	ngOnInit() {}<% if (subscriptionManagement) {%>
 
 	ngOnDestroy() {
 		this.subscriptions.forEach((subscription) => {

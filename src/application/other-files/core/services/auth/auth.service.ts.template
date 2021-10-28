@@ -1,23 +1,21 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiCall, IApiCall } from '@core/models/api-call';
+import { ApiService } from '@core/services/api/api.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { ApiService } from '@core/services/api/api.service';
-import { ApiCall, IApiCall } from '@core/models/api-call';
-
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class AuthService {
 	private authToken: BehaviorSubject<string>;
 	public token: Observable<string>;
 
-	constructor(
-		private apiService: ApiService,
-		private router: Router,
-	) {
-		this.authToken = new BehaviorSubject<string>(localStorage.getItem('bearer_token'));
+	constructor(private apiService: ApiService, private router: Router) {
+		this.authToken = new BehaviorSubject<string>(
+			localStorage.getItem('bearer_token')
+		);
 		this.token = this.authToken.asObservable();
 	}
 
@@ -26,15 +24,15 @@ export class AuthService {
 	}
 
 	login(email: string, password: string) {
-		let apiCall: IApiCall = new ApiCall({
+		const apiCall: IApiCall = new ApiCall({
 			path: 'auth/authorize',
 			body: {
 				data: {
-					grant_type: "basic",
+					grant_type: 'basic',
 					email: email,
-					password: password
-				}
-			}
+					password: password,
+				},
+			},
 		});
 
 		return this.apiService.post(apiCall).pipe(

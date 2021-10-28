@@ -1,16 +1,26 @@
+import {
+	HttpRequest,
+	HttpHandler,
+	HttpEvent,
+	HttpInterceptor,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class SessionInterceptor implements HttpInterceptor {
-	constructor() { }
+	constructor() {}
 
-	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		return next.handle(request).pipe(tap(res => {
-			let date = new Date();
-			localStorage.setItem('lastCall', date.toISOString());
-		}))
+	intercept(
+		request: HttpRequest<any>,
+		next: HttpHandler
+	): Observable<HttpEvent<any>> {
+		return next.handle(request).pipe(
+			tap((res) => {
+				const date = new Date();
+				localStorage.setItem('lastCall', date.toISOString());
+			})
+		);
 	}
 }

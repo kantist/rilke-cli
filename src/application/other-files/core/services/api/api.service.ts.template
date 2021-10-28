@@ -1,23 +1,19 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
-import { throwError as observableThrowError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { environment as env } from '@env';
+import { Injectable } from '@angular/core';
 
 import { IApiCall } from '@core/models/api-call';
+import { environment as env } from '@env';
+import { throwError as observableThrowError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ApiService {
-	constructor(
-		private http: HttpClient
-	) {
-	}
+	constructor(private http: HttpClient) {}
 
 	get(apiCall: IApiCall) {
-		let url = env.apiUrl + apiCall.path;
+		const url = env.apiUrl + apiCall.path;
 
 		return this.http.get(url, apiCall.options).pipe(
 			tap((res: any) => res),
@@ -26,7 +22,7 @@ export class ApiService {
 	}
 
 	post(apiCall: IApiCall) {
-		let url = env.apiUrl + apiCall.path;
+		const url = env.apiUrl + apiCall.path;
 
 		return this.http.post(url, apiCall.body, apiCall.options).pipe(
 			tap((res: any) => res),
@@ -35,7 +31,7 @@ export class ApiService {
 	}
 
 	patch(apiCall: IApiCall) {
-		let url = env.apiUrl + apiCall.path;
+		const url = env.apiUrl + apiCall.path;
 
 		return this.http.patch(url, apiCall.body, apiCall.options).pipe(
 			tap((res: any) => res),
@@ -44,7 +40,7 @@ export class ApiService {
 	}
 
 	delete(apiCall: IApiCall) {
-		let url = env.apiUrl + apiCall.path;
+		const url = env.apiUrl + apiCall.path;
 
 		return this.http.delete(url, apiCall.options).pipe(
 			tap((res: any) => res),
@@ -53,7 +49,7 @@ export class ApiService {
 	}
 
 	keepAlive() {
-		let url = env.apiUrl + 'auth/keepalive';
+		const url = env.apiUrl + 'auth/keepalive';
 		return this.http.get(url);
 	}
 

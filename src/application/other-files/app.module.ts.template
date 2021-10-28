@@ -1,5 +1,5 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy, registerLocaleData } from '@angular/common';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import locale from '@angular/common/locales/<%= locale %>';
