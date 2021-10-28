@@ -1,6 +1,6 @@
 {
 	"name": "@kantist/rilke-cli",
-	"version": "1.0.20",
+	"version": "1.0.21",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",

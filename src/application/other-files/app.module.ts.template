@@ -1,16 +1,16 @@
 import { LocationStrategy, PathLocationStrategy, registerLocaleData } from '@angular/common';
+import locale from '@angular/common/locales/<%= locale %>';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import locale from '@angular/common/locales/<%= locale %>';
-registerLocaleData(locale);
-
 import { CoreLayer } from '@core/core.layer';
-import { LayoutLayer } from '@layouts/layouts.layer';
 import { FeaturesLayer } from '@features/features.layer';
+import { LayoutLayer } from '@layouts/layouts.layer';
 
 <% if (routing) { %>import { AppRoutingModule } from './app-routing.module';<% } %>
 import { AppComponent } from './app.component';
+
+registerLocaleData(locale);
 
 @NgModule({
 	declarations: [
