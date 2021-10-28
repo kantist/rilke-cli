@@ -41,12 +41,6 @@ Get started with Rilke, learn the fundamentals and explore advanced topics on ou
 
 ### Setting Up a Project
 
-Install the Angular CLI globally:
-
-```
-npm install -g @angular/cli
-```
-
 Install the Rilke CLI globally:
 
 ```
