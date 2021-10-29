@@ -3,6 +3,7 @@
 	"version": 1,
 	"cli": {
 		"defaultCollection": "@kantist/rilke-cli"<% if (packageManager) { %>,
+		"analytics": false,
 		"packageManager": "<%= packageManager %>"<% } %>
 	},
 	"newProjectRoot": "<%= newProjectRoot %>",
