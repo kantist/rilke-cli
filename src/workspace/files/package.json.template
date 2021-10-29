@@ -9,6 +9,8 @@
 		"test": "rilke test",<% } %>
 		"lint": "rilke lint",
 		"lint:fix": "rilke lint --fix",
+		"lint:styles": "stylelint \"**/*.scss\"",
+		"lint:styles:fix": "stylelint \"**/*.scss\" --fix",
 		"serve:ssr": "node dist/server/main.js",
 		"build:ssr": "rilke build && rilke run <%= utils.dasherize(name) %>:server:production",
 		"dev-build:ssr": "rilke build && rilke run <%= utils.dasherize(name) %>:server"

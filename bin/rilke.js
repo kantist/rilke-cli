@@ -29,16 +29,6 @@ try {
 	if (command == 'new') {
 		process.argv.push('--collection');
 		process.argv.push('@kantist/rilke-cli');
-	} else if (command == 'linter') {
-		process.argv[2] = 'lint';
-	} else if (command == 'lint') {
-		shell.exec("rilke linter && stylelint \"**/*.scss\"");
-
-		return;
-	} else if (command == 'lint:fix') {
-		shell.exec("rilke linter --fix && stylelint \"**/*.scss\" --fix");
-
-		return;
 	}
 } catch (_) {
 }
