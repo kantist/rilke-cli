@@ -13,8 +13,26 @@
 
 // Provide a title to the process in `ps`.
 // Due to an obscure Mac bug, do not start this title with any symbol.
+
+var disallowed_command = ['version', 'update', 'analytics', 'v'];
+
+if (disallowed_command.includes(process.argv[2])) {
+	console.log('\x1b[33m%s\x1b[0m', 'This command not supporting!');
+	return;
+}
+
 try {
-	process.title = 'rilke ' + Array.from(process.argv).slice(5).join(' ');
+	var command = process.argv[2];
+
+	if (command == 'new') {
+		process.argv.push('--collection');
+		process.argv.push('@kantist/rilke-cli');
+	}
+} catch (_) {
+}
+
+try {
+	process.title = 'rilke ' + Array.from(process.argv).slice(2).join(' ');
 } catch (_) {
 	// If an error happened above, use the most basic title.
 	process.title = 'rilke';
@@ -48,7 +66,7 @@ if (version[0] % 2 === 1 && version[0] > 16) {
 		'Node.js version ' +
 			process.version +
 			' detected.\n' +
-			'The Angular CLI requires a minimum Node.js version of either v12.20, v14.15, or v16.10.\n\n' +
+			'The Rilke CLI requires a minimum Node.js version of either v12.20, v14.15, or v16.10.\n\n' +
 			'Please update your Node.js version or visit https://nodejs.org/ for additional instructions.\n',
 	);
 

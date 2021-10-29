@@ -6,8 +6,6 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-// symbol polyfill must go first
-
 (async () => {
 	/**
 	 * Disable Browserslist old data warning as otherwise with every release we'd need to update this dependency
@@ -39,11 +37,13 @@
 		cli = cli['default'];
 	}
 
-	return cli;
+	return cli as any;
 })()
 	.then((cli) => {
 		return cli({
-			cliArgs: process.argv.slice(5),
+			cliArgs: process.argv.slice(2),
+			inputStream: process.stdin,
+			outputStream: process.stdout,
 		});
 	})
 	.then((exitCode: number) => {

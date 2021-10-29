@@ -21,23 +21,20 @@
 	<br>
 </p>
 
-
 <hr>
 
 ## Documentation
 
 Get started with Rilke, learn the fundamentals and explore advanced topics on our documentation website.
 
-- [Getting Started][quickstart]
-- [Architecture][architecture]
+-   [Getting Started][quickstart]
+-   [Architecture][architecture]
 
 ## Development Setup
 
 ### Prerequisites
 
-- Install [Node.js] which includes [Node Package Manager][npm]
-
-- Install [Angular][angular]
+-   Install [Node.js] which includes [Node Package Manager][npm]
 
 ### Setting Up a Project
 
@@ -50,25 +47,24 @@ npm install -g @kantist/rilke-cli
 Create workspace:
 
 ```
-ng new [PROJECT NAME] --collection @kantist/rilke-cli
+rilke new [PROJECT NAME]
 ```
 
 Run the application:
 
 ```
 cd [PROJECT NAME]
-ng serve
+rilke serve
 ```
 
 ## Ecosystem
 
-| Project               | Status                                                       | Description                                             |
-| --------------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
-| [rilke-ui]            | [![rilke-ui]][rilke-ui-package]                              | Modern UI Kit for Rilke Architect                       |
+| Project    | Status                          | Description                       |
+| ---------- | ------------------------------- | --------------------------------- |
+| [rilke-ui] | [![rilke-ui]][rilke-ui-package] | Modern UI Kit for Rilke Architect |
 
 [rilke-ui]: https://github.com/kantist/rilke-ui
 [rilke-ui-package]: https://npmjs.com/package/@kantist/rilke-ui
-
 [quickstart]: https://rilke.ist/cli/
 [architecture]: https://rilke.ist/architecture/
 [node.js]: https://nodejs.org/
