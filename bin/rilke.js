@@ -14,6 +14,8 @@
 // Provide a title to the process in `ps`.
 // Due to an obscure Mac bug, do not start this title with any symbol.
 
+var shell = require("shelljs");
+
 var disallowed_command = ['version', 'update', 'analytics', 'v'];
 
 if (disallowed_command.includes(process.argv[2])) {
@@ -27,6 +29,14 @@ try {
 	if (command == 'new') {
 		process.argv.push('--collection');
 		process.argv.push('@kantist/rilke-cli');
+	} else if (command == 'lint') {
+		shell.exec("rilke lint && stylelint \"**/*.scss\"");
+
+		return;
+	} else if (command == 'lint:fix') {
+		shell.exec("rilke lint --fix && stylelint \"**/*.scss\" --fix");
+
+		return;
 	}
 } catch (_) {
 }
