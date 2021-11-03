@@ -1,3 +1,5 @@
+@import "~src/assets/style/variables";
+
 :host {
-    display: flex;
+	display: flex;
 }

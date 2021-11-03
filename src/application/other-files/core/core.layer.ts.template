@@ -9,7 +9,6 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 })
 export class CoreLayer {
 	constructor(@Optional() @SkipSelf() presentInParent: CoreLayer) {
-		console.log(presentInParent);
 		if (presentInParent) {
 			throw new Error(
 				'CoreLayer is already installed. Can only be loaded by AppModule'

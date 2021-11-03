@@ -3,6 +3,7 @@
 	"rules": {
 		"indentation": "tab",
 		"no-missing-end-of-source-newline": null,
+		"string-quotes": null,
 		"no-empty-source": null
 	}
 }

@@ -15,7 +15,7 @@
 			],
 			"parserOptions": {
 				"project": [
-					"./tsconfig.json"
+					"tsconfig.json"
 				],
 				"createDefaultProgram": true
 			},
@@ -43,6 +43,7 @@
 						"style": "kebab-case"
 					}
 				],
+				"@angular-eslint/component-class-suffix": "off",
 				"@angular-eslint/no-empty-lifecycle-method": "off",
 
 				"prefer-const": "off",
@@ -83,13 +84,7 @@
 				"import/no-duplicates": "error",
 				"import/no-extraneous-dependencies": ["off", { "devDependencies": false }],
 				"import/no-unassigned-import": "off",
-				"import/order": [
-					"error",
-					{
-						"alphabetize": { "order": "asc" },
-						"groups": [["builtin", "external"], "parent", "sibling", "index"]
-					}
-				]
+				"import/order": "off"
 			}
 		},
 		{

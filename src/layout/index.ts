@@ -17,16 +17,19 @@ import {
 	mergeWith,
 	move,
 	schematic,
-	url
+	url,
 } from '@angular-devkit/schematics';
 import { Schema as ComponentOptions } from '../component/schema';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { addFeatureRouteForLayout, addImportToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
-import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import {
-	buildRelativePath,
-	findModuleFromOptions,
-} from '../utility/find-module';
+	addFeatureRouteForLayout,
+	addImportToModule,
+	addRouteDeclarationToModule,
+	insertImport,
+	isImported,
+} from '../utility/ast-utils';
+import { InsertChange, applyToUpdateRecorder } from '../utility/change';
+import { buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as LayoutOptions } from './schema';
@@ -36,7 +39,7 @@ function buildRelativeModulePath(options: LayoutOptions, modulePath: string): st
 		`/${options.path}/` +
 			(options.flat ? '' : strings.dasherize(options.name) + '/') +
 			strings.dasherize(options.name) +
-			'.layout',
+			'.layout'
 	);
 
 	return buildRelativePath(modulePath, importModulePath);
@@ -52,12 +55,7 @@ function readIntoSourceFile(host: Tree, modulePath: string): ts.SourceFile {
 	return ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
 }
 
-function addImportPackageToModule(
-	host: Tree,
-	modulePath: string,
-	importModule: string,
-	importPath: string,
-) {
+function addImportPackageToModule(host: Tree, modulePath: string, importModule: string, importPath: string) {
 	const moduleSource = readIntoSourceFile(host, modulePath);
 	if (!isImported(moduleSource, importModule, importPath)) {
 		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
@@ -87,12 +85,7 @@ function addDeclarationToNgModule(options: LayoutOptions): Rule {
 		const source = ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
 
 		const relativePath = buildRelativeModulePath(options, modulePath);
-		const changes = addImportToModule(
-			source,
-			modulePath,
-			strings.classify(`${options.name}Layout`),
-			relativePath,
-		);
+		const changes = addImportToModule(source, modulePath, strings.classify(`${options.name}Layout`), relativePath);
 
 		const recorder = host.beginUpdate(modulePath);
 		for (const change of changes) {
@@ -109,7 +102,7 @@ function addDeclarationToNgModule(options: LayoutOptions): Rule {
 function addRouteDeclarationToNgModule(
 	options: LayoutOptions,
 	routingModulePath: Path | undefined,
-	featuresRoutePath: Path | undefined,
+	featuresRoutePath: Path | undefined
 ): Rule {
 	return (host: Tree) => {
 		if (!options.route) {
@@ -132,33 +125,23 @@ function addRouteDeclarationToNgModule(
 		}
 
 		const classifiedLayoutRoute = 'routes';
-		const classifiedRoute = strings.camelize(options.name as string)+'Routes';
-		const classifiedComponent = strings.classify(options.name as string)+'Component';
+		const classifiedRoute = strings.camelize(options.name as string) + 'Routes';
+		const classifiedComponent = strings.classify(options.name as string) + 'Component';
 
 		const relativePath = buildRelativePath(path, featuresRoutePath as string).replace('.ts', '');
 		const componentRelativePath = buildRelativePath(path, getLayoutComponentPath(options)).replace('.ts', '');
 
 		// Add import page to route
-		host = addImportPackageToModule(
-			host,
-			path,
-			classifiedRoute,
-			relativePath,
-		);
+		host = addImportPackageToModule(host, path, classifiedRoute, relativePath);
 
 		// Add import component to route
-		host = addImportPackageToModule(
-			host,
-			path,
-			classifiedComponent,
-			componentRelativePath,
-		);
+		host = addImportPackageToModule(host, path, classifiedComponent, componentRelativePath);
 
 		const addDeclaration = addRouteDeclarationToModule(
 			readIntoSourceFile(host, path),
 			path,
 			classifiedLayoutRoute,
-			buildRoute(options),
+			buildRoute(options)
 		) as InsertChange;
 
 		if (addDeclaration) {
@@ -171,11 +154,7 @@ function addRouteDeclarationToNgModule(
 	};
 }
 
-function addFeaturesRouteDeclaration(
-	options: LayoutOptions,
-	routingModulePath: Path | undefined,
-	featuresRoutePath: Path | undefined,
-): Rule {
+function addFeaturesRouteDeclaration(options: LayoutOptions, featuresRoutePath: Path | undefined): Rule {
 	return (host: Tree) => {
 		if (!options.route) {
 			return host;
@@ -185,8 +164,8 @@ function addFeaturesRouteDeclaration(
 		}
 
 		let path: string;
-		if (routingModulePath) {
-			path = routingModulePath;
+		if (featuresRoutePath) {
+			path = featuresRoutePath;
 		} else {
 			path = options.module;
 		}
@@ -196,14 +175,14 @@ function addFeaturesRouteDeclaration(
 			throw new Error(`Couldn't find the module nor its routing module.`);
 		}
 
-		const classifiedRoute = strings.camelize(options.name as string)+'Routes';
+		const classifiedRoute = strings.camelize(options.name as string) + 'Routes';
 
 		// add layout route to features route
 		const constant = `\n\nexport const ${classifiedRoute}: Routes = [];`;
 		const addFeatures = addFeatureRouteForLayout(
 			readIntoSourceFile(host, featuresRoutePath as string),
 			featuresRoutePath as string,
-			constant,
+			constant
 		) as InsertChange;
 
 		if (addFeatures) {
@@ -229,7 +208,9 @@ function getFeatureRoutePath(host: Tree, projectPath: string) {
 }
 
 function getLayoutComponentPath(options: LayoutOptions) {
-	const componentPath = `${options.path}/${strings.dasherize(options.name)}/components/${strings.dasherize(options.name)}/${strings.dasherize(options.name)}.component.ts`;
+	const componentPath = `${options.path}/${strings.dasherize(options.name)}/components/${strings.dasherize(
+		options.name
+	)}/${strings.dasherize(options.name)}.component.ts`;
 
 	return normalize(componentPath);
 }
@@ -293,17 +274,17 @@ export default function (options: LayoutOptions): Rule {
 			name: strings.dasherize(options.name),
 			module: strings.dasherize(options.name),
 			layer: 'layouts',
-			subscriptionManagement: true
+			subscriptionManagement: true,
 		};
 
 		return chain([
 			addDeclarationToNgModule(options),
 			addRouteDeclarationToNgModule(options, routingModulePath, featuresRoutePath),
-			addFeaturesRouteDeclaration(options, routingModulePath, featuresRoutePath),
+			addFeaturesRouteDeclaration(options, featuresRoutePath),
 			mergeWith(templateSource),
 			schematic('component', {
 				...componentOptions,
-			})
+			}),
 		]);
 	};
 }

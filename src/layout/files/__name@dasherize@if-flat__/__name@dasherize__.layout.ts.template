@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';<% if (sharedLayer) { %>
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';<% if (sharedLayer) { %>
 import { SharedLayer } from '@shared/shared.layer';<% } %>
 
 @NgModule({
-	imports: [<% if (sharedLayer) { %>
+	imports: [
+		RouterModule<% if (sharedLayer) { %>,
 		SharedLayer<% } %>
 	],
 	declarations: []
