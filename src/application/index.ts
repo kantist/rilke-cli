@@ -219,9 +219,13 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						inlineStyleLanguage,
 						assets: [`${sourceRoot}/assets`],
 						styles: [
-							`${sourceRoot}/assets/style/styles.${options.style}`,
-							`${sourceRoot}/assets/style/variables.${options.style}`
+							`${sourceRoot}/assets/style/styles.${options.style}`
 						],
+						stylePreprocessorOptions: {
+							includePaths: [
+								"src/assets/style"
+							]
+						},
 						scripts: [],
 					},
 				},
