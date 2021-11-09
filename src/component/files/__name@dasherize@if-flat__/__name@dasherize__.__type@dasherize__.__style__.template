@@ -1,4 +1,4 @@
-@import "~src/assets/style/variables";
+@import "variables";
 
 :host {
 	display: flex;

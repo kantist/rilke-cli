@@ -38,18 +38,34 @@
 			"type": "string",
 			"alias": "l",
 			"default": "features",
-			"enum": ["features", "layouts", "shared", "core"],
+			"enum": [
+				"features",
+				"layouts",
+				"shared",
+				"core"
+			],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
 				"type": "list",
 				"items": [
-					{ "value": "features", "label": "Features" },
-					{ "value": "layouts", "label": "Layouts" },
-					{ "value": "shared", "label": "Shared" },
-					{ "value": "core", "label": "Core" }
+					{
+						"value": "features",
+						"label": "Features"
+					},
+					{
+						"value": "layouts",
+						"label": "Layouts"
+					},
+					{
+						"value": "shared",
+						"label": "Shared"
+					},
+					{
+						"value": "core",
+						"label": "Core"
+					}
 				]
-			},
-			"x-user-analytics": 5
+			}
 		},
 		"module": {
 			"type": "string",
@@ -68,15 +84,15 @@
 		"skipTests": {
 			"type": "boolean",
 			"description": "Do not create \"spec.ts\" test files for the new interceptor.",
-			"default": false,
-			"x-user-analytics": 12
+			"default": false
 		},
 		"skipProvide": {
 			"type": "boolean",
 			"description": "Do not provide this interceptor into the owning NgModule.",
-			"default": false,
-			"x-user-analytics": 18
+			"default": false
 		}
 	},
-	"required": ["name"]
+	"required": [
+		"name"
+	]
 }

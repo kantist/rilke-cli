@@ -32,8 +32,7 @@
 			"type": "boolean",
 			"description": "Create a routing module.",
 			"default": true,
-			"x-prompt": "That module has a routing?",
-			"x-user-analytics": 17
+			"x-prompt": "That module has a routing?"
 		},
 		"route": {
 			"type": "string",
@@ -67,5 +66,7 @@
 			"description": "The declaring NgModule name."
 		}
 	},
-	"required": ["name"]
+	"required": [
+		"name"
+	]
 }

@@ -23,46 +23,74 @@
 		"inlineStyle": {
 			"description": "Include styles inline in the root component.ts file. Only CSS styles can be included inline. Default is false, meaning that an external styles file is created and referenced in the root component.ts file.",
 			"type": "boolean",
-			"alias": "s",
-			"x-user-analytics": 9
+			"alias": "s"
 		},
 		"inlineTemplate": {
 			"description": "Include template inline in the root component.ts file. Default is false, meaning that an external template file is created and referenced in the root component.ts file. ",
 			"type": "boolean",
-			"alias": "t",
-			"x-user-analytics": 10
+			"alias": "t"
 		},
 		"viewEncapsulation": {
 			"description": "The view encapsulation strategy to use in the new application.",
-			"enum": ["Emulated", "None", "ShadowDom"],
-			"type": "string",
-			"x-user-analytics": 11
+			"enum": [
+				"Emulated",
+				"None",
+				"ShadowDom"
+			],
+			"type": "string"
 		},
 		"locale": {
 			"description": "Determine which locale it belongs to.",
 			"type": "string",
 			"default": "tr",
-			"enum": ["tr", "en", "fr", "ru", "de", "es", "ar"],
+			"enum": [
+				"tr",
+				"en",
+				"fr",
+				"ru",
+				"de",
+				"es",
+				"ar"
+			],
 			"x-prompt": {
 				"message": "Which locale would you like to use it in?",
 				"type": "list",
 				"items": [
-					{ "value": "tr", "label": "Turkish" },
-					{ "value": "en", "label": "English" },
-					{ "value": "fr", "label": "French" },
-					{ "value": "ru", "label": "Russian" },
-					{ "value": "de", "label": "German" },
-					{ "value": "es", "label": "Esnapol" },
-					{ "value": "ar", "label": "Arabic" }
+					{
+						"value": "tr",
+						"label": "Turkish"
+					},
+					{
+						"value": "en",
+						"label": "English"
+					},
+					{
+						"value": "fr",
+						"label": "French"
+					},
+					{
+						"value": "ru",
+						"label": "Russian"
+					},
+					{
+						"value": "de",
+						"label": "German"
+					},
+					{
+						"value": "es",
+						"label": "Esnapol"
+					},
+					{
+						"value": "ar",
+						"label": "Arabic"
+					}
 				]
-			},
-			"x-user-analytics": 5
+			}
 		},
 		"routing": {
 			"type": "boolean",
 			"description": "Create a routing NgModule.",
-			"default": true,
-			"x-user-analytics": 17
+			"default": true
 		},
 		"prefix": {
 			"type": "string",
@@ -83,15 +111,18 @@
 			"description": "The file extension or preprocessor to use for style files.",
 			"type": "string",
 			"default": "scss",
-			"enum": ["css", "scss", "sass", "less"],
-			"x-user-analytics": 5
+			"enum": [
+				"css",
+				"scss",
+				"sass",
+				"less"
+			]
 		},
 		"skipTests": {
 			"description": "Do not create \"spec.ts\" test files for the application.",
 			"type": "boolean",
 			"default": false,
-			"alias": "S",
-			"x-user-analytics": 12
+			"alias": "S"
 		},
 		"skipPackageJson": {
 			"type": "boolean",
@@ -101,8 +132,7 @@
 		"minimal": {
 			"description": "Create a bare-bones project without any testing frameworks. (Use for learning purposes only.)",
 			"type": "boolean",
-			"default": false,
-			"x-user-analytics": 14
+			"default": false
 		},
 		"skipInstall": {
 			"description": "Skip installing dependency packages.",
@@ -112,9 +142,10 @@
 		"strict": {
 			"description": "Creates an application with stricter bundle budgets settings.",
 			"type": "boolean",
-			"default": true,
-			"x-user-analytics": 7
+			"default": true
 		}
 	},
-	"required": ["name"]
+	"required": [
+		"name"
+	]
 }

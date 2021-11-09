@@ -31,8 +31,7 @@
 		"skipTests": {
 			"type": "boolean",
 			"description": "Do not create \"spec.ts\" test files for the new class.",
-			"default": false,
-			"x-user-analytics": 12
+			"default": false
 		},
 		"type": {
 			"type": "string",
@@ -49,17 +48,29 @@
 			"type": "string",
 			"alias": "l",
 			"default": "features",
-			"enum": ["features", "layouts", "shared"],
+			"enum": [
+				"features",
+				"layouts",
+				"shared"
+			],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
 				"type": "list",
 				"items": [
-					{ "value": "features", "label": "Features" },
-					{ "value": "layouts", "label": "Layouts" },
-					{ "value": "shared", "label": "Shared" }
+					{
+						"value": "features",
+						"label": "Features"
+					},
+					{
+						"value": "layouts",
+						"label": "Layouts"
+					},
+					{
+						"value": "shared",
+						"label": "Shared"
+					}
 				]
-			},
-			"x-user-analytics": 5
+			}
 		},
 		"module": {
 			"type": "string",
@@ -76,5 +87,9 @@
 			"description": "The declaring NgModule name."
 		}
 	},
-	"required": ["name","layer","module"]
+	"required": [
+		"name",
+		"layer",
+		"module"
+	]
 }

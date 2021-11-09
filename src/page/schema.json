@@ -32,26 +32,30 @@
 			"description": "Include styles inline in the page.ts file. Only CSS styles can be included inline. By default, an external styles file is created and referenced in the component.ts file.",
 			"type": "boolean",
 			"default": false,
-			"alias": "s",
-			"x-user-analytics": 9
+			"alias": "s"
 		},
 		"inlineTemplate": {
 			"description": "Include template inline in the page.ts file. By default, an external template file is created and referenced in the component.ts file.",
 			"type": "boolean",
 			"default": false,
-			"alias": "t",
-			"x-user-analytics": 10
+			"alias": "t"
 		},
 		"viewEncapsulation": {
 			"description": "The view encapsulation strategy to use in the new page.",
-			"enum": ["Emulated", "None", "ShadowDom"],
+			"enum": [
+				"Emulated",
+				"None",
+				"ShadowDom"
+			],
 			"type": "string",
-			"alias": "v",
-			"x-user-analytics": 11
+			"alias": "v"
 		},
 		"changeDetection": {
 			"description": "The change detection strategy to use in the new page.",
-			"enum": ["Default", "OnPush"],
+			"enum": [
+				"Default",
+				"OnPush"
+			],
 			"type": "string",
 			"default": "Default",
 			"alias": "c"
@@ -74,8 +78,13 @@
 			"description": "The file extension or preprocessor to use for style files, or 'none' to skip generating the style file.",
 			"type": "string",
 			"default": "scss",
-			"enum": ["css", "scss", "sass", "less", "none"],
-			"x-user-analytics": 5
+			"enum": [
+				"css",
+				"scss",
+				"sass",
+				"less",
+				"none"
+			]
 		},
 		"type": {
 			"type": "string",
@@ -85,8 +94,7 @@
 		"skipTests": {
 			"type": "boolean",
 			"description": "Do not create \"spec.ts\" test files for the new page.",
-			"default": false,
-			"x-user-analytics": 12
+			"default": false
 		},
 		"flat": {
 			"type": "boolean",
@@ -96,8 +104,7 @@
 		"skipImport": {
 			"type": "boolean",
 			"description": "Do not import this page into the owning NgModule.",
-			"default": false,
-			"x-user-analytics": 18
+			"default": false
 		},
 		"selector": {
 			"type": "string",
@@ -113,8 +120,7 @@
 			"description": "Determine which layer it belongs to.",
 			"type": "string",
 			"alias": "l",
-			"default": "features",
-			"x-user-analytics": 5
+			"default": "features"
 		},
 		"module": {
 			"type": "string",
@@ -143,13 +149,15 @@
 		"export": {
 			"type": "boolean",
 			"default": false,
-			"description": "The declaring NgModule exports this page.",
-			"x-user-analytics": 19
+			"description": "The declaring NgModule exports this page."
 		},
 		"route": {
 			"type": "string",
 			"description": "The route path for a routes."
 		}
 	},
-	"required": ["name","module"]
+	"required": [
+		"name",
+		"module"
+	]
 }
