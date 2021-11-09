@@ -173,6 +173,11 @@
 			"type": "boolean",
 			"default": false,
 			"description": "The declaring NgModule exports this component."
+		},
+		"parent": {
+			"type": "boolean",
+			"default": false,
+			"description": "The declaring parent exports this component."
 		}
 	},
 	"required": [

@@ -1,7 +1,7 @@
 import { Component, OnInit<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%><% if(subscriptionManagement) { %>, OnDestroy<% }%> } from '@angular/core';<% if (subscriptionManagement) {%>
 import { Subscription } from 'rxjs';<% }%>
 
-import { SeoService } from '@app/services/seo/seo.service';
+import { SeoService } from '@core/services/seo/seo.service';
 
 @Component({<% if(!skipSelector) {%>
 	selector: '<%= selector %>',<%}%><% if(inlineTemplate) { %>

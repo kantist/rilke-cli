@@ -87,4 +87,8 @@ export interface Schema {
 	 * The declaring NgModule exports this component.
 	 */
 	export?: boolean;
+	/**
+	 * The declaring parent this component.
+	 */
+	parent?: boolean;
 }

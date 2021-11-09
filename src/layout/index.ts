@@ -275,6 +275,7 @@ export default function (options: LayoutOptions): Rule {
 			module: strings.dasherize(options.name),
 			layer: 'layouts',
 			subscriptionManagement: true,
+			parent: true
 		};
 
 		return chain([
