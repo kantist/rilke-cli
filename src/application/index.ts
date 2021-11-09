@@ -244,6 +244,11 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 					outputPath: 'dist/server',
 					main: `${projectRoot}server.ts`,
 					tsConfig: `${projectRoot}tsconfig.server.json`,
+					stylePreprocessorOptions: {
+						includePaths: [
+							"src/assets/style"
+						]
+					}
 				},
 				configurations: {
 					production: {
