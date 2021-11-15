@@ -21,7 +21,7 @@ import {
 	url,
 } from '@angular-devkit/schematics';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { addImportToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
+import { addImportToModule, addRedirectRouteDeclarationToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
 import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import {
 	FEATURE_EXT,
@@ -152,6 +152,20 @@ function addRouteDeclarationToNgModule(
 			classifiedRoute,
 			relativePath,
 		);
+
+		// If has not any routes
+		const addRedirectDeclaration = addRedirectRouteDeclarationToModule(
+			readIntoSourceFile(host, path),
+			path,
+			classifiedLayoutRoute,
+			buildRoute(options),
+		) as InsertChange;
+
+		if (addRedirectDeclaration) {
+			const recorder = host.beginUpdate(path);
+			recorder.insertLeft(addRedirectDeclaration.pos, addRedirectDeclaration.toAdd);
+			host.commitUpdate(recorder);
+		}
 
 		const addDeclaration = addRouteDeclarationToModule(
 			readIntoSourceFile(host, path),

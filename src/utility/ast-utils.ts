@@ -642,6 +642,59 @@ export function getRouterModuleDeclaration(source: ts.SourceFile): ts.Expression
 }
 
 /**
+ * Adds a redirectTo route declaration
+ */
+export function addRedirectRouteDeclarationToModule(
+	source: ts.SourceFile,
+	fileToAdd: string,
+	routesName: string,
+	routeLiteral: string
+): Change | undefined {
+	const routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
+		return v.declarationList.declarations[0].name.getText() === routesName;
+	});
+
+	if (!routesVar) {
+		throw new Error(
+			`No route declaration array was found that corresponds ` +
+				`to router module in ${fileToAdd}`,
+		);
+	}
+
+	const routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
+		routesVar,
+		ts.SyntaxKind.ArrayLiteralExpression,
+		1,
+	)[0] as ts.ArrayLiteralExpression;
+
+	const occurrencesCount = routesArr.elements.length;
+
+	let route: string = routeLiteral;
+	const insertPos = routesArr.elements.pos;
+
+	if (!occurrencesCount) {
+		const literal: ts.Expression = (routeLiteral as unknown) as ts.Expression;
+
+		let routePath = '';
+		if (ts.isObjectLiteralExpression(literal)) {
+			literal.properties.some(
+				(n) => {
+					if (ts.isPropertyAssignment(n) && ts.isIdentifier(n.name) && ts.isStringLiteral(n.initializer)) {
+						if (n.name.text == 'path') {
+							routePath = n.initializer.text;
+						}
+					}
+				}
+			);
+		}
+
+		route = `{ path: '', pathMatch: 'full', redirectTo: ${routePath} }`;
+	}
+
+	return new InsertChange(fileToAdd, insertPos, route);
+}
+
+/**
  * Adds a new route declaration to a router module (i.e. has a RouterModule declaration)
  */
 export function addRouteDeclarationToModule(

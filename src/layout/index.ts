@@ -24,6 +24,7 @@ import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescri
 import {
 	addFeatureRouteForLayout,
 	addImportToModule,
+	addRedirectRouteDeclarationToModule,
 	addRouteDeclarationToModule,
 	insertImport,
 	isImported,
@@ -136,6 +137,20 @@ function addRouteDeclarationToNgModule(
 
 		// Add import component to route
 		host = addImportPackageToModule(host, path, classifiedComponent, componentRelativePath);
+
+		// If has not any routes
+		const addRedirectDeclaration = addRedirectRouteDeclarationToModule(
+			readIntoSourceFile(host, path),
+			path,
+			classifiedLayoutRoute,
+			buildRoute(options)
+		) as InsertChange;
+
+		if (addRedirectDeclaration) {
+			const recorder = host.beginUpdate(path);
+			recorder.insertLeft(addRedirectDeclaration.pos, addRedirectDeclaration.toAdd);
+			host.commitUpdate(recorder);
+		}
 
 		const addDeclaration = addRouteDeclarationToModule(
 			readIntoSourceFile(host, path),

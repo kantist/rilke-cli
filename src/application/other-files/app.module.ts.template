@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { CoreLayer } from '@core/core.layer';
 import { FeaturesLayer } from '@features/features.layer';
-import { LayoutLayer } from '@layouts/layouts.layer';
+import { LayoutsLayer } from '@layouts/layouts.layer';
 
 <% if (routing) { %>import { AppRoutingModule } from './app-routing.module';<% } %>
 import { AppComponent } from './app.component';
@@ -20,7 +20,7 @@ registerLocaleData(locale);
 		BrowserModule.withServerTransition({ appId: 'serverApp' }),<% if (routing) { %>
 		AppRoutingModule,<% } %>
 		CoreLayer,
-		LayoutLayer,
+		LayoutsLayer,
 		FeaturesLayer
 	],
 	providers: [

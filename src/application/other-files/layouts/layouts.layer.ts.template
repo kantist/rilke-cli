@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { SharedLayer } from '@shared/shared.layer';
-
 @NgModule({
-	imports: [SharedLayer],
+	imports: [],
 	declarations: [],
 })
-export class LayoutLayer {}
+export class LayoutsLayer {}
