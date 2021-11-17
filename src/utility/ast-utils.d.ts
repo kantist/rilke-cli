@@ -5,7 +5,6 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://rilke.ist/license
  */
-
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { Change } from './change';
 /**
@@ -101,6 +100,10 @@ export declare function addFeatureRouteForLayout(source: ts.SourceFile, fileToAd
  * Returns the RouterModule declaration from NgModule metadata, if any.
  */
 export declare function getRouterModuleDeclaration(source: ts.SourceFile): ts.Expression | undefined;
+/**
+ * Adds a redirectTo route declaration
+ */
+export declare function addRedirectRouteDeclarationToModule(source: ts.SourceFile, fileToAdd: string, routesName: string, routeLiteral: string): Change | undefined;
 /**
  * Adds a new route declaration to a router module (i.e. has a RouterModule declaration)
  */

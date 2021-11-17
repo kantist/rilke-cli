@@ -689,9 +689,11 @@ export function addRedirectRouteDeclarationToModule(
 		}
 
 		route = `{ path: '', pathMatch: 'full', redirectTo: ${routePath} }`;
-	}
 
-	return new InsertChange(fileToAdd, insertPos, route);
+		return new InsertChange(fileToAdd, insertPos, route);
+	} else {
+		return;
+	}
 }
 
 /**

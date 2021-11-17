@@ -48,10 +48,10 @@ if (version[0] % 2 === 1 && version[0] > 16) {
 	// Allow new odd numbered releases with a warning (currently v17+)
 	console.warn(
 		'Node.js version ' +
-			process.version +
-			' detected.\n' +
-			'Odd numbered Node.js versions will not enter LTS status and should not be used for production.' +
-			' For more information, please see https://nodejs.org/en/about/releases/.',
+		process.version +
+		' detected.\n' +
+		'Odd numbered Node.js versions will not enter LTS status and should not be used for production.' +
+		' For more information, please see https://nodejs.org/en/about/releases/.',
 	);
 
 	require('./bootstrap');
@@ -66,10 +66,10 @@ if (version[0] % 2 === 1 && version[0] > 16) {
 	// Error and exit if less than 12.20 or 13.x or less than 14.15 or 15.x or less than 16.10
 	console.error(
 		'Node.js version ' +
-			process.version +
-			' detected.\n' +
-			'The Rilke CLI requires a minimum Node.js version of either v12.20, v14.15, or v16.10.\n\n' +
-			'Please update your Node.js version or visit https://nodejs.org/ for additional instructions.\n',
+		process.version +
+		' detected.\n' +
+		'The Rilke CLI requires a minimum Node.js version of either v12.20, v14.15, or v16.10.\n\n' +
+		'Please update your Node.js version or visit https://nodejs.org/ for additional instructions.\n',
 	);
 
 	process.exitCode = 3;
