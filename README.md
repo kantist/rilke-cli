@@ -1,4 +1,4 @@
-<p align="center"><a href="https://rilke.ist" target="_blank" rel="noopener noreferrer"><img width="150" src="https://rilke.ist/assets/images/logo/logo-stroked.svg" alt="Rilke logo"></a></p>
+<p align="center"><a href="https://rilke.ist" target="_blank" rel="noopener noreferrer"><img width="150" src="https://rilke.ist/assets/logo/logo-stroked.png" alt="Rilke logo"></a></p>
 <p align="center">
 	<a href="https://npmcharts.com/compare/@kantist/rilke-cli?minimal=true"><img src="https://img.shields.io/npm/dm/@kantist/rilke-cli.svg?sanitize=true" alt="Downloads"></a>
 	<a href="https://www.npmjs.com/package/@kantist/rilke-cli"><img src="https://img.shields.io/npm/v/@kantist/rilke-cli.svg?sanitize=true" alt="Version"></a>
