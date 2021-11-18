@@ -1,6 +1,6 @@
 {
 	"name": "@kantist/rilke-cli",
-	"version": "1.0.36",
+	"version": "1.0.37",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
@@ -34,9 +34,9 @@
 	"license": "MIT",
 	"schematics": "./src/collection.json",
 	"dependencies": {
-		"@angular-devkit/core": "^12.2.5",
-		"@angular-devkit/schematics": "^12.2.5",
-		"@angular/cli": "^12.2.5",
+		"@angular-devkit/core": "^13.0.3",
+		"@angular-devkit/schematics": "^13.0.3",
+		"@angular/cli": "^13.0.3",
 		"jsonc-parser": "3.0.0",
 		"shelljs": "^0.8.4",
 		"typescript": "~4.3.2"

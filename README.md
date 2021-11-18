@@ -1,4 +1,4 @@
-<p align="center"><a href="https://rilke.ist" target="_blank" rel="noopener noreferrer"><img width="150" src="https://kant.ist/assets/images/logo/kant-white.svg" alt="Rilke logo"></a></p>
+<p align="center"><a href="https://rilke.ist" target="_blank" rel="noopener noreferrer"><img width="150" src="https://rilke.ist/assets/images/logo/logo-stroked.svg" alt="Rilke logo"></a></p>
 <p align="center">
 	<a href="https://npmcharts.com/compare/@kantist/rilke-cli?minimal=true"><img src="https://img.shields.io/npm/dm/@kantist/rilke-cli.svg?sanitize=true" alt="Downloads"></a>
 	<a href="https://www.npmjs.com/package/@kantist/rilke-cli"><img src="https://img.shields.io/npm/v/@kantist/rilke-cli.svg?sanitize=true" alt="Version"></a>
@@ -9,8 +9,8 @@
 <h1 align="center">Rilke CLI - Developed schematic for Rilke Architecture.</h1>
 <p align="center">
 	<br>
-	<i>Rilke is an advanced architecture. Developed for complex and modular projects.
-	<br> using Angular Framework and other packages.</i>
+	<i>Rilke. An Advanced Architecture. Developed for complex and modular projects.
+	<br> using Angular Framework.</i>
 	<br>
 </p>
 <p align="center">
