@@ -158,7 +158,7 @@ function addRouteDeclarationToNgModule(
 			readIntoSourceFile(host, path),
 			path,
 			classifiedLayoutRoute,
-			buildRoute(options),
+			options.route,
 		) as InsertChange;
 
 		if (addRedirectDeclaration) {

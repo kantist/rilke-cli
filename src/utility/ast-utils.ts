@@ -673,22 +673,7 @@ export function addRedirectRouteDeclarationToModule(
 	const insertPos = routesArr.elements.pos;
 
 	if (!occurrencesCount) {
-		const literal: ts.Expression = (routeLiteral as unknown) as ts.Expression;
-
-		let routePath = '';
-		if (ts.isObjectLiteralExpression(literal)) {
-			literal.properties.some(
-				(n) => {
-					if (ts.isPropertyAssignment(n) && ts.isIdentifier(n.name) && ts.isStringLiteral(n.initializer)) {
-						if (n.name.text == 'path') {
-							routePath = n.initializer.text;
-						}
-					}
-				}
-			);
-		}
-
-		route = `{ path: '', pathMatch: 'full', redirectTo: ${routePath} }`;
+		route = `{ path: '', pathMatch: 'full', redirectTo: ${routeLiteral} }`;
 
 		return new InsertChange(fileToAdd, insertPos, route);
 	} else {
