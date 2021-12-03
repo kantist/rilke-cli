@@ -1,0 +1,45 @@
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+
+@Injectable({
+	providedIn: 'root',
+})
+export class <%= classify(name) %><%= classify(type) %> {
+	private updating$ = new BehaviorSubject<boolean>(false);
+	private <%= camelize(name) %>$ = new BehaviorSubject<any>(null);
+
+	isUpdating$() {
+		return this.updating$.asObservable();
+	}
+
+	setUpdating(isUpdating: boolean) {
+		this.updating$.next(isUpdating);
+	}
+
+	get$() {
+		return this.<%= camelize(name) %>$.asObservable();
+	}
+
+	set(<%= camelize(name) %>: any) {
+		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	}
+
+	add(<%= camelize(name) %>: any) {
+		const <%= camelize(name) %> = this.<%= camelize(name) %>$.getValue();
+		<%= camelize(name) %>.data.push(<%= camelize(name) %>.data);
+		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	}
+
+	update(updated<%= classify(name) %>: any) {
+		const <%= camelize(name) %> = this.<%= camelize(name) %>$.getValue();
+		const indexOfUpdated = <%= camelize(name) %>.data.findIndex(<%= camelize(name) %> => <%= camelize(name) %>.id === updated<%= classify(name) %>.data.id);
+		<%= camelize(name) %>[indexOfUpdated] = updated<%= classify(name) %>;
+		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	}
+
+	remove(<%= camelize(name) %>Remove: any) {
+		let <%= camelize(name) %> = this.<%= camelize(name) %>$.getValue();
+		<%= camelize(name) %>.data = <%= camelize(name) %>.data.filter(<%= camelize(name) %> => <%= camelize(name) %>.id !== <%= camelize(name) %>Remove.data.id);
+		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	}
+}

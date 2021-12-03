@@ -1,24 +1,24 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsRilkeState",
-	"title": "Rilke State Options Schema",
+	"$id": "SchematicsRilkeStore",
+	"title": "Rilke Store Options Schema",
 	"type": "object",
-	"description": "Creates a new, generic state definition in the given or default project.",
 	"additionalProperties": false,
+	"description": "Creates a new, generic store definition in the given or default project.",
 	"properties": {
 		"name": {
 			"type": "string",
-			"description": "The name of the new state.",
+			"description": "The name of the store.",
 			"$default": {
 				"$source": "argv",
 				"index": 0
 			},
-			"x-prompt": "What name would you like to use for the state?"
+			"x-prompt": "What name would you like to use for the store?"
 		},
 		"path": {
 			"type": "string",
 			"format": "path",
-			"description": "The path at which to create the state, relative to the workspace root.",
+			"description": "The path at which to create the store, relative to the workspace root.",
 			"visible": false
 		},
 		"project": {
@@ -27,16 +27,6 @@
 			"$default": {
 				"$source": "projectName"
 			}
-		},
-		"skipTests": {
-			"type": "boolean",
-			"description": "Do not create \"spec.ts\" test files for the new state.",
-			"default": false
-		},
-		"type": {
-			"type": "string",
-			"description": "Adds a developer-defined type to the filename, in the format \"name.type.ts\".",
-			"default": ""
 		},
 		"flat": {
 			"type": "boolean",
@@ -51,7 +41,8 @@
 			"enum": [
 				"features",
 				"layouts",
-				"shared"
+				"shared",
+				"core"
 			],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
@@ -68,6 +59,10 @@
 					{
 						"value": "shared",
 						"label": "Shared"
+					},
+					{
+						"value": "core",
+						"label": "Core"
 					}
 				]
 			}
@@ -80,7 +75,7 @@
 				"$source": "argv",
 				"index": 0
 			},
-			"x-prompt": "Which NgModule would you like to use this service?"
+			"x-prompt": "Which NgModule would you like to use this store?"
 		},
 		"moduleName": {
 			"type": "string",

@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 <% }%>export class <%= classify(name) %>Api {
 	constructor(private apiService: ApiService) { }
 
-	getAll(apiCall: IApiCall) {
+	fetch(apiCall: IApiCall) {
 		apiCall.path = '';
 		return this.apiService.get(apiCall).pipe(
 			tap((res: any) => res)

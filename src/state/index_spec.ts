@@ -9,16 +9,17 @@
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { Schema as ApplicationOptions } from '../application/schema';
 import { Schema as WorkspaceOptions } from '../workspace/schema';
-import { Schema as ServiceOptions } from './schema';
+import { Schema as ClassOptions } from './schema';
 
-describe('Service Schematic', () => {
+describe('Class Schematic', () => {
 	const schematicRunner = new SchematicTestRunner(
 		'@schematics/angular',
 		require.resolve('../collection.json'),
 	);
-	const defaultOptions: ServiceOptions = {
+	const defaultOptions: ClassOptions = {
 		name: 'foo',
-		flat: false,
+		type: '',
+		skipTests: true,
 		project: 'bar',
 	};
 
@@ -33,6 +34,7 @@ describe('Service Schematic', () => {
 		inlineStyle: false,
 		inlineTemplate: false,
 		routing: false,
+		skipTests: false,
 		skipPackageJson: false,
 	};
 	let appTree: UnitTestTree;
@@ -43,39 +45,68 @@ describe('Service Schematic', () => {
 			.toPromise();
 	});
 
-	it('should create a service', async () => {
-		const options = { ...defaultOptions };
-
-		const tree = await schematicRunner.runSchematicAsync('service', options, appTree).toPromise();
-		const files = tree.files;
-		expect(files).toContain('/projects/bar/src/app/foo/foo.service.spec.ts');
-		expect(files).toContain('/projects/bar/src/app/foo/foo.service.ts');
+	it('should create just the class file', async () => {
+		const tree = await schematicRunner
+			.runSchematicAsync('class', defaultOptions, appTree)
+			.toPromise();
+		expect(tree.files).toContain('/projects/bar/src/app/foo.ts');
+		expect(tree.files).not.toContain('/projects/bar/src/app/foo.spec.ts');
 	});
 
-	it('service should be tree-shakeable', async () => {
-		const options = { ...defaultOptions };
-
-		const tree = await schematicRunner.runSchematicAsync('service', options, appTree).toPromise();
-		const content = tree.readContent('/projects/bar/src/app/foo/foo.service.ts');
-		expect(content).toMatch(/providedIn: 'root'/);
+	it('should create the class and spec file', async () => {
+		const options = {
+			...defaultOptions,
+			skipTests: false,
+		};
+		const tree = await schematicRunner.runSchematicAsync('class', options, appTree).toPromise();
+		expect(tree.files).toContain('/projects/bar/src/app/foo.ts');
+		expect(tree.files).toContain('/projects/bar/src/app/foo.spec.ts');
 	});
 
-	it('should respect the skipTests flag', async () => {
-		const options = { ...defaultOptions, skipTests: true };
+	it('should create an class named "Foo"', async () => {
+		const tree = await schematicRunner
+			.runSchematicAsync('class', defaultOptions, appTree)
+			.toPromise();
+		const fileContent = tree.readContent('/projects/bar/src/app/foo.ts');
+		expect(fileContent).toMatch(/export class Foo/);
+	});
 
-		const tree = await schematicRunner.runSchematicAsync('service', options, appTree).toPromise();
-		const files = tree.files;
-		expect(files).toContain('/projects/bar/src/app/foo/foo.service.ts');
-		expect(files).not.toContain('/projects/bar/src/app/foo/foo.service.spec.ts');
+	it('should put type in the file name', async () => {
+		const options = { ...defaultOptions, type: 'model' };
+
+		const tree = await schematicRunner.runSchematicAsync('class', options, appTree).toPromise();
+		expect(tree.files).toContain('/projects/bar/src/app/foo.model.ts');
+	});
+
+	it('should split the name to name & type with split on "."', async () => {
+		const options = { ...defaultOptions, name: 'foo.model' };
+		const tree = await schematicRunner.runSchematicAsync('class', options, appTree).toPromise();
+		const classPath = '/projects/bar/src/app/foo.model.ts';
+		const content = tree.readContent(classPath);
+		expect(content).toMatch(/export class Foo/);
+	});
+
+	it('should respect the path option', async () => {
+		const options = { ...defaultOptions, path: 'zzz' };
+		const tree = await schematicRunner.runSchematicAsync('class', options, appTree).toPromise();
+		expect(tree.files).toContain('/zzz/foo.ts');
 	});
 
 	it('should respect the sourceRoot value', async () => {
 		const config = JSON.parse(appTree.readContent('/angular.json'));
 		config.projects.bar.sourceRoot = 'projects/bar/custom';
 		appTree.overwrite('/angular.json', JSON.stringify(config, null, 2));
-		appTree = await schematicRunner
-			.runSchematicAsync('service', defaultOptions, appTree)
-			.toPromise();
-		expect(appTree.files).toContain('/projects/bar/custom/app/foo/foo.service.ts');
+		appTree = await schematicRunner.runSchematicAsync('class', defaultOptions, appTree).toPromise();
+		expect(appTree.files).toContain('/projects/bar/custom/app/foo.ts');
+	});
+
+	it('should respect the skipTests flag', async () => {
+		const options = {
+			...defaultOptions,
+			skipTests: true,
+		};
+		const tree = await schematicRunner.runSchematicAsync('class', options, appTree).toPromise();
+		expect(tree.files).toContain('/projects/bar/src/app/foo.ts');
+		expect(tree.files).not.toContain('/projects/bar/src/app/foo.spec.ts');
 	});
 });

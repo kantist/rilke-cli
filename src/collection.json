@@ -78,6 +78,11 @@
 			"description": "Create a state.",
 			"schema": "./state/schema.json"
 		},
+		"store": {
+			"factory": "./store",
+			"description": "Create a store.",
+			"schema": "./store/schema.json"
+		},
 		"facade": {
 			"aliases": [
 				"fc"
