@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { IApiCall } from '@core/models/api-call';
 import { environment as env } from '@env';
-import { throwError as observableThrowError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -54,6 +54,6 @@ export class ApiService {
 	}
 
 	private handleError(error: HttpErrorResponse) {
-		return observableThrowError(error || 'Server error');
+		return throwError(() => error);
 	}
 }
