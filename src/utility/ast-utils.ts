@@ -673,7 +673,7 @@ export function addRedirectRouteDeclarationToModule(
 	const insertPos = routesArr.elements.pos;
 
 	if (!occurrencesCount) {
-		route = `{ path: '', pathMatch: 'full', redirectTo: ${routeLiteral} }`;
+		route = `{ path: '', pathMatch: 'full', redirectTo: '${routeLiteral}' }`;
 
 		return new InsertChange(fileToAdd, insertPos, route);
 	} else {
