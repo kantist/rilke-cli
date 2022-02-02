@@ -25,7 +25,7 @@ registerLocaleData(locale);
 	],
 	providers: [
 		{ provide: LocationStrategy, useClass: PathLocationStrategy },
-		{ provide: LOCALE_ID, useValue: '<% locale %>' }
+		{ provide: LOCALE_ID, useValue: '<%= locale %>' }
 	],
 	bootstrap: [AppComponent]
 })
