@@ -48,11 +48,6 @@ export class ApiService {
 		);
 	}
 
-	keepAlive() {
-		const url = env.apiUrl + 'auth/keepalive';
-		return this.http.get(url);
-	}
-
 	private handleError(error: HttpErrorResponse) {
 		return throwError(() => error);
 	}

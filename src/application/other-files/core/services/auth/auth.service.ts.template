@@ -39,20 +39,62 @@ export class AuthService {
 			tap((response: any) => {
 				localStorage.setItem('bearer_token', response.data.token);
 				this.authToken.next(response.data.token);
-				return response.data.token;
+				return response;
 			})
 		);
+	}
+
+	forgotten(email: string) {
+		const apiCall: IApiCall = new ApiCall({
+			path: 'auth/forgotten',
+			body: {
+				data: {
+					email: email
+				}
+			},
+		});
+
+		return this.apiService.post(apiCall).pipe(
+			tap((response: any) => response)
+		);
+	}
+
+	reset(password: string, confirm: string, token: string) {
+		const apiCall: IApiCall = new ApiCall({
+			path: 'auth/reset',
+			body: {
+				data: {
+					password: password,
+					password_confirm: confirm,
+					token: token
+				}
+			},
+		});
+
+		return this.apiService.post(apiCall).pipe(
+			tap((response: any) => response)
+		);
+	}
+
+	keepAlive() {
+		const apiCall: IApiCall = new ApiCall({
+			path: 'auth/keepalive'
+		});
+
+		this.apiService.get(apiCall).subscribe();
 	}
 
 	logout() {
 		// remove user from local storage to log user out
 		localStorage.removeItem('bearer_token');
+		localStorage.removeItem('lastCall');
 		this.authToken.next(null);
-		this.router.navigate(['/login']);
+		this.router.navigate(['/auth/login']);
 	}
 
 	clear() {
 		localStorage.removeItem('bearer_token');
+		localStorage.removeItem('lastCall');
 		this.authToken.next(null);
 	}
 }

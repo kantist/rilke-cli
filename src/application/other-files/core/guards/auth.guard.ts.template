@@ -7,25 +7,51 @@ import {
 } from '@angular/router';
 
 import { AuthService } from '@core/services/auth/auth.service';
+import * as moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
+	keepAliveTimer: any;
+	sessionTimer: any;
+
 	constructor(private router: Router, private authService: AuthService) {}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 		const token = this.authService.bearerToken;
 
 		if (token) {
-			// authorized so return true
+			this.keepAliveTimer = setInterval(() => {
+				this.authService.keepAlive();
+			}, 60 * 60 * 1000); // 1 Hour
+
+			this.sessionTimer = setInterval(() => {
+				if (!this.checkSession()) {
+					this.authService.logout();
+				}
+			}, 2 * 60 * 1000); // 2 minutes
+
 			return true;
+		} else {
+			clearInterval(this.keepAliveTimer);
+			clearInterval(this.sessionTimer);
 		}
 
 		this.authService.clear();
 
 		// not logged in so redirect to login page with the return url
-		this.router.navigate(['/login/sign-in'], {
+		this.router.navigate(['/auth/login'], {
 			queryParams: { returnUrl: state.url },
 		});
 		return false;
+	}
+
+	checkSession() {
+		let alive = true;
+
+		if (moment().toISOString() > moment(localStorage.getItem('lastCall')).add(2, 'hours').toISOString()) {
+			alive = false;
+		}
+
+		return alive;
 	}
 }

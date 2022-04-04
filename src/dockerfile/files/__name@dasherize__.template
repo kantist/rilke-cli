@@ -1,8 +1,8 @@
 FROM node:14-alpine as buildContainer
 WORKDIR /app
-COPY ./<%= dasherize(project) %>/package.json /app/
+COPY ./package.json /app/
 RUN npm install
-COPY ./<%= dasherize(project) %> /app
+COPY ./ /app
 RUN npm run build:ssr
 
 FROM node:14-alpine

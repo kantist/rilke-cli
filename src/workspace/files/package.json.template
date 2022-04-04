@@ -30,6 +30,7 @@
 		"@nguniversal/express-engine": "<%= latestVersions['@nguniversal/express-engine'] %>",
 		"express": "<%= latestVersions['express'] %>",
 		"localstorage-polyfill": "<%= latestVersions['localstorage-polyfill'] %>",
+		"moment": "<%= latestVersions['moment'] %>",
 		"@ngrx/store": "<%= latestVersions['@ngrx/store'] %>",
 		"rxjs": "<%= latestVersions['rxjs'] %>",
 		"tslib": "<%= latestVersions['tslib'] %>",

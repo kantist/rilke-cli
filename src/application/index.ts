@@ -113,13 +113,13 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 		budgets = [
 			{
 				type: 'initial',
-				maximumWarning: '500kb',
-				maximumError: '1mb',
+				maximumWarning: '2mb',
+				maximumError: '5mb',
 			},
 			{
 				type: 'anyComponentStyle',
-				maximumWarning: '2kb',
-				maximumError: '4kb',
+				maximumWarning: '6kb',
+				maximumError: '10kb',
 			},
 		];
 	} else {
