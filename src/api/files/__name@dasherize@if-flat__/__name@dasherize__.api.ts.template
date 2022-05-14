@@ -1,47 +1,41 @@
 import { ApiService } from '@core/services/api/api.service';
 import { IApiCall } from '@core/models/api-call';
-import { tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';<% if (ready) {%>
+import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';<% }%>
 
 <% if (provideIn) {%>import { Injectable } from '@angular/core';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 <% }%>export class <%= classify(name) %>Api {
-	constructor(private apiService: ApiService) { }
+	constructor(private apiService: ApiService) { }<% if (ready) {%>
 
 	fetch(apiCall: IApiCall) {
-		apiCall.path = '';
 		return this.apiService.get(apiCall).pipe(
-			tap((res: any) => res)
+			tap((res: I<%= classify(name) %>s) => res)
 		);
 	}
 
 	get(apiCall: IApiCall) {
-		apiCall.path = '';
 		return this.apiService.get(apiCall).pipe(
-			tap((res: any) => res)
+			tap((res: I<%= classify(name) %>) => res)
 		);
 	}
 
 	add(apiCall: IApiCall) {
-		apiCall.path = '';
 		return this.apiService.post(apiCall).pipe(
-			tap((res: any) => res)
+			tap((res: I<%= classify(name) %>) => res)
 		);
 	}
 
 	patch(apiCall: IApiCall) {
-		apiCall.path = '';
 		return this.apiService.patch(apiCall).pipe(
-			tap((res: any) => res)
+			tap((res: I<%= classify(name) %>) => res)
 		);
 	}
 
 	delete(apiCall: IApiCall) {
-		apiCall.path = '';
 		return this.apiService.delete(apiCall).pipe(
 			tap((res: any) => res)
 		);
-	}
+	}<% }%>
 }

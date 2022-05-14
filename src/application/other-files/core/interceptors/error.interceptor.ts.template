@@ -8,7 +8,7 @@ import { AuthService } from '@core/services/auth/auth.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 	constructor(
-		private authenticationService: AuthService,
+		private authService: AuthService,
 		private router: Router,
 	) { }
 
@@ -18,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 			if (err.status == 401) {
 				err.error.errors.forEach((err) => {
 					if (err.code == 1)
-						this.authenticationService.logout();
+						this.authService.logout();
 				});
 			}
 

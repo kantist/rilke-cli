@@ -1,6 +1,131 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';<% if (ready) {%>
+import { ApiCall, IApiCall } from '@core/models/api-call';
+import { <%= classify(name) %>Api } from '@features/<%= dasherize(moduleName) %>/api/<%= dasherize(name) %>/<%= dasherize(name) %>.api';
+import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { <%= classify(name) %>State } from '@features/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.state';
+import { Observable } from 'rxjs';<% }%>
 
 @Injectable()
-export class <%= classify(name) %>Facade {
-	constructor() { }
+export class <%= classify(name) %>Facade {<% if (ready) {%>
+	private page: number;
+	itemsPerPage: number;
+	filter: any = {};
+	<% }%>
+	constructor(<% if (ready) {%>
+		private <%= camelize(name) %>Api: <%= classify(name) %>Api,
+		private <%= camelize(name) %>State: <%= classify(name) %>State,
+	<% }%>) {<% if (ready) {%>
+		this.page = 1;
+		this.itemsPerPage = 10;
+		this.fetch();
+	<% }%>}<% if (ready) {%>
+
+	getPage() {
+		return this.page;
+	}
+
+	setPage(page) {
+		this.page = page;
+		this.fetch();
+	}
+
+	isUpdating$(): Observable<boolean> {
+		return this.<%= camelize(name) %>State.isUpdating$();
+	}
+
+	getAll$(): Observable<I<%= classify(name) %>s> {
+		return this.<%= camelize(name) %>State.getAll$();
+	}
+
+	get$(): Observable<I<%= classify(name) %>> {
+		return this.<%= camelize(name) %>State.get$();
+	}
+
+	fetch() {
+		const apiCall: IApiCall = new ApiCall({
+			path: '<%= dasherize(name) %>',
+			options: {
+				params: {
+					...this.filter,
+					'page[number]': this.page,
+					'page[size]': this.itemsPerPage
+				}
+			}
+		});
+
+		this.<%= camelize(name) %>Api.fetch(apiCall).subscribe(
+			<%= dasherize(name) %>s => this.<%= camelize(name) %>State.setAll(<%= dasherize(name) %>s)
+		);
+	}
+
+	get(id: string) {
+		const apiCall: IApiCall = new ApiCall({
+			path: '<%= dasherize(name) %>/' + id
+		});
+
+		this.<%= camelize(name) %>Api.get(apiCall).subscribe(
+			<%= camelize(name) %> => this.<%= camelize(name) %>State.set(<%= camelize(name) %>)
+		);
+	}
+
+	add(<%= camelize(name) %>: I<%= classify(name) %>) {
+		this.<%= camelize(name) %>State.setUpdating(true);
+
+		this.<%= camelize(name) %>State.add(<%= camelize(name) %>);
+
+		const apiCall: IApiCall = new ApiCall({
+			path: '<%= camelize(name) %>/',
+			body: <%= camelize(name) %>
+		});
+
+		this.<%= camelize(name) %>Api.add(apiCall).subscribe({
+			next: (added<%= classify(name) %>WithId: I<%= classify(name) %>) => {
+				this.<%= camelize(name) %>State.updateWithId(<%= camelize(name) %>, added<%= classify(name) %>WithId);
+			},
+			error: () => {
+				this.<%= camelize(name) %>State.remove(<%= camelize(name) %>);
+			},
+			complete: () => {
+				this.<%= camelize(name) %>State.setUpdating(false)
+			}
+		});
+	}
+
+	update(<%= camelize(name) %>: I<%= classify(name) %>) {
+		this.<%= camelize(name) %>State.setUpdating(true);
+		this.<%= camelize(name) %>State.update(<%= camelize(name) %>);
+
+		const apiCall: IApiCall = new ApiCall({
+			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id,
+			body: <%= camelize(name) %>
+		});
+
+		this.<%= camelize(name) %>Api.patch(apiCall).subscribe({
+			next: () => {},
+			error: (error: any) => {},
+			complete: () => {
+				this.<%= camelize(name) %>State.setUpdating(false)
+			}
+		});
+	}
+
+	remove(<%= camelize(name) %>: I<%= classify(name) %>) {
+		this.<%= camelize(name) %>State.setUpdating(true);
+
+		this.<%= camelize(name) %>State.remove(<%= camelize(name) %>);
+
+		const apiCall: IApiCall = new ApiCall({
+			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id
+		});
+
+		this.<%= camelize(name) %>Api.delete(apiCall).subscribe({
+			next: () => {},
+			error: (error: any) => {
+				this.<%= camelize(name) %>State.add(<%= camelize(name) %>);
+			},
+			complete: () => {
+				this.<%= camelize(name) %>State.setUpdating(false)
+			}
+		});
+	}<% }%>
 }

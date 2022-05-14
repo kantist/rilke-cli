@@ -43,4 +43,12 @@ export interface Schema {
 	 * The declaring NgModule name.
 	 */
 	moduleName?: string;
+	/**
+	 * When true, creates files with ready made code.
+	 */
+	ready?: boolean;
+	 /**
+	  * Do not provide this interceptor into the owning NgModule.
+	  */
+	skipProvide?: boolean;
 }

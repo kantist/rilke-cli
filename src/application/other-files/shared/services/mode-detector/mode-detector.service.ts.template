@@ -1,0 +1,16 @@
+﻿import { Injectable } from '@angular/core';
+import { fromEvent, Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+
+@Injectable({
+	providedIn: 'root',
+})
+export class ModeDetectorService {
+	public get mode(): Observable<'dark' | 'light'> {
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		return fromEvent(mediaQuery, 'change').pipe(
+			startWith(mediaQuery),
+			map((list: MediaQueryList) => list.matches ? 'dark' : 'light')
+		);
+	}
+}

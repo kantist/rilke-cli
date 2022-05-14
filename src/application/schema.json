@@ -143,6 +143,11 @@
 			"description": "Creates an application with stricter bundle budgets settings.",
 			"type": "boolean",
 			"default": true
+		},
+		"ready": {
+			"description": "Creates an application with dummy code (facade, state etc.).",
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"required": [

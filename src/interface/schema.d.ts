@@ -39,4 +39,8 @@ export interface Schema {
 	 * Adds a developer-defined type to the filename, in the format "name.type.ts".
 	 */
 	type?: string;
+	/**
+	 * When true, creates files with ready made code.
+	 */
+	 ready?: boolean;
 }

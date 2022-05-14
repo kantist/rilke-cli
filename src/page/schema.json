@@ -113,7 +113,7 @@
 		},
 		"skipSelector": {
 			"type": "boolean",
-			"default": false,
+			"default": true,
 			"description": "Specifies if the page should have a selector or not."
 		},
 		"layer": {

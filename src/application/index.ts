@@ -89,12 +89,23 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 	}
 
 	if (options.skipTests || options.minimal) {
-		['class', 'component', 'directive', 'guard', 'interceptor', 'pipe', 'service'].forEach(
+		['class', 'component', 'directive', 'guard', 'interceptor', 'pipe', 'service', 'facade', 'state', 'api'].forEach(
 			(type) => {
 				if (!(`@kantist/rilke-cli:${type}` in schematics)) {
 					schematics[`@kantist/rilke-cli:${type}`] = {};
 				}
 				(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).skipTests = true;
+			},
+		);
+	}
+
+	if (options.ready) {
+		['facade', 'state', 'model', 'interface', 'api'].forEach(
+			(type) => {
+				if (!(`@kantist/rilke-cli:${type}` in schematics)) {
+					schematics[`@kantist/rilke-cli:${type}`] = {};
+				}
+				(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).ready = true;
 			},
 		);
 	}

@@ -1,4 +1,31 @@
+<% if (ready) {%>import { IMeta } from "@shared/interfaces/meta.interface";
+
+export interface <%= prefix %><%= classify(name) %>s {
+	data: <%= prefix %><%= classify(name) %>Detail[],
+	meta: IMeta
+}
+
 export interface <%= prefix %><%= classify(name) %> {
+	data: <%= prefix %><%= classify(name) %>Detail
+}
+
+export interface <%= prefix %><%= classify(name) %>Detail {
+	id?: string,
+	type?: '<%= dasherize(name) %>',
+	attributes: {
+	}
+}
+
+export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %> {
+	data: <%= prefix %><%= classify(name) %>Detail;
+
+	constructor(
+		<%= camelize(name) %>: <%= prefix %><%= classify(name) %>
+	) {
+		this.data = <%= camelize(name) %>.data;
+	}
+}<% }%>
+<% if (!ready) {%>export interface <%= prefix %><%= classify(name) %> {
 }
 
 export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %> {
@@ -6,4 +33,4 @@ export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %>
 		<%= camelize(name) %>: <%= prefix %><%= classify(name) %>
 	) {
 	}
-}
+}<% }%>

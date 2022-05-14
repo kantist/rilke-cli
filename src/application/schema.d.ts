@@ -63,4 +63,8 @@ export interface Schema {
 	 * Creates an application with stricter bundle budgets settings.
 	 */
 	strict?: boolean;
+	/**
+	 * Creates an application with dummy code (facade, state etc.).
+	 */
+	 ready?: boolean;
 }

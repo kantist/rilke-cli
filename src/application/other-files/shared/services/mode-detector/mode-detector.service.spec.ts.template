@@ -1,0 +1,15 @@
+import { TestBed, inject } from '@angular/core/testing';
+
+import { ModeDetectorService } from './mode-detector.service';
+
+describe('ModeDetectorService', () => {
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			providers: [ModeDetectorService]
+		});
+	});
+
+	it('should be created', inject([ModeDetectorService], (service: ModeDetectorService) => {
+		expect(service).toBeTruthy();
+	}));
+});

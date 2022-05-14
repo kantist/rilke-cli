@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from "@angular/core";<% if (ready) {%>
+import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { BehaviorSubject } from "rxjs";<% }%>
 
-@Injectable({
-	providedIn: 'root',
-})
-export class <%= classify(name) %><%= classify(type) %> {
+@Injectable()
+export class <%= classify(name) %><%= classify(type) %> {<% if (ready) {%>
 	private updating$ = new BehaviorSubject<boolean>(false);
-	private <%= camelize(name) %>$ = new BehaviorSubject<any>(null);
+	private <%= camelize(name) %>s$ = new BehaviorSubject<I<%= classify(name) %>s>(null);
+	private <%= camelize(name) %>$ = new BehaviorSubject<I<%= classify(name) %>>(null);
 
 	isUpdating$() {
 		return this.updating$.asObservable();
@@ -16,30 +16,53 @@ export class <%= classify(name) %><%= classify(type) %> {
 		this.updating$.next(isUpdating);
 	}
 
+	getAll$() {
+		return this.<%= camelize(name) %>s$.asObservable();
+	}
+
+	setAll(<%= camelize(name) %>s: I<%= classify(name) %>s) {
+		this.<%= camelize(name) %>s$.next(<%= camelize(name) %>s);
+	}
+
 	get$() {
 		return this.<%= camelize(name) %>$.asObservable();
 	}
 
-	set(<%= camelize(name) %>: any) {
+	set(<%= camelize(name) %>: I<%= classify(name) %>) {
 		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
 	}
 
-	add(<%= camelize(name) %>: any) {
-		const <%= camelize(name) %> = this.<%= camelize(name) %>$.getValue();
-		<%= camelize(name) %>.data.push(<%= camelize(name) %>.data);
-		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	add(<%= camelize(name) %>: I<%= classify(name) %>) {
+		const <%= camelize(name) %>s = this.<%= camelize(name) %>s$.getValue();
+		<%= camelize(name) %>s.data.push(<%= camelize(name) %>.data);
+		this.<%= camelize(name) %>s$.next(<%= camelize(name) %>s);
 	}
 
-	update(updated<%= classify(name) %>: any) {
-		const <%= camelize(name) %> = this.<%= camelize(name) %>$.getValue();
-		const indexOfUpdated = <%= camelize(name) %>.data.findIndex(<%= camelize(name) %> => <%= camelize(name) %>.id === updated<%= classify(name) %>.data.id);
-		<%= camelize(name) %>[indexOfUpdated] = updated<%= classify(name) %>;
-		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	update(updated<%= classify(name) %>: I<%= classify(name) %>) {
+		const <%= camelize(name) %>s = this.<%= camelize(name) %>s$.getValue();
+		const indexOfUpdated = <%= camelize(name) %>s.data.findIndex(<%= camelize(name) %> => <%= camelize(name) %>.id === updated<%= classify(name) %>.data.id);
+
+		if (<%= camelize(name) %>s.data[indexOfUpdated]) {
+			<%= camelize(name) %>s.data[indexOfUpdated] = updated<%= classify(name) %>.data;
+			this.<%= camelize(name) %>s$.next(<%= camelize(name) %>s);
+		}
 	}
 
-	remove(<%= camelize(name) %>Remove: any) {
-		let <%= camelize(name) %> = this.<%= camelize(name) %>$.getValue();
-		<%= camelize(name) %>.data = <%= camelize(name) %>.data.filter(<%= camelize(name) %> => <%= camelize(name) %>.id !== <%= camelize(name) %>Remove.data.id);
-		this.<%= camelize(name) %>$.next(<%= camelize(name) %>);
+	updateWithId(<%= camelize(name) %>ToReplace: I<%= classify(name) %>, added<%= classify(name) %>yWithId: I<%= classify(name) %>) {
+		const <%= camelize(name) %>s = this.<%= camelize(name) %>s$.getValue();
+		const updated<%= classify(name) %>Index = <%= camelize(name) %>s.data.findIndex(<%= camelize(name) %> => <%= camelize(name) %>.id === <%= camelize(name) %>ToReplace.data.id);
+		<%= camelize(name) %>s.data[updated<%= classify(name) %>Index] = added<%= classify(name) %>yWithId.data;
+		this.<%= camelize(name) %>s$.next(<%= camelize(name) %>s);
 	}
+
+	remove(<%= camelize(name) %>Remove: I<%= classify(name) %>) {
+		const <%= camelize(name) %>s = this.<%= camelize(name) %>s$.getValue();
+		const removed<%= classify(name) %>Index = <%= camelize(name) %>s.data.findIndex(<%= camelize(name) %> => <%= camelize(name) %>.id === <%= camelize(name) %>Remove.data.id);
+
+		if (<%= camelize(name) %>s.data[removed<%= classify(name) %>Index]) {
+			<%= camelize(name) %>s.data.splice(removed<%= classify(name) %>Index, 1);
+			<%= camelize(name) %>s.data[removed<%= classify(name) %>Index] = <%= camelize(name) %>Remove.data;
+			this.<%= camelize(name) %>s$.next(<%= camelize(name) %>s);
+		}
+	}<% }%>
 }

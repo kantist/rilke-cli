@@ -84,6 +84,11 @@
 				"$source": "argv",
 				"index": 1
 			}
+		},
+		"ready": {
+			"description": "When true, creates files with ready made code.",
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"required": [
