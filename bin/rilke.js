@@ -20,13 +20,13 @@ var disallowed_command = ['version', 'update', 'analytics', 'v'];
 
 if (disallowed_command.includes(process.argv[2])) {
 	console.log('\x1b[33m%s\x1b[0m', 'This command not supporting!');
-	return;
+	process.exitCode = 3;
 }
 
 try {
 	var command = process.argv[2];
 
-	if (command == 'new') {
+	if (command == 'new' || command == 'n') {
 		process.argv.push('--collection');
 		process.argv.push('@kantist/rilke-cli');
 	}

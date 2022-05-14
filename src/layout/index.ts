@@ -289,7 +289,8 @@ export default function (options: LayoutOptions): Rule {
 			name: strings.dasherize(options.name),
 			module: strings.dasherize(options.name),
 			layer: 'layouts',
-			subscriptionManagement: true,
+			skipSelector: true,
+			subscriptionManagement: false,
 			parent: true
 		};
 

@@ -107,6 +107,8 @@ export default function (options: StateOptions): Rule {
 			throw new SchematicsException(`Project "${options.project}" does not exist.`);
 		}
 
+		options.type = options.type ? `.${options.type}` : 'State';
+
 		options.path = buildDefaultPath(project); // src/app/
 		options.module = findModuleFromOptions(host, options);
 
