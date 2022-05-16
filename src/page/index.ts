@@ -24,7 +24,7 @@ import {
 	url,
 } from '@angular-devkit/schematics';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { addDeclarationToModule, addExportToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
+import { addDeclarationToModule, addExportToModule, addRedirectRouteDeclarationToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
 import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import { FEATURE_EXT, ROUTING_MODULE_EXT, buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
@@ -85,6 +85,20 @@ function addRouteDeclarationToRoutes(
 		const text = host.read(path);
 		if (!text) {
 			throw new Error(`Couldn't find the module nor its route.`);
+		}
+
+		// If has not any routes
+		const addRedirectDeclaration = addRedirectRouteDeclarationToModule(
+			readIntoSourceFile(host, path),
+			routerPath,
+			classifiedName,
+			options.route,
+		) as InsertChange;
+
+		if (addRedirectDeclaration) {
+			const recorder = host.beginUpdate(path);
+			recorder.insertLeft(addRedirectDeclaration.pos, addRedirectDeclaration.toAdd);
+			host.commitUpdate(recorder);
 		}
 
 		// Add import page to route
