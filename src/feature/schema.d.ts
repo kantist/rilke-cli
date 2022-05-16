@@ -39,12 +39,4 @@ export interface Schema {
 	 * The declaring Layout.
 	 */
 	layout?: string;
-	/**
-	 * The declaring NgModule.
-	 */
-	module?: string;
-	/**
-	 * The declaring NgModule name.
-	 */
-	moduleName?: string;
 }

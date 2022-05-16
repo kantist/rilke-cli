@@ -54,16 +54,6 @@
 			"description": "The declaring Layout.",
 			"alias": "l",
 			"x-prompt": "Which layout would you like to use this module?"
-		},
-		"module": {
-			"type": "string",
-			"description": "The declaring NgModule.",
-			"default": "features",
-			"alias": "m"
-		},
-		"moduleName": {
-			"type": "string",
-			"description": "The declaring NgModule name."
 		}
 	},
 	"required": [

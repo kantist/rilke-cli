@@ -18,7 +18,6 @@ describe('Module Schematic', () => {
 	);
 	const defaultOptions: ModuleOptions = {
 		name: 'foo',
-		module: undefined,
 		flat: false,
 		project: 'bar',
 	};

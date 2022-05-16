@@ -4,8 +4,6 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { CoreLayer } from '@core/core.layer';
-import { FeaturesLayer } from '@features/features.layer';
-import { LayoutsLayer } from '@layouts/layouts.layer';
 
 <% if (routing) { %>import { AppRoutingModule } from './app-routing.module';<% } %>
 import { AppComponent } from './app.component';
@@ -19,9 +17,7 @@ registerLocaleData(locale);
 	imports: [
 		BrowserModule.withServerTransition({ appId: 'serverApp' }),<% if (routing) { %>
 		AppRoutingModule,<% } %>
-		CoreLayer,
-		LayoutsLayer,
-		FeaturesLayer
+		CoreLayer
 	],
 	providers: [
 		{ provide: LocationStrategy, useClass: PathLocationStrategy },

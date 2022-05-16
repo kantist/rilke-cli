@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';<% if (sharedLayer) { %>
-import { SharedLayer } from '@shared/shared.layer';<% } %>
+import { <%= classify(name) %>RoutingModule } from './<%= dasherize(name) %>-routing.module';<% if (sharedLayer) { %>
+import { SharedLayer } from '@shared/shared.layer';<% } %><% if (!sharedLayer) { %>
+import { RouterModule } from '@angular/router';<% } %>
 
 @NgModule({
 	imports: [
-		RouterModule<% if (sharedLayer) { %>,
+		<%= classify(name) %>RoutingModule,<% if (!sharedLayer) { %>
+		RouterModule<% } %><% if (sharedLayer) { %>
 		SharedLayer<% } %>
 	],
 	declarations: []

@@ -24,7 +24,7 @@ export const MODULE_EXT = '.module.ts';
 export const LAYER_EXT = '.layer.ts';
 export const FEATURE_EXT = '.feature.ts';
 export const LAYOUT_EXT = '.layout.ts';
-export const ROUTING_MODULE_EXT = '.route.ts';
+export const ROUTING_MODULE_EXT = '-routing.module.ts';
 
 /**
  * Find the module referred by a set of options passed to the schematics.

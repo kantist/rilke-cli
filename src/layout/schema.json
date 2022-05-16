@@ -46,7 +46,7 @@
 		"module": {
 			"type": "string",
 			"description": "The declaring NgModule.",
-			"default": "layouts",
+			"default": "app",
 			"alias": "m"
 		},
 		"moduleName": {
@@ -54,5 +54,7 @@
 			"description": "The declaring NgModule name."
 		}
 	},
-	"required": ["name"]
+	"required": [
+		"name"
+	]
 }

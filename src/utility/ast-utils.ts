@@ -650,9 +650,15 @@ export function addRedirectRouteDeclarationToModule(
 	routesName: string,
 	routeLiteral: string
 ): Change | undefined {
-	const routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
+	let routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
 		return v.declarationList.declarations[0].name.getText() === routesName;
 	});
+
+	if (!routesVar) {
+		routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
+			return v.declarationList.declarations[0].name.getText() === 'routes';
+		});
+	}
 
 	if (!routesVar) {
 		throw new Error(
@@ -661,11 +667,28 @@ export function addRedirectRouteDeclarationToModule(
 		);
 	}
 
-	const routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
+	let routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
 		routesVar,
 		ts.SyntaxKind.ArrayLiteralExpression,
 		1,
 	)[0] as ts.ArrayLiteralExpression;
+
+	if (routesName == 'children') {
+		const firstChild = routesArr.elements[0];
+
+		if (!ts.isObjectLiteralExpression(firstChild)) {
+			throw new Error(
+				`No route declaration array was found that corresponds ` +
+					`to router module in ${fileToAdd}`,
+			);
+		}
+
+		routesArr = findNodes(
+			firstChild,
+			ts.SyntaxKind.ArrayLiteralExpression,
+			1,
+		)[0] as ts.ArrayLiteralExpression;
+	}
 
 	const occurrencesCount = routesArr.elements.length;
 
@@ -690,9 +713,15 @@ export function addRouteDeclarationToModule(
 	routesName: string,
 	routeLiteral: string
 ): Change | undefined {
-	const routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
+	let routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
 		return v.declarationList.declarations[0].name.getText() === routesName;
 	});
+
+	if (!routesVar) {
+		routesVar = source.statements.filter(ts.isVariableStatement).find((v) => {
+			return v.declarationList.declarations[0].name.getText() === 'routes';
+		});
+	}
 
 	if (!routesVar) {
 		throw new Error(
@@ -701,11 +730,28 @@ export function addRouteDeclarationToModule(
 		);
 	}
 
-	const routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
+	let routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
 		routesVar,
 		ts.SyntaxKind.ArrayLiteralExpression,
 		1,
 	)[0] as ts.ArrayLiteralExpression;
+
+	if (routesName == 'children') {
+		const firstChild = routesArr.elements[0];
+
+		if (!ts.isObjectLiteralExpression(firstChild)) {
+			throw new Error(
+				`No route declaration array was found that corresponds ` +
+					`to router module in ${fileToAdd}`,
+			);
+		}
+
+		routesArr = findNodes(
+			firstChild,
+			ts.SyntaxKind.ArrayLiteralExpression,
+			1,
+		)[0] as ts.ArrayLiteralExpression;
+	}
 
 	const occurrencesCount = routesArr.elements.length;
 	const text = routesArr.getFullText(source);
