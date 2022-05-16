@@ -2,12 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { <%= classify(name) %>Component } from './components/<%= dasherize(name) %>/<%= dasherize(name) %>.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: <%= classify(name) %>Component,
 		children: []
+	},
+	{
+		path: '**',
+		component: NotFoundComponent
 	}
 ];
 

@@ -176,11 +176,23 @@ export default function (options: LayoutOptions): Rule {
 			parent: true
 		};
 
+		const notFoundComponentOptions: Partial<ComponentOptions> = {
+			name: 'not-found',
+			module: strings.dasherize(options.name),
+			layer: 'layouts',
+			skipSelector: true,
+			subscriptionManagement: false,
+			parent: true
+		};
+
 		return chain([
 			addRouteDeclarationToNgModule(options, routingModulePath),
 			mergeWith(templateSource),
 			schematic('component', {
 				...componentOptions,
+			}),
+			schematic('component', {
+				...notFoundComponentOptions,
 			}),
 		]);
 	};
