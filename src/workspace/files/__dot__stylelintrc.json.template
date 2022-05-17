@@ -9,7 +9,7 @@
 		"no-descending-specificity": null,
 		"number-leading-zero": null,
 		"selector-pseudo-element-no-unknown": null,
-		"color-hex-case": "upper",
+		"color-hex-case": null,
 		"no-empty-source": null
 	}
 }

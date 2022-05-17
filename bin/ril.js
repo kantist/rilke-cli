@@ -33,10 +33,10 @@ try {
 } catch (_) {}
 
 try {
-	process.title = 'rilke ' + Array.from(process.argv).slice(2).join(' ');
+	process.title = 'ril ' + Array.from(process.argv).slice(2).join(' ');
 } catch (_) {
 	// If an error happened above, use the most basic title.
-	process.title = 'rilke';
+	process.title = 'ril';
 }
 
 // This node version check ensures that extremely old versions of node are not used.
