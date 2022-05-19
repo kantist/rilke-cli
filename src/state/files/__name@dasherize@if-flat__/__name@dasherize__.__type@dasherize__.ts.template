@@ -61,7 +61,6 @@ export class <%= classify(name) %><%= classify(type) %> {<% if (ready) {%>
 
 		if (<%= camelize(name) %>s.data[removed<%= classify(name) %>Index]) {
 			<%= camelize(name) %>s.data.splice(removed<%= classify(name) %>Index, 1);
-			<%= camelize(name) %>s.data[removed<%= classify(name) %>Index] = <%= camelize(name) %>Remove.data;
 			this.<%= camelize(name) %>s$.next(<%= camelize(name) %>s);
 		}
 	}<% }%>
