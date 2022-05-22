@@ -42,20 +42,13 @@
 		},
 		"viewEncapsulation": {
 			"description": "The view encapsulation strategy to use in the new page.",
-			"enum": [
-				"Emulated",
-				"None",
-				"ShadowDom"
-			],
+			"enum": ["Emulated", "None", "ShadowDom"],
 			"type": "string",
 			"alias": "v"
 		},
 		"changeDetection": {
 			"description": "The change detection strategy to use in the new page.",
-			"enum": [
-				"Default",
-				"OnPush"
-			],
+			"enum": ["Default", "OnPush"],
 			"type": "string",
 			"default": "Default",
 			"alias": "c"
@@ -78,13 +71,7 @@
 			"description": "The file extension or preprocessor to use for style files, or 'none' to skip generating the style file.",
 			"type": "string",
 			"default": "scss",
-			"enum": [
-				"css",
-				"scss",
-				"sass",
-				"less",
-				"none"
-			]
+			"enum": ["css", "scss", "sass", "less", "none"]
 		},
 		"type": {
 			"type": "string",
@@ -136,7 +123,7 @@
 			"type": "boolean",
 			"description": "Determine if you use subscriptions",
 			"alias": "s",
-			"x-prompt": "Will you use subscription?"
+			"default": false
 		},
 		"export": {
 			"type": "boolean",
@@ -148,8 +135,5 @@
 			"description": "The route path for a routes."
 		}
 	},
-	"required": [
-		"name",
-		"module"
-	]
+	"required": ["name", "module"]
 }
