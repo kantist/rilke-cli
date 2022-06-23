@@ -7,7 +7,7 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class ModeDetectorService {
 	public get mode(): Observable<'dark' | 'light'> {
-		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)') as any;
 		return fromEvent(mediaQuery, 'change').pipe(
 			startWith(mediaQuery),
 			map((list: MediaQueryList) => list.matches ? 'dark' : 'light')

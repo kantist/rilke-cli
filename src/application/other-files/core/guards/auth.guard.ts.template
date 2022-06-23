@@ -20,9 +20,15 @@ export class AuthGuard implements CanActivate {
 		const token = this.authService.bearerToken;
 
 		if (token) {
+			this.authService.keepAlive();
+
+			if (!this.checkSession()) {
+				this.authService.logout();
+			}
+
 			this.keepAliveTimer = setInterval(() => {
 				this.authService.keepAlive();
-			}, 60 * 60 * 1000); // 1 Hour
+			}, 5 * 60 * 1000); // 5 Minute
 
 			this.sessionTimer = setInterval(() => {
 				if (!this.checkSession()) {
