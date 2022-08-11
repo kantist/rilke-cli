@@ -2,7 +2,7 @@
 	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
 	"version": 1,
 	"cli": {
-		"defaultCollection": "@kantist/rilke-cli"<% if (packageManager) { %>,
+		"schematicCollections": ["@kantist/rilke-cli"]<% if (packageManager) { %>,
 		"analytics": false,
 		"packageManager": "<%= packageManager %>"<% } %>
 	},
