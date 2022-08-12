@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';<% if (ready) {%>
 import { ApiCall } from '@core/models/api-call';
 import { ApiService } from '@core/services/api/api.service';
-import { <%= classify(name) %>Api } from '@features/<%= dasherize(moduleName) %>/api/<%= dasherize(name) %>/<%= dasherize(name) %>.api';
 import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
 import { <%= classify(name) %>State } from '@features/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.state';
 import { Observable } from 'rxjs';<% }%>
@@ -59,7 +58,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			}
 		});
 
-		this.apiService.fetch(apiCall).subscribe(
+		this.apiService.get(apiCall).subscribe(
 			<%= dasherize(name) %>s => this.<%= camelize(name) %>State.setAll(<%= dasherize(name) %>s)
 		);
 	}
@@ -84,7 +83,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			body: <%= camelize(name) %>
 		});
 
-		this.apiService.add(apiCall).subscribe({
+		this.apiService.post(apiCall).subscribe({
 			next: (added<%= classify(name) %>WithId: I<%= classify(name) %>) => {
 				this.<%= camelize(name) %>State.updateWithId(<%= camelize(name) %>, added<%= classify(name) %>WithId);
 			},
