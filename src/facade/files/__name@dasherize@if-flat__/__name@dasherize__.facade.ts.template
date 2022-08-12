@@ -48,7 +48,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 	}
 
 	fetch() {
-		const apiCall: IApiCall = new ApiCall({
+		const apiCall = new ApiCall({
 			path: '<%= dasherize(name) %>',
 			options: {
 				params: {
@@ -65,7 +65,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 	}
 
 	get(id: string) {
-		const apiCall: IApiCall = new ApiCall({
+		const apiCall = new ApiCall({
 			path: '<%= dasherize(name) %>/' + id
 		});
 
@@ -79,7 +79,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 
 		this.<%= camelize(name) %>State.add(<%= camelize(name) %>);
 
-		const apiCall: IApiCall = new ApiCall({
+		const apiCall = new ApiCall({
 			path: '<%= camelize(name) %>/',
 			body: <%= camelize(name) %>
 		});
@@ -102,7 +102,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 
 		this.<%= camelize(name) %>State.update(<%= camelize(name) %>);
 
-		const apiCall: IApiCall = new ApiCall({
+		const apiCall = new ApiCall({
 			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id,
 			body: <%= camelize(name) %>
 		});
@@ -121,7 +121,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 
 		this.<%= camelize(name) %>State.remove(<%= camelize(name) %>);
 
-		const apiCall: IApiCall = new ApiCall({
+		const apiCall = new ApiCall({
 			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id
 		});
 
