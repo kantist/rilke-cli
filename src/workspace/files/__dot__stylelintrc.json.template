@@ -10,6 +10,10 @@
 		"number-leading-zero": null,
 		"selector-pseudo-element-no-unknown": null,
 		"color-hex-case": null,
-		"no-empty-source": null
+		"no-empty-source": null,
+		"alpha-value-notation": null,
+		"selector-type-no-unknown": null,
+		"no-duplicate-selectors": null,
+		"scss/double-slash-comment-empty-line-before": null
 	}
 }

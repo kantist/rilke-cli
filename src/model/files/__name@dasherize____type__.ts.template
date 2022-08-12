@@ -1,4 +1,5 @@
-<% if (ready) {%>import { IMeta } from "@shared/interfaces/meta.interface";
+<% if (ready) {%>import { uuid } from '@core/utility/uuid';
+import { IMeta } from "@shared/interfaces/meta.interface";
 
 export interface <%= prefix %><%= classify(name) %>s {
 	data: <%= prefix %><%= classify(name) %>Detail[],
@@ -22,6 +23,10 @@ export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %>
 	constructor(
 		<%= camelize(name) %>: <%= prefix %><%= classify(name) %>
 	) {
+		if (!<%= camelize(name) %>.data.id) {
+			<%= camelize(name) %>.data.id = uuid();
+		}
+
 		this.data = <%= camelize(name) %>.data;
 	}
 }<% }%>

@@ -13,49 +13,37 @@
 			"hidden": true
 		},
 		"application": {
-			"aliases": [
-				"app"
-			],
+			"aliases": ["app"],
 			"factory": "./application",
 			"schema": "./application/schema.json",
 			"description": "Create an Rilke application."
 		},
 		"layout": {
-			"aliases": [
-				"l"
-			],
+			"aliases": ["l"],
 			"factory": "./layout",
 			"description": "Create a layout.",
 			"schema": "./layout/schema.json"
 		},
 		"feature": {
-			"aliases": [
-				"f"
-			],
+			"aliases": ["f"],
 			"factory": "./feature",
 			"description": "Create a feature.",
 			"schema": "./feature/schema.json"
 		},
 		"page": {
-			"aliases": [
-				"p"
-			],
+			"aliases": ["p"],
 			"factory": "./page",
 			"description": "Create a page.",
 			"schema": "./page/schema.json"
 		},
 		"component": {
-			"aliases": [
-				"c"
-			],
+			"aliases": ["c"],
 			"factory": "./component",
 			"description": "Create a component.",
 			"schema": "./component/schema.json"
 		},
 		"directive": {
-			"aliases": [
-				"d"
-			],
+			"aliases": ["d"],
 			"factory": "./directive",
 			"description": "Create a directive.",
 			"schema": "./directive/schema.json"
@@ -65,15 +53,8 @@
 			"description": "Create a pipe.",
 			"schema": "./pipe/schema.json"
 		},
-		"api": {
-			"factory": "./api",
-			"description": "Create an api.",
-			"schema": "./api/schema.json"
-		},
 		"state": {
-			"aliases": [
-				"st"
-			],
+			"aliases": ["st"],
 			"factory": "./state",
 			"description": "Create a state.",
 			"schema": "./state/schema.json"
@@ -84,89 +65,67 @@
 			"schema": "./store/schema.json"
 		},
 		"facade": {
-			"aliases": [
-				"fc"
-			],
+			"aliases": ["fc"],
 			"factory": "./facade",
 			"description": "Create a facade.",
 			"schema": "./facade/schema.json"
 		},
 		"service": {
-			"aliases": [
-				"s"
-			],
+			"aliases": ["s"],
 			"factory": "./service",
 			"description": "Create a service.",
 			"schema": "./service/schema.json"
 		},
 		"model": {
-			"aliases": [
-				"m"
-			],
+			"aliases": ["m"],
 			"factory": "./model",
 			"description": "Create a model.",
 			"schema": "./model/schema.json"
 		},
 		"interface": {
-			"aliases": [
-				"i"
-			],
+			"aliases": ["i"],
 			"factory": "./interface",
 			"description": "Create an interface.",
 			"schema": "./interface/schema.json"
 		},
 		"guard": {
-			"aliases": [
-				"g"
-			],
+			"aliases": ["g"],
 			"factory": "./guard",
 			"description": "Create a guard.",
 			"schema": "./guard/schema.json"
 		},
 		"interceptor": {
-			"aliases": [
-				"ic"
-			],
+			"aliases": ["ic"],
 			"factory": "./interceptor",
 			"description": "Create an interceptor.",
 			"schema": "./interceptor/schema.json"
 		},
 		"resolver": {
-			"aliases": [
-				"r"
-			],
+			"aliases": ["r"],
 			"factory": "./resolver",
 			"description": "Create a resolver.",
 			"schema": "./resolver/schema.json"
 		},
 		"class": {
-			"aliases": [
-				"cl"
-			],
+			"aliases": ["cl"],
 			"factory": "./class",
 			"description": "Create a class.",
 			"schema": "./class/schema.json"
 		},
 		"enum": {
-			"aliases": [
-				"e"
-			],
+			"aliases": ["e"],
 			"factory": "./enum",
 			"description": "Create an enumeration.",
 			"schema": "./enum/schema.json"
 		},
 		"service-worker": {
-			"aliases": [
-				"sw"
-			],
+			"aliases": ["sw"],
 			"factory": "./service-worker",
 			"description": "Initializes a service worker setup.",
 			"schema": "./service-worker/schema.json"
 		},
 		"dockerfile": {
-			"aliases": [
-				"df"
-			],
+			"aliases": ["df"],
 			"factory": "./dockerfile",
 			"description": "Create a dockerfile.",
 			"schema": "./dockerfile/schema.json"

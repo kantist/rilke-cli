@@ -68,12 +68,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 
 	const schematics: JsonObject = {};
 
-	if (
-		options.inlineTemplate ||
-		options.inlineStyle ||
-		options.minimal ||
-		options.style !== 'css'
-	) {
+	if (options.inlineTemplate || options.inlineStyle || options.minimal || options.style !== 'css') {
 		const componentSchematicsOptions: JsonObject = {};
 		if (options.inlineTemplate ?? options.minimal) {
 			componentSchematicsOptions.inlineTemplate = true;
@@ -89,25 +84,32 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 	}
 
 	if (options.skipTests || options.minimal) {
-		['class', 'component', 'directive', 'guard', 'interceptor', 'pipe', 'service', 'facade', 'state', 'api'].forEach(
-			(type) => {
-				if (!(`@kantist/rilke-cli:${type}` in schematics)) {
-					schematics[`@kantist/rilke-cli:${type}`] = {};
-				}
-				(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).skipTests = true;
-			},
-		);
+		[
+			'class',
+			'component',
+			'directive',
+			'guard',
+			'interceptor',
+			'pipe',
+			'service',
+			'facade',
+			'state',
+			'api',
+		].forEach((type) => {
+			if (!(`@kantist/rilke-cli:${type}` in schematics)) {
+				schematics[`@kantist/rilke-cli:${type}`] = {};
+			}
+			(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).skipTests = true;
+		});
 	}
 
 	if (options.ready) {
-		['facade', 'state', 'model', 'interface', 'api'].forEach(
-			(type) => {
-				if (!(`@kantist/rilke-cli:${type}` in schematics)) {
-					schematics[`@kantist/rilke-cli:${type}`] = {};
-				}
-				(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).ready = true;
-			},
-		);
+		['facade', 'state', 'model', 'interface', 'api'].forEach((type) => {
+			if (!(`@kantist/rilke-cli:${type}` in schematics)) {
+				schematics[`@kantist/rilke-cli:${type}`] = {};
+			}
+			(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).ready = true;
+		});
 	}
 
 	if (options.strict) {
@@ -168,13 +170,9 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 					tsConfig: `${projectRoot}tsconfig.app.json`,
 					inlineStyleLanguage,
 					assets: [`${sourceRoot}/assets`],
-					styles: [
-						`${sourceRoot}/assets/style/styles.${options.style}`
-					],
+					styles: [`${sourceRoot}/assets/style/styles.${options.style}`],
 					stylePreprocessorOptions: {
-						includePaths: [
-							"src/assets/style"
-						]
+						includePaths: ['src/assets/style'],
 					},
 					scripts: [],
 				},
@@ -185,6 +183,16 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 							{
 								replace: `${sourceRoot}/environments/environment.ts`,
 								with: `${sourceRoot}/environments/environment.prod.ts`,
+							},
+						],
+						outputHashing: 'all',
+					},
+					preproduction: {
+						budgets,
+						fileReplacements: [
+							{
+								replace: `${sourceRoot}/environments/environment.ts`,
+								with: `${sourceRoot}/environments/environment.preprod.ts`,
 							},
 						],
 						outputHashing: 'all',
@@ -221,33 +229,26 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 			test: options.minimal
 				? undefined
 				: {
-					builder: Builders.Karma,
-					options: {
-						main: `${sourceRoot}/test.ts`,
-						polyfills: `${sourceRoot}/polyfills.ts`,
-						tsConfig: `${projectRoot}tsconfig.spec.json`,
-						karmaConfig: `${projectRoot}karma.conf.js`,
-						inlineStyleLanguage,
-						assets: [`${sourceRoot}/assets`],
-						styles: [
-							`${sourceRoot}/assets/style/styles.${options.style}`
-						],
-						stylePreprocessorOptions: {
-							includePaths: [
-								"src/assets/style"
-							]
+						builder: Builders.Karma,
+						options: {
+							main: `${sourceRoot}/test.ts`,
+							polyfills: `${sourceRoot}/polyfills.ts`,
+							tsConfig: `${projectRoot}tsconfig.spec.json`,
+							karmaConfig: `${projectRoot}karma.conf.js`,
+							inlineStyleLanguage,
+							assets: [`${sourceRoot}/assets`],
+							styles: [`${sourceRoot}/assets/style/styles.${options.style}`],
+							stylePreprocessorOptions: {
+								includePaths: ['src/assets/style'],
+							},
+							scripts: [],
 						},
-						scripts: [],
-					},
-				},
+				  },
 			lint: {
-				builder: "@angular-eslint/builder:lint",
+				builder: '@angular-eslint/builder:lint',
 				options: {
-					lintFilePatterns: [
-						"**/*.ts",
-						"**/*.html"
-					]
-				}
+					lintFilePatterns: ['**/*.ts', '**/*.html'],
+				},
 			},
 			server: {
 				builder: Builders.Server,
@@ -256,10 +257,8 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 					main: `${projectRoot}server.ts`,
 					tsConfig: `${projectRoot}tsconfig.server.json`,
 					stylePreprocessorOptions: {
-						includePaths: [
-							"src/assets/style"
-						]
-					}
+						includePaths: ['src/assets/style'],
+					},
 				},
 				configurations: {
 					production: {
@@ -268,12 +267,23 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 							{
 								replace: `${sourceRoot}/environments/environment.ts`,
 								with: `${sourceRoot}/environments/environment.prod.ts`,
-							}
+							},
 						],
 						sourceMap: false,
-						optimization: true
-					}
-				}
+						optimization: true,
+					},
+					preproduction: {
+						outputHashing: 'media',
+						fileReplacements: [
+							{
+								replace: `${sourceRoot}/environments/environment.ts`,
+								with: `${sourceRoot}/environments/environment.preprod.ts`,
+							},
+						],
+						sourceMap: false,
+						optimization: true,
+					},
+				},
 			},
 		},
 	};
@@ -307,19 +317,19 @@ export default function (options: ApplicationOptions): Rule {
 		const appRootSelector = `${options.prefix}-root`;
 		const componentOptions: Partial<ComponentOptions> = !options.minimal
 			? {
-				inlineStyle: options.inlineStyle,
-				inlineTemplate: options.inlineTemplate,
-				skipTests: options.skipTests,
-				style: options.style,
-				viewEncapsulation: options.viewEncapsulation,
-			}
+					inlineStyle: options.inlineStyle,
+					inlineTemplate: options.inlineTemplate,
+					skipTests: options.skipTests,
+					style: options.style,
+					viewEncapsulation: options.viewEncapsulation,
+			  }
 			: {
-				inlineStyle: options.inlineStyle ?? true,
-				inlineTemplate: options.inlineTemplate ?? true,
-				skipTests: true,
-				style: options.style,
-				viewEncapsulation: options.viewEncapsulation,
-			};
+					inlineStyle: options.inlineStyle ?? true,
+					inlineTemplate: options.inlineTemplate ?? true,
+					skipTests: true,
+					style: options.style,
+					viewEncapsulation: options.viewEncapsulation,
+			  };
 
 		const workspace = await getWorkspace(host);
 		const newProjectRoot = (workspace.extensions.newProjectRoot as string | undefined) || '';
@@ -343,17 +353,13 @@ export default function (options: ApplicationOptions): Rule {
 					}),
 					move(appDir),
 				]),
-				MergeStrategy.Overwrite,
+				MergeStrategy.Overwrite
 			),
 			mergeWith(
 				apply(url('./other-files'), [
 					options.strict ? noop() : filter((path) => path !== '/package.json.template'),
-					componentOptions.inlineTemplate
-						? filter((path) => !path.endsWith('.html.template'))
-						: noop(),
-					componentOptions.skipTests
-						? filter((path) => !path.endsWith('.spec.ts.template'))
-						: noop(),
+					componentOptions.inlineTemplate ? filter((path) => !path.endsWith('.html.template')) : noop(),
+					componentOptions.skipTests ? filter((path) => !path.endsWith('.spec.ts.template')) : noop(),
 					applyTemplates({
 						utils: strings,
 						...options,
@@ -362,7 +368,7 @@ export default function (options: ApplicationOptions): Rule {
 					}),
 					move(sourceDir),
 				]),
-				MergeStrategy.Overwrite,
+				MergeStrategy.Overwrite
 			),
 			options.skipPackageJson ? noop() : addDependenciesToPackageJson(options),
 		]);

@@ -1,0 +1,43 @@
+@import "variables";
+
+body {
+	margin: 0;
+}
+
+app-root {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+
+	&:hover,
+	&:focus {
+		outline: none;
+		text-decoration: none;
+	}
+}
+
+* {
+	-webkit-touch-callout: none;
+	outline: none !important;
+
+	&:active {
+		outline: none !important;
+	}
+
+	&:focus {
+		outline: none !important;
+	}
+
+	&:visited {
+		outline: none !important;
+	}
+
+	&:hover {
+		outline: none !important;
+	}
+}

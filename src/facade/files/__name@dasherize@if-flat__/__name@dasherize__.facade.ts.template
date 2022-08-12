@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';<% if (ready) {%>
-import { ApiCall, IApiCall } from '@core/models/api-call';
+import { ApiCall } from '@core/models/api-call';
+import { ApiService } from '@core/services/api/api.service';
 import { <%= classify(name) %>Api } from '@features/<%= dasherize(moduleName) %>/api/<%= dasherize(name) %>/<%= dasherize(name) %>.api';
 import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
 import { <%= classify(name) %>State } from '@features/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.state';
@@ -12,7 +13,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 	filter: any = {};
 	<% }%>
 	constructor(<% if (ready) {%>
-		private <%= camelize(name) %>Api: <%= classify(name) %>Api,
+		private apiService: ApiService,
 		private <%= camelize(name) %>State: <%= classify(name) %>State,
 	<% }%>) {<% if (ready) {%>
 		this.page = 1;
@@ -26,6 +27,11 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 
 	setPage(page) {
 		this.page = page;
+		this.fetch();
+	}
+
+	nextPage() {
+		this.page++;
 		this.fetch();
 	}
 
@@ -53,7 +59,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			}
 		});
 
-		this.<%= camelize(name) %>Api.fetch(apiCall).subscribe(
+		this.apiService.fetch(apiCall).subscribe(
 			<%= dasherize(name) %>s => this.<%= camelize(name) %>State.setAll(<%= dasherize(name) %>s)
 		);
 	}
@@ -63,7 +69,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			path: '<%= dasherize(name) %>/' + id
 		});
 
-		this.<%= camelize(name) %>Api.get(apiCall).subscribe(
+		this.apiService.get(apiCall).subscribe(
 			<%= camelize(name) %> => this.<%= camelize(name) %>State.set(<%= camelize(name) %>)
 		);
 	}
@@ -78,7 +84,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			body: <%= camelize(name) %>
 		});
 
-		this.<%= camelize(name) %>Api.add(apiCall).subscribe({
+		this.apiService.add(apiCall).subscribe({
 			next: (added<%= classify(name) %>WithId: I<%= classify(name) %>) => {
 				this.<%= camelize(name) %>State.updateWithId(<%= camelize(name) %>, added<%= classify(name) %>WithId);
 			},
@@ -93,6 +99,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 
 	update(<%= camelize(name) %>: I<%= classify(name) %>) {
 		this.<%= camelize(name) %>State.setUpdating(true);
+
 		this.<%= camelize(name) %>State.update(<%= camelize(name) %>);
 
 		const apiCall: IApiCall = new ApiCall({
@@ -100,7 +107,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			body: <%= camelize(name) %>
 		});
 
-		this.<%= camelize(name) %>Api.patch(apiCall).subscribe({
+		this.apiService.patch(apiCall).subscribe({
 			next: () => {},
 			error: (error: any) => {},
 			complete: () => {
@@ -118,7 +125,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id
 		});
 
-		this.<%= camelize(name) %>Api.delete(apiCall).subscribe({
+		this.apiService.delete(apiCall).subscribe({
 			next: () => {},
 			error: (error: any) => {
 				this.<%= camelize(name) %>State.add(<%= camelize(name) %>);

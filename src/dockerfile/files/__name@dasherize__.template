@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./package.json /app/
 RUN npm install
 COPY ./ /app
-RUN npm run build:ssr
+RUN npm run ${configuration}:build:ssr
 
 FROM node:14-alpine
 
