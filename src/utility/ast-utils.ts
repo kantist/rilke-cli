@@ -25,7 +25,7 @@ export function insertImport(
 	fileToEdit: string,
 	symbolName: string,
 	fileName: string,
-	isDefault = false,
+	isDefault = false
 ): Change {
 	const rootNode = source;
 	const allImports = findNodes(rootNode, ts.SyntaxKind.ImportDeclaration);
@@ -83,16 +83,9 @@ export function insertImport(
 	const insertAtBeginning = allImports.length === 0 && useStrict.length === 0;
 	const separator = insertAtBeginning ? '' : ';\n';
 	const toInsert =
-		`${separator}import ${open}${symbolName}${close}` +
-		` from '${fileName}'${insertAtBeginning ? ';\n' : ''}`;
+		`${separator}import ${open}${symbolName}${close}` + ` from '${fileName}'${insertAtBeginning ? ';\n' : ''}`;
 
-	return insertAfterLastOccurrence(
-		allImports,
-		toInsert,
-		fileToEdit,
-		fallbackPos,
-		ts.SyntaxKind.StringLiteral,
-	);
+	return insertAfterLastOccurrence(allImports, toInsert, fileToEdit, fallbackPos, ts.SyntaxKind.StringLiteral);
 }
 
 /**
@@ -104,12 +97,7 @@ export function insertImport(
  * the last child even when node of kind has been found.
  * @return all nodes of kind, or [] if none is found
  */
-export function findNodes(
-	node: ts.Node,
-	kind: ts.SyntaxKind,
-	max?: number,
-	recursive?: boolean,
-): ts.Node[];
+export function findNodes(node: ts.Node, kind: ts.SyntaxKind, max?: number, recursive?: boolean): ts.Node[];
 
 /**
  * Find all nodes from the AST in the subtree that satisfy a type guard.
@@ -124,23 +112,21 @@ export function findNodes<T extends ts.Node>(
 	node: ts.Node,
 	guard: (node: ts.Node) => node is T,
 	max?: number,
-	recursive?: boolean,
+	recursive?: boolean
 ): T[];
 
 export function findNodes<T extends ts.Node>(
 	node: ts.Node,
 	kindOrGuard: ts.SyntaxKind | ((node: ts.Node) => node is T),
 	max = Infinity,
-	recursive = false,
+	recursive = false
 ): T[] {
 	if (!node || max == 0) {
 		return [];
 	}
 
 	const test =
-		typeof kindOrGuard === 'function'
-			? kindOrGuard
-			: (node: ts.Node): node is T => node.kind === kindOrGuard;
+		typeof kindOrGuard === 'function' ? kindOrGuard : (node: ts.Node): node is T => node.kind === kindOrGuard;
 
 	const arr: T[] = [];
 	if (test(node)) {
@@ -228,7 +214,7 @@ export function insertAfterLastOccurrence(
 	toInsert: string,
 	file: string,
 	fallbackPos: number,
-	syntaxKind?: ts.SyntaxKind,
+	syntaxKind?: ts.SyntaxKind
 ): Change {
 	let lastItem: ts.Node | undefined;
 	for (const node of nodes) {
@@ -251,11 +237,11 @@ function _angularImportsFromNode(node: ts.ImportDeclaration): { [name: string]: 
 	const ms = node.moduleSpecifier;
 	let modulePath: string;
 	switch (ms.kind) {
-	case ts.SyntaxKind.StringLiteral:
-		modulePath = (ms as ts.StringLiteral).text;
-		break;
-	default:
-		return {};
+		case ts.SyntaxKind.StringLiteral:
+			modulePath = (ms as ts.StringLiteral).text;
+			break;
+		default:
+			return {};
 	}
 
 	if (!modulePath.startsWith('@angular/')) {
@@ -294,11 +280,7 @@ function _angularImportsFromNode(node: ts.ImportDeclaration): { [name: string]: 
 	}
 }
 
-export function getDecoratorMetadata(
-	source: ts.SourceFile,
-	identifier: string,
-	module: string,
-): ts.Node[] {
+export function getDecoratorMetadata(source: ts.SourceFile, identifier: string, module: string): ts.Node[] {
 	const angularImports = findNodes(source, ts.isImportDeclaration)
 		.map((node) => _angularImportsFromNode(node))
 		.reduce((acc, current) => {
@@ -338,17 +320,11 @@ export function getDecoratorMetadata(
 
 			return false;
 		})
-		.filter(
-			(expr) =>
-				expr.arguments[0] && expr.arguments[0].kind == ts.SyntaxKind.ObjectLiteralExpression,
-		)
+		.filter((expr) => expr.arguments[0] && expr.arguments[0].kind == ts.SyntaxKind.ObjectLiteralExpression)
 		.map((expr) => expr.arguments[0] as ts.ObjectLiteralExpression);
 }
 
-export function getMetadataField(
-	node: ts.ObjectLiteralExpression,
-	metadataField: string,
-): ts.ObjectLiteralElement[] {
+export function getMetadataField(node: ts.ObjectLiteralExpression, metadataField: string): ts.ObjectLiteralElement[] {
 	return (
 		node.properties
 			.filter(ts.isPropertyAssignment)
@@ -365,7 +341,7 @@ export function addSymbolToNgModuleMetadata(
 	ngModulePath: string,
 	metadataField: string,
 	symbolName: string,
-	importPath: string | null = null,
+	importPath: string | null = null
 ): Change[] {
 	const nodes = getDecoratorMetadata(source, 'NgModule', '@angular/core');
 	let node: any = nodes[0]; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -425,7 +401,7 @@ export function addSymbolToNgModuleMetadata(
 	}
 
 	if (Array.isArray(node)) {
-		const nodeArray = (node as {}) as Array<ts.Node>;
+		const nodeArray = node as {} as Array<ts.Node>;
 		const symbolsArray = nodeArray.map((node) => tags.oneLine`${node.getText()}`);
 		if (symbolsArray.includes(tags.oneLine`${symbolName}`)) {
 			return [];
@@ -468,15 +444,9 @@ export function addDeclarationToModule(
 	source: ts.SourceFile,
 	modulePath: string,
 	classifiedName: string,
-	importPath: string,
+	importPath: string
 ): Change[] {
-	return addSymbolToNgModuleMetadata(
-		source,
-		modulePath,
-		'declarations',
-		classifiedName,
-		importPath,
-	);
+	return addSymbolToNgModuleMetadata(source, modulePath, 'declarations', classifiedName, importPath);
 }
 
 /**
@@ -486,7 +456,7 @@ export function addImportToModule(
 	source: ts.SourceFile,
 	modulePath: string,
 	classifiedName: string,
-	importPath: string,
+	importPath: string
 ): Change[] {
 	return addSymbolToNgModuleMetadata(source, modulePath, 'imports', classifiedName, importPath);
 }
@@ -498,7 +468,7 @@ export function addProviderToModule(
 	source: ts.SourceFile,
 	modulePath: string,
 	classifiedName: string,
-	importPath: string | null,
+	importPath: string | null
 ): Change[] {
 	return addSymbolToNgModuleMetadata(source, modulePath, 'providers', classifiedName, importPath);
 }
@@ -510,7 +480,7 @@ export function addExportToModule(
 	source: ts.SourceFile,
 	modulePath: string,
 	classifiedName: string,
-	importPath: string,
+	importPath: string
 ): Change[] {
 	return addSymbolToNgModuleMetadata(source, modulePath, 'exports', classifiedName, importPath);
 }
@@ -522,7 +492,7 @@ export function addBootstrapToModule(
 	source: ts.SourceFile,
 	modulePath: string,
 	classifiedName: string,
-	importPath: string,
+	importPath: string
 ): Change[] {
 	return addSymbolToNgModuleMetadata(source, modulePath, 'bootstrap', classifiedName, importPath);
 }
@@ -530,23 +500,17 @@ export function addBootstrapToModule(
 /**
  * Determine if an import already exists.
  */
-export function isImported(
-	source: ts.SourceFile,
-	classifiedName: string,
-	importPath: string,
-): boolean {
+export function isImported(source: ts.SourceFile, classifiedName: string, importPath: string): boolean {
 	const allNodes = getSourceNodes(source);
 	const matchingNodes = allNodes
 		.filter(ts.isImportDeclaration)
-		.filter(
-			(imp) => ts.isStringLiteral(imp.moduleSpecifier) && imp.moduleSpecifier.text === importPath,
-		)
+		.filter((imp) => ts.isStringLiteral(imp.moduleSpecifier) && imp.moduleSpecifier.text === importPath)
 		.filter((imp) => {
 			if (!imp.importClause) {
 				return false;
 			}
 			const nodes = findNodes(imp.importClause, ts.isImportSpecifier).filter(
-				(n) => n.getText() === classifiedName,
+				(n) => n.getText() === classifiedName
 			);
 
 			return nodes.length > 0;
@@ -572,12 +536,12 @@ export function getEnvironmentExportName(source: ts.SourceFile): string | null {
 		.filter(
 			(declaration) =>
 				declaration.moduleSpecifier.kind === ts.SyntaxKind.StringLiteral &&
-				declaration.importClause !== undefined,
+				declaration.importClause !== undefined
 		)
 		.map((declaration) =>
 			// If `importClause` property is defined then the first
 			// child will be `NamedImports` object (or `namedBindings`).
-			(declaration.importClause as ts.ImportClause).getChildAt(0),
+			(declaration.importClause as ts.ImportClause).getChildAt(0)
 		)
 		// Find those `NamedImports` object that contains `environment` keyword
 		// in its text. E.g. `{ environment as env }`.
@@ -608,12 +572,7 @@ export function addFeatureRouteForLayout(
 	fileToAdd: string,
 	constantLiteral: string
 ): Change | undefined {
-	return insertAfterLastOccurrence(
-		getSourceNodes(source),
-		constantLiteral,
-		fileToAdd,
-		0
-	);
+	return insertAfterLastOccurrence(getSourceNodes(source), constantLiteral, fileToAdd, 0);
 }
 
 /**
@@ -661,16 +620,13 @@ export function addRedirectRouteDeclarationToModule(
 	}
 
 	if (!routesVar) {
-		throw new Error(
-			`No route declaration array was found that corresponds ` +
-				`to router module in ${fileToAdd}`,
-		);
+		throw new Error(`No route declaration array was found that corresponds ` + `to router module in ${fileToAdd}`);
 	}
 
 	let routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
 		routesVar,
 		ts.SyntaxKind.ArrayLiteralExpression,
-		1,
+		1
 	)[0] as ts.ArrayLiteralExpression;
 
 	if (routesName == 'children') {
@@ -678,16 +634,11 @@ export function addRedirectRouteDeclarationToModule(
 
 		if (!ts.isObjectLiteralExpression(firstChild)) {
 			throw new Error(
-				`No route declaration array was found that corresponds ` +
-					`to router module in ${fileToAdd}`,
+				`No route declaration array was found that corresponds ` + `to router module in ${fileToAdd}`
 			);
 		}
 
-		routesArr = findNodes(
-			firstChild,
-			ts.SyntaxKind.ArrayLiteralExpression,
-			1,
-		)[0] as ts.ArrayLiteralExpression;
+		routesArr = findNodes(firstChild, ts.SyntaxKind.ArrayLiteralExpression, 1)[0] as ts.ArrayLiteralExpression;
 	}
 
 	const occurrencesCount = routesArr.elements.length;
@@ -724,16 +675,13 @@ export function addRouteDeclarationToModule(
 	}
 
 	if (!routesVar) {
-		throw new Error(
-			`No route declaration array was found that corresponds ` +
-				`to router module in ${fileToAdd}`,
-		);
+		throw new Error(`No route declaration array was found that corresponds ` + `to router module in ${fileToAdd}`);
 	}
 
 	let routesArr: ts.ArrayLiteralExpression | undefined = findNodes(
 		routesVar,
 		ts.SyntaxKind.ArrayLiteralExpression,
-		1,
+		1
 	)[0] as ts.ArrayLiteralExpression;
 
 	if (routesName == 'children') {
@@ -741,16 +689,11 @@ export function addRouteDeclarationToModule(
 
 		if (!ts.isObjectLiteralExpression(firstChild)) {
 			throw new Error(
-				`No route declaration array was found that corresponds ` +
-					`to router module in ${fileToAdd}`,
+				`No route declaration array was found that corresponds ` + `to router module in ${fileToAdd}`
 			);
 		}
 
-		routesArr = findNodes(
-			firstChild,
-			ts.SyntaxKind.ArrayLiteralExpression,
-			1,
-		)[0] as ts.ArrayLiteralExpression;
+		routesArr = findNodes(firstChild, ts.SyntaxKind.ArrayLiteralExpression, 1)[0] as ts.ArrayLiteralExpression;
 	}
 
 	const occurrencesCount = routesArr.elements.length;
@@ -769,7 +712,7 @@ export function addRouteDeclarationToModule(
 					ts.isIdentifier(n.name) &&
 					n.name.text === 'path' &&
 					ts.isStringLiteral(n.initializer) &&
-					n.initializer.text === '**',
+					n.initializer.text === '**'
 			);
 
 		const indentation = text.match(/\r?\n(\r?)\s*/) || [];
@@ -819,7 +762,7 @@ const getCircularReplacer = () => {
 	const seen = new WeakSet();
 
 	return (value: string) => {
-		if (typeof value === "object" && value !== null) {
+		if (typeof value === 'object' && value !== null) {
 			if (seen.has(value)) {
 				return;
 			}
@@ -836,7 +779,7 @@ const getCircularReplacer = () => {
 export function addStateDeclarationToModule(
 	source: ts.SourceFile,
 	fileToAdd: string,
-	reducerLiteral: string,
+	reducerLiteral: string
 ): Change[] {
 	const routerModuleExpr = getStoreModuleDeclaration(source);
 	if (!routerModuleExpr) {
@@ -845,9 +788,7 @@ export function addStateDeclarationToModule(
 	const scopeConfigMethodArgs = (routerModuleExpr as ts.CallExpression).arguments;
 	if (!scopeConfigMethodArgs.length) {
 		const { line } = source.getLineAndCharacterOfPosition(routerModuleExpr.getStart());
-		throw new Error(
-			`The module method doesn't have arguments ` + `at line ${line} in ${fileToAdd}`,
-		);
+		throw new Error(`The module method doesn't have arguments ` + `at line ${line} in ${fileToAdd}`);
 	}
 
 	const statesArg = scopeConfigMethodArgs[0];
@@ -860,18 +801,14 @@ export function addStateDeclarationToModule(
 		let reducer: string = reducerLiteral;
 		let insertPos = statesObj.pos;
 
-		statesObj.properties.some(
-			(n) => {
-				if (insertPos < n.end) {
-					insertPos = n.end;
-				}
+		statesObj.properties.some((n) => {
+			if (insertPos < n.end) {
+				insertPos = n.end;
 			}
-		);
+		});
 
 		if (reducerLiteral == 'ttest: test') {
-			throw new Error(
-				'arr: ' + JSON.stringify(insertPos, getCircularReplacer()),
-			);
+			throw new Error('arr: ' + JSON.stringify(insertPos, getCircularReplacer()));
 		}
 
 		const indentation = text.match(/\r?\n(\r?)\s*/) || [];
@@ -881,8 +818,6 @@ export function addStateDeclarationToModule(
 
 		return [new InsertChange(fileToAdd, insertPos, reducer)];
 	} else {
-		throw new Error(
-			'error object',
-		);
+		throw new Error('error object');
 	}
 }

@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
+
 import { JsonValue } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import {
@@ -27,12 +28,7 @@ export class JSONFile {
 	content: string;
 
 	constructor(private readonly host: Tree, private readonly path: string) {
-		const buffer = this.host.read(this.path);
-		if (buffer) {
-			this.content = buffer.toString();
-		} else {
-			throw new Error(`Could not read '${path}'.`);
-		}
+		this.content = this.host.readText(this.path);
 	}
 
 	private _jsonAst: Node | undefined;

@@ -19,7 +19,10 @@
 			"type": "string",
 			"format": "path",
 			"description": "The path at which to create the interface that defines the directive, relative to the workspace root.",
-			"visible": false
+			"visible": false,
+			"$default": {
+				"$source": "workingDirectory"
+			}
 		},
 		"project": {
 			"type": "string",
@@ -67,11 +70,7 @@
 			"type": "string",
 			"alias": "l",
 			"default": "features",
-			"enum": [
-				"features",
-				"layouts",
-				"shared"
-			],
+			"enum": ["features", "layouts", "shared"],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
 				"type": "list",
@@ -107,9 +106,5 @@
 			"description": "The declaring NgModule exports this directive."
 		}
 	},
-	"required": [
-		"name",
-		"layer",
-		"module"
-	]
+	"required": ["name", "layer", "module"]
 }

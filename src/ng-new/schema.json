@@ -57,10 +57,7 @@
 							"type": "string"
 						}
 					},
-					"required": [
-						"name",
-						"email"
-					]
+					"required": ["name", "email"]
 				}
 			],
 			"default": true
@@ -82,11 +79,7 @@
 		},
 		"viewEncapsulation": {
 			"description": "The view encapsulation strategy to use in the initial project.",
-			"enum": [
-				"Emulated",
-				"None",
-				"ShadowDom"
-			],
+			"enum": ["Emulated", "None", "ShadowDom"],
 			"type": "string"
 		},
 		"version": {
@@ -121,12 +114,7 @@
 			"description": "The file extension or preprocessor to use for style files.",
 			"type": "string",
 			"default": "scss",
-			"enum": [
-				"css",
-				"scss",
-				"sass",
-				"less"
-			]
+			"enum": ["css", "scss", "sass", "less"]
 		},
 		"skipTests": {
 			"description": "Do not generate \"spec.ts\" test files for the new project.",
@@ -153,16 +141,8 @@
 			"description": "The package manager used to install dependencies.",
 			"type": "string",
 			"default": "npm",
-			"enum": [
-				"npm",
-				"yarn",
-				"pnpm",
-				"cnpm"
-			]
+			"enum": ["npm", "yarn", "pnpm", "cnpm"]
 		}
 	},
-	"required": [
-		"name",
-		"version"
-	]
+	"required": ["name", "version"]
 }

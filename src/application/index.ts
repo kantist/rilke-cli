@@ -27,7 +27,6 @@ import { Schema as ComponentOptions } from '../component/schema';
 import { NodeDependencyType, addPackageJsonDependency } from '../utility/dependencies';
 import { latestVersions } from '../utility/latest-versions';
 import { relativePathToWorkspaceRoot } from '../utility/paths';
-import { validateProjectName } from '../utility/validation';
 import { getWorkspace, updateWorkspace } from '../utility/workspace';
 import { Builders, ProjectType } from '../utility/workspace-models';
 import { Schema as ApplicationOptions } from './schema';
@@ -311,8 +310,6 @@ export default function (options: ApplicationOptions): Rule {
 		if (!options.name) {
 			throw new SchematicsException(`Invalid options, "name" is required.`);
 		}
-
-		validateProjectName(options.name);
 
 		const appRootSelector = `${options.prefix}-root`;
 		const componentOptions: Partial<ComponentOptions> = !options.minimal

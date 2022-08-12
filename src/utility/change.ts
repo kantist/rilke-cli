@@ -101,12 +101,7 @@ export class ReplaceChange implements Change {
 	order: number;
 	description: string;
 
-	constructor(
-		public path: string,
-		private pos: number,
-		public oldText: string,
-		public newText: string,
-	) {
+	constructor(public path: string, private pos: number, public oldText: string, public newText: string) {
 		if (pos < 0) {
 			throw new Error('Negative positions are invalid');
 		}

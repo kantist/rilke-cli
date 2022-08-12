@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-import { strings } from '@angular-devkit/core';
 import {
 	Rule,
 	Tree,
@@ -17,9 +16,11 @@ import {
 	mergeWith,
 	move,
 	noop,
+	strings,
 	url,
 } from '@angular-devkit/schematics';
 import { parseName } from './parse-name';
+import { validateClassName } from './validation';
 import { createDefaultPath } from './workspace';
 
 export interface GenerateFromFilesOptions {
@@ -33,7 +34,7 @@ export interface GenerateFromFilesOptions {
 
 export function generateFromFiles(
 	options: GenerateFromFilesOptions,
-	extraTemplateValues: Record<string, string | ((v: string) => string)> = {},
+	extraTemplateValues: Record<string, string | ((v: string) => string)> = {}
 ): Rule {
 	return async (host: Tree) => {
 		options.path ??= await createDefaultPath(host, options.project as string);
@@ -43,6 +44,8 @@ export function generateFromFiles(
 		const parsedPath = parseName(options.path, options.name);
 		options.name = parsedPath.name;
 		options.path = parsedPath.path;
+
+		validateClassName(strings.classify(options.name));
 
 		const templateSource = apply(url('./files'), [
 			options.skipTests ? filter((path) => !path.endsWith('.spec.ts.template')) : noop(),

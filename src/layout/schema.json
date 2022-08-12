@@ -19,7 +19,10 @@
 			"type": "string",
 			"format": "path",
 			"description": "The path at which to create the NgModule, relative to the workspace root.",
-			"visible": false
+			"visible": false,
+			"$default": {
+				"$source": "workingDirectory"
+			}
 		},
 		"project": {
 			"type": "string",
@@ -54,7 +57,5 @@
 			"description": "The declaring NgModule name."
 		}
 	},
-	"required": [
-		"name"
-	]
+	"required": ["name"]
 }

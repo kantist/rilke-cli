@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
+
 import { Tree } from '@angular-devkit/schematics';
 
 export function getFileContent(tree: Tree, path: string): string {

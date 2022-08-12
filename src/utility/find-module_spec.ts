@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-import { Path } from '@angular-devkit/core';
+
 import { EmptyTree, Tree } from '@angular-devkit/schematics';
 import { ModuleOptions, buildRelativePath, findModule, findModuleFromOptions } from './find-module';
 
@@ -44,34 +44,24 @@ describe('find-module', () => {
 
 		it('should throw if no modules found', () => {
 			host.create('/foo/src/app/oops.module.ts', 'app module');
-			try {
-				findModule(host, 'foo/src/app/bar');
-				throw new Error('Succeeded, should have failed');
-			} catch (err) {
-				expect(err.message).toMatch(/More than one module matches/);
-			}
+
+			expect(() => findModule(host, 'foo/src/app/bar')).toThrowError(
+				/More than one module matches/,
+			);
 		});
 
 		it('should throw if only routing modules were found', () => {
 			host = new EmptyTree();
 			host.create('/foo/src/app/anything-routing.module.ts', 'anything routing module');
 
-			try {
-				findModule(host, 'foo/src/app/anything-routing');
-				throw new Error('Succeeded, should have failed');
-			} catch (err) {
-				expect(err.message).toMatch(/Could not find a non Routing NgModule/);
-			}
+			expect(() => findModule(host, 'foo/src/app/anything-routing')).toThrowError(
+				/Could not find a non Routing NgModule/,
+			);
 		});
 
 		it('should throw if two modules found', () => {
-			try {
-				host = new EmptyTree();
-				findModule(host, 'foo/src/app/bar');
-				throw new Error('Succeeded, should have failed');
-			} catch (err) {
-				expect(err.message).toMatch(/Could not find an NgModule/);
-			}
+			host = new EmptyTree();
+			expect(() => findModule(host, 'foo/src/app/bar')).toThrowError(/Could not find an NgModule/);
 		});
 
 		it('should accept custom ext for module', () => {
@@ -107,24 +97,24 @@ describe('find-module', () => {
 			tree.create('/projects/my-proj/src/app.module.ts', '');
 			options.module = 'app.module.ts';
 			options.path = '/projects/my-proj/src';
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toEqual('/projects/my-proj/src/app.module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toEqual('/projects/my-proj/src/app.module.ts');
 		});
 
 		it('should find a module when name has underscore', () => {
 			tree.create('/projects/my-proj/src/feature_module/app_test.module.ts', '');
 			options.path = '/projects/my-proj/src';
 			options.name = 'feature_module/new_component';
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toEqual('/projects/my-proj/src/feature_module/app_test.module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toEqual('/projects/my-proj/src/feature_module/app_test.module.ts');
 		});
 
 		it('should find a module when name has uppercase', () => {
 			tree.create('/projects/my-proj/src/featureModule/appTest.module.ts', '');
 			options.path = '/projects/my-proj/src';
 			options.name = 'featureModule/newComponent';
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toEqual('/projects/my-proj/src/featureModule/appTest.module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toEqual('/projects/my-proj/src/featureModule/appTest.module.ts');
 		});
 
 		it('should find a module if flat is true', () => {
@@ -132,8 +122,8 @@ describe('find-module', () => {
 			options.path = '/projects/my-proj/src';
 			options.flat = true;
 			options.name = '/module/directive';
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toEqual('/projects/my-proj/src/module/app_test.module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toEqual('/projects/my-proj/src/module/app_test.module.ts');
 		});
 
 		it('should find a module in a sub dir', () => {
@@ -141,8 +131,8 @@ describe('find-module', () => {
 			options.name = 'other/test';
 			options.module = 'admin/foo';
 			options.path = '/projects/my-proj/src';
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toEqual('/projects/my-proj/src/admin/foo.module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toEqual('/projects/my-proj/src/admin/foo.module.ts');
 		});
 
 		it('should find a module in a sub dir (2)', () => {
@@ -150,8 +140,8 @@ describe('find-module', () => {
 			options.name = 'admin/hello';
 			options.module = 'foo';
 			options.path = '/projects/my-proj/src';
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toEqual('/projects/my-proj/src/admin/foo.module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toEqual('/projects/my-proj/src/admin/foo.module.ts');
 		});
 
 		it('should find a module using custom ext', () => {
@@ -160,16 +150,16 @@ describe('find-module', () => {
 			options.path = '/projects/my-proj/src';
 			options.moduleExt = '_module.ts';
 			// Should find module using custom moduleExt
-			const modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toBe('/projects/my-proj/src/app_module.ts' as Path);
+			const modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toBe('/projects/my-proj/src/app_module.ts');
 			// Should not find module if using invalid ext
 			options.moduleExt = '-module.ts';
-			expect(() => findModuleFromOptions(tree, options)).toThrowError(
+			expect(() => findModuleFromOptions(tree, options) as string).toThrowError(
 				/Specified module 'app' does not exist/,
 			);
 			// Should not find module if using default ext
 			options.moduleExt = undefined; // use default ext
-			expect(() => findModuleFromOptions(tree, options)).toThrowError(
+			expect(() => findModuleFromOptions(tree, options) as string).toThrowError(
 				/Specified module 'app' does not exist/,
 			);
 		});
@@ -182,13 +172,13 @@ describe('find-module', () => {
 
 			// moduleExt ignored because exact path is found
 			options.module = 'app.module.ts';
-			modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toBe('/projects/my-proj/src/app.module.ts' as Path);
+			modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toBe('/projects/my-proj/src/app.module.ts');
 
 			// moduleExt ignored because module + .ts is found
 			options.module = 'app.module';
-			modPath = findModuleFromOptions(tree, options);
-			expect(modPath).toBe('/projects/my-proj/src/app.module.ts' as Path);
+			modPath = findModuleFromOptions(tree, options) as string;
+			expect(modPath).toBe('/projects/my-proj/src/app.module.ts');
 		});
 	});
 

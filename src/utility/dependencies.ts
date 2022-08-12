@@ -31,11 +31,7 @@ const ALL_DEPENDENCY_TYPE = [
 	NodeDependencyType.Peer,
 ];
 
-export function addPackageJsonDependency(
-	tree: Tree,
-	dependency: NodeDependency,
-	pkgJsonPath = PKG_JSON_PATH,
-): void {
+export function addPackageJsonDependency(tree: Tree, dependency: NodeDependency, pkgJsonPath = PKG_JSON_PATH): void {
 	const json = new JSONFile(tree, pkgJsonPath);
 
 	const { overwrite, type, name, version } = dependency;
@@ -45,11 +41,7 @@ export function addPackageJsonDependency(
 	}
 }
 
-export function removePackageJsonDependency(
-	tree: Tree,
-	name: string,
-	pkgJsonPath = PKG_JSON_PATH,
-): void {
+export function removePackageJsonDependency(tree: Tree, name: string, pkgJsonPath = PKG_JSON_PATH): void {
 	const json = new JSONFile(tree, pkgJsonPath);
 
 	for (const depType of ALL_DEPENDENCY_TYPE) {
@@ -57,11 +49,7 @@ export function removePackageJsonDependency(
 	}
 }
 
-export function getPackageJsonDependency(
-	tree: Tree,
-	name: string,
-	pkgJsonPath = PKG_JSON_PATH,
-): NodeDependency | null {
+export function getPackageJsonDependency(tree: Tree, name: string, pkgJsonPath = PKG_JSON_PATH): NodeDependency | null {
 	const json = new JSONFile(tree, pkgJsonPath);
 
 	for (const depType of ALL_DEPENDENCY_TYPE) {

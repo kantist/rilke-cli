@@ -19,7 +19,10 @@
 			"type": "string",
 			"format": "path",
 			"description": "The path at which to create the pipe, relative to the workspace root.",
-			"visible": false
+			"visible": false,
+			"$default": {
+				"$source": "workingDirectory"
+			}
 		},
 		"project": {
 			"type": "string",
@@ -48,12 +51,7 @@
 			"type": "string",
 			"alias": "l",
 			"default": "features",
-			"enum": [
-				"features",
-				"layouts",
-				"shared",
-				"core"
-			],
+			"enum": ["features", "layouts", "shared", "core"],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
 				"type": "list",
@@ -93,9 +91,5 @@
 			"description": "The declaring NgModule exports this pipe."
 		}
 	},
-	"required": [
-		"name",
-		"layer",
-		"module"
-	]
+	"required": ["name", "layer", "module"]
 }
