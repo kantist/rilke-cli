@@ -7,33 +7,48 @@ import { AuthService } from '@core/services/auth/auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-	constructor(
-		private authService: AuthService,
-		private router: Router,
-	) { }
+	constructor(private authService: AuthService, private router: Router) {}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		return next.handle(request).pipe(catchError(err => {
-			console.log(err);
-			if (err.status == 401) {
-				err.error.errors.forEach((err) => {
-					if (err.code == 1)
-						this.authService.logout();
-				});
-			}
+		return next.handle(request).pipe(
+			catchError((err) => {
+				console.log(err);
+				if (err.status == 401) {
+					err.error.errors.forEach((err) => {
+						if (err.code == 1) this.authService.logout();
+					});
+				}
 
-			if (err.status == 403) {
-				this.router.navigate(['/error/page-403']);
-			}
+				if (err.status == 403) {
+					this.router.navigate(['/error/page-403']);
+				}
 
-			if (err.error.errors) {
-				err.error.errors.forEach((err) => {
-					//err.message = this.exceptionService.getMessage(err.code);
-				});
-			}
+				if (err.error.errors) {
+					let text = '';
+					err.error.errors.forEach((e) => {
+						if (e.code) {
+							// if (text) {
+							// 	text += ', ' + this.translocoService.translate('error.' + e.code);
+							// } else {
+							// 	text = this.translocoService.translate('error.' + e.code);
+							// }
+						}
+					});
 
-			const error = err;
-			return throwError(() => error);
-		}))
+					if (text) {
+						// let config: IAlertOptions = {
+						// 	data: {
+						// 		text: text,
+						// 		type: 'error',
+						// 	},
+						// };
+						// this.alertService.show(config);
+					}
+				}
+
+				const error = err;
+				return throwError(() => error);
+			})
+		);
 	}
 }

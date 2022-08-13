@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-import { normalize , strings } from '@angular-devkit/core';
+import { normalize, strings } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	Rule,
@@ -51,12 +51,7 @@ function addDeclarationToNgModule(options: DirectiveOptions): Rule {
 			'.directive';
 		const relativePath = buildRelativePath(modulePath, directivePath);
 		const classifiedName = strings.classify(`${options.name}Directive`);
-		const declarationChanges = addDeclarationToModule(
-			source,
-			modulePath,
-			classifiedName,
-			relativePath,
-		);
+		const declarationChanges = addDeclarationToModule(source, modulePath, classifiedName, relativePath);
 		const declarationRecorder = host.beginUpdate(modulePath);
 		for (const change of declarationChanges) {
 			if (change instanceof InsertChange) {
@@ -79,7 +74,7 @@ function addDeclarationToNgModule(options: DirectiveOptions): Rule {
 				source,
 				modulePath,
 				strings.classify(`${options.name}Directive`),
-				relativePath,
+				relativePath
 			);
 
 			for (const change of exportChanges) {
@@ -96,6 +91,8 @@ function addDeclarationToNgModule(options: DirectiveOptions): Rule {
 
 function buildSelector(options: DirectiveOptions, projectPrefix: string) {
 	let selector = options.name;
+	selector = options.name.split('/').pop() as string; // remove path
+
 	if (options.prefix) {
 		selector = `${options.prefix}-${selector}`;
 	} else if (options.prefix === undefined && projectPrefix) {

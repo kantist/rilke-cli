@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-import { Path, normalize , strings } from '@angular-devkit/core';
+import { Path, normalize, strings } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	FileOperator,
@@ -24,7 +24,14 @@ import {
 	url,
 } from '@angular-devkit/schematics';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { addDeclarationToModule, addExportToModule, addRedirectRouteDeclarationToModule, addRouteDeclarationToModule, insertImport, isImported } from '../utility/ast-utils';
+import {
+	addDeclarationToModule,
+	addExportToModule,
+	addRedirectRouteDeclarationToModule,
+	addRouteDeclarationToModule,
+	insertImport,
+	isImported,
+} from '../utility/ast-utils';
 import { InsertChange, applyToUpdateRecorder } from '../utility/change';
 import { FEATURE_EXT, ROUTING_MODULE_EXT, buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
@@ -50,9 +57,7 @@ function getRoutingModulePath(host: Tree, modulePath: string): Path | undefined 
 	return host.exists(routingModulePath) ? normalize(routingModulePath) : undefined;
 }
 
-function addRouteDeclarationToRoutes(
-	options: PageOptions,
-): Rule {
+function addRouteDeclarationToRoutes(options: PageOptions): Rule {
 	return (host: Tree) => {
 		if (!options.route) {
 			return host;
@@ -72,7 +77,7 @@ function addRouteDeclarationToRoutes(
 		const routerPath = getRoutingModulePath(host, options.module) as string;
 		const relativePath = buildRelativePath(routerPath, pagePath);
 		const classifiedName = strings.classify(options.name) + strings.classify(options.type);
-		const classifiedModule = strings.camelize(options.moduleName as string)+'Routes';
+		const classifiedModule = strings.camelize(options.moduleName as string) + 'Routes';
 		const routeLiteral = `{ path: '${options.route}', component: ${classifiedName} }`;
 
 		let path: string;
@@ -92,7 +97,7 @@ function addRouteDeclarationToRoutes(
 			readIntoSourceFile(host, path),
 			routerPath,
 			classifiedName,
-			options.route,
+			options.route
 		) as InsertChange;
 
 		if (addRedirectDeclaration) {
@@ -102,18 +107,13 @@ function addRouteDeclarationToRoutes(
 		}
 
 		// Add import page to route
-		host = addImportPackageToModule(
-			host,
-			routerPath,
-			classifiedName,
-			relativePath
-		);
+		host = addImportPackageToModule(host, routerPath, classifiedName, relativePath);
 
 		const addDeclaration = addRouteDeclarationToModule(
 			readIntoSourceFile(host, path),
 			path,
 			classifiedModule,
-			routeLiteral,
+			routeLiteral
 		) as InsertChange;
 
 		if (addDeclaration) {
@@ -145,12 +145,7 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 			strings.dasherize(options.type);
 		const relativePath = buildRelativePath(modulePath, pagePath);
 		const classifiedName = strings.classify(options.name) + strings.classify(options.type);
-		const declarationChanges = addDeclarationToModule(
-			source,
-			modulePath,
-			classifiedName,
-			relativePath,
-		);
+		const declarationChanges = addDeclarationToModule(source, modulePath, classifiedName, relativePath);
 
 		const declarationRecorder = host.beginUpdate(modulePath);
 		for (const change of declarationChanges) {
@@ -169,7 +164,7 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 				source,
 				modulePath,
 				strings.classify(options.name) + strings.classify(options.type),
-				relativePath,
+				relativePath
 			);
 
 			for (const change of exportChanges) {
@@ -186,6 +181,8 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 
 function buildSelector(options: PageOptions, projectPrefix: string) {
 	let selector = strings.dasherize(options.name as string);
+	selector = options.name.split('/').pop() as string; // remove path
+
 	if (options.prefix) {
 		selector = `${options.prefix}-${selector}`;
 	} else if (options.prefix === undefined && projectPrefix) {
@@ -208,12 +205,7 @@ function buildPath(options: PageOptions) {
 	return path;
 }
 
-function addImportPackageToModule(
-	host: Tree,
-	modulePath: string,
-	importModule: string,
-	importPath: string,
-) {
+function addImportPackageToModule(host: Tree, modulePath: string, importModule: string, importPath: string) {
 	const moduleSource = readIntoSourceFile(host, modulePath);
 	if (!isImported(moduleSource, importModule, importPath)) {
 		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
@@ -269,13 +261,13 @@ export default function (options: PageOptions): Rule {
 			}),
 			!options.type
 				? forEach(((file) => {
-					return file.path.includes('..')
-						? {
-							content: file.content,
-							path: file.path.replace('..', '.'),
-						}
-						: file;
-				}) as FileOperator)
+						return file.path.includes('..')
+							? {
+									content: file.content,
+									path: file.path.replace('..', '.'),
+							  }
+							: file;
+				  }) as FileOperator)
 				: noop(),
 			move(parsedPath.path),
 		]);
@@ -283,7 +275,7 @@ export default function (options: PageOptions): Rule {
 		return chain([
 			addDeclarationToNgModule(options),
 			addRouteDeclarationToRoutes(options),
-			mergeWith(templateSource)
+			mergeWith(templateSource),
 		]);
 	};
 }

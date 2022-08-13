@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-import { normalize , strings } from '@angular-devkit/core';
+import { normalize, strings } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	FileOperator,
@@ -61,12 +61,7 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 			strings.dasherize(options.type);
 		const relativePath = buildRelativePath(modulePath, componentPath);
 		const classifiedName = strings.classify(options.name) + strings.classify(options.type);
-		const declarationChanges = addDeclarationToModule(
-			source,
-			modulePath,
-			classifiedName,
-			relativePath,
-		);
+		const declarationChanges = addDeclarationToModule(source, modulePath, classifiedName, relativePath);
 
 		const declarationRecorder = host.beginUpdate(modulePath);
 		for (const change of declarationChanges) {
@@ -85,7 +80,7 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 				source,
 				modulePath,
 				strings.classify(options.name) + strings.classify(options.type),
-				relativePath,
+				relativePath
 			);
 
 			for (const change of exportChanges) {
@@ -102,6 +97,8 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 
 function buildSelector(options: ComponentOptions, projectPrefix: string) {
 	let selector = strings.dasherize(options.name as string);
+	selector = options.name.split('/').pop() as string; // remove path
+
 	if (options.prefix) {
 		selector = `${options.prefix}-${selector}`;
 	} else if (options.prefix === undefined && projectPrefix) {
@@ -162,13 +159,13 @@ export default function (options: ComponentOptions): Rule {
 			}),
 			!options.type
 				? forEach(((file) => {
-					return file.path.includes('..')
-						? {
-							content: file.content,
-							path: file.path.replace('..', '.'),
-						}
-						: file;
-				}) as FileOperator)
+						return file.path.includes('..')
+							? {
+									content: file.content,
+									path: file.path.replace('..', '.'),
+							  }
+							: file;
+				  }) as FileOperator)
 				: noop(),
 			move(parsedPath.path),
 		]);
