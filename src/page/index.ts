@@ -182,11 +182,14 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 function buildSelector(options: PageOptions, projectPrefix: string) {
 	let selector = strings.dasherize(options.name as string);
 	selector = options.name.split('/').pop() as string; // remove path
+	let pathPrefix = options.name.split('/')[0]; // get first path
 
 	if (options.prefix) {
 		selector = `${options.prefix}-${selector}`;
 	} else if (options.prefix === undefined && projectPrefix) {
 		selector = `${projectPrefix}-${selector}`;
+	} else if (pathPrefix !== selector) {
+		selector = `${pathPrefix}-${selector}`;
 	}
 
 	return selector;
