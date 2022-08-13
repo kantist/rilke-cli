@@ -13,9 +13,7 @@
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"project": [
-			"tsconfig.json"
-		],
+		"project": ["tsconfig.json"],
 		"createDefaultProgram": true
 	},
 	"plugins": ["eslint-plugin-import", "header", "@typescript-eslint"],
@@ -110,7 +108,7 @@
 		{
 			"files": ["!packages/**", "**/*_spec.ts"],
 			"rules": {
-				"indent": ["error", "tab"],
+				"indent": ["error", "tab", { "SwitchCase": 1 }],
 				"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
 				"max-lines-per-function": "off",
 				"no-console": "off"

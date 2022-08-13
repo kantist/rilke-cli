@@ -26,7 +26,7 @@
 				"plugin:import/recommended"
 			],
 			"rules": {
-				"indent": ["error", "tab"],
+				"indent": ["error", "tab", { "SwitchCase": 1 }],
 				"@angular-eslint/directive-selector": [
 					"error",
 					{
