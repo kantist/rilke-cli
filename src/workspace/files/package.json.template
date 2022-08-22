@@ -13,7 +13,7 @@
 		"lint:styles:fix": "stylelint \"**/*.scss\" --fix",
 		"serve:ssr": "node dist/server/main.js",
 		"prod:build:ssr": "ng build && ng run <%= utils.dasherize(name) %>:server:production",
-		"preprod:build:ssr": "ng build --configuration preproduction && ng run <%= utils.dasherize(name) %>:server:preproduction",
+		"pre-prod:build:ssr": "ng build --configuration preproduction && ng run <%= utils.dasherize(name) %>:server:preproduction",
 		"dev:build:ssr": "ng build --configuration development && ng run <%= utils.dasherize(name) %>:server:development"
 	},
 	"private": true,
