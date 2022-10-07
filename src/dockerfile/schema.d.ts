@@ -19,4 +19,8 @@ export interface Schema {
 	 * The name of the project.
 	 */
 	project?: string;
+	/**
+	 * Which build configuration to use for the dockerfile.
+	 */
+	configuration?: string;
 }

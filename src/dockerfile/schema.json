@@ -18,6 +18,30 @@
 			"description": "The path at which to create the class, relative to the workspace root.",
 			"visible": false
 		},
+		"configuration": {
+			"type": "string",
+			"default": "prod",
+			"description": "Which build configuration to use for the dockerfile.",
+			"enum": ["pre-prod", "prod", "dev"],
+			"x-prompt": {
+				"message": "Which build configuration to use for the dockerfile?",
+				"type": "list",
+				"items": [
+					{
+						"value": "pre-prod",
+						"label": "Pre-Production"
+					},
+					{
+						"value": "prod",
+						"label": "Production"
+					},
+					{
+						"value": "dev",
+						"label": "Development"
+					}
+				]
+			}
+		},
 		"project": {
 			"type": "string",
 			"description": "The name of the project.",
