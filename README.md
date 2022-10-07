@@ -41,7 +41,7 @@ Get started with Rilke, learn the fundamentals and explore advanced topics on ou
 Install the Rilke CLI globally:
 
 ```
-npm install -g @kantist/rilke-cli
+npm install -g @rilke/cli
 ```
 
 Create workspace:
@@ -59,12 +59,11 @@ rilke serve
 
 ## Ecosystem
 
-| Project    | Status                          | Description                       |
-| ---------- | ------------------------------- | --------------------------------- |
-| [rilke-ui] | [![rilke-ui]][rilke-ui-package] | Modern UI Kit for Rilke Architect |
+| Project                                                     | Package                                                                                                                                      | Description                        |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| <a href="https://github.com/kantist/rilke">Rilke UI</a>     | <a href="https://npmjs.com/package/@rilke/ui"><img src="https://img.shields.io/npm/v/@rilke/ui.svg?sanitize=true" alt="Version"></a>         | Modern UI Kit for Rilke Architect  |
+| <a href="https://github.com/kantist/rilke">Rilke Common</a> | <a href="https://npmjs.com/package/@rilke/common"><img src="https://img.shields.io/npm/v/@rilke/common.svg?sanitize=true" alt="Version"></a> | A Core library for Rilke Architect |
 
-[rilke-ui]: https://github.com/kantist/rilke-ui
-[rilke-ui-package]: https://npmjs.com/package/@kantist/rilke-ui
 [quickstart]: https://rilke.ist/cli/
 [architecture]: https://rilke.ist/architecture/
 [node.js]: https://nodejs.org/
