@@ -1,4 +1,4 @@
-<% if (ready) {%>import { uuid } from '@core/utility/uuid';
+<% if (ready) {%>import { uuid } from '@rilke/common/utility';
 import { IMeta } from "@shared/interfaces/meta.interface";
 
 export interface <%= prefix %><%= classify(name) %>s {

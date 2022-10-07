@@ -28,6 +28,7 @@
 		"@angular/platform-server": "<%= latestVersions.Angular %>",
 		"@angular/router": "<%= latestVersions.Angular %>",
 		"@angular/service-worker": "<%= latestVersions.Angular %>",
+		"@rilke/common": "<%= latestVersions['@rilke/common'] %>"
 		"@nguniversal/express-engine": "<%= latestVersions['@nguniversal/express-engine'] %>",
 		"express": "<%= latestVersions['express'] %>",
 		"localstorage-polyfill": "<%= latestVersions['localstorage-polyfill'] %>",
@@ -55,7 +56,7 @@
 		"stylelint-config-standard": "<%= latestVersions['stylelint-config-standard'] %>",
 		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>",
 		"@angular/cli": "<%= '~' + version %>",
-		"@kantist/rilke-cli": "<%= latestVersions.Rilke %>",
+		"@rilke/cli": "<%= latestVersions.Rilke %>",
 		"@angular/compiler-cli": "<%= latestVersions.Angular %>",<% if (!minimal) { %>
 		"@types/jasmine": "<%= latestVersions['@types/jasmine'] %>",<% } %>
  		"typescript": "<%= latestVersions['typescript'] %>"

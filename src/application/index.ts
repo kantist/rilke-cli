@@ -79,7 +79,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 			componentSchematicsOptions.style = options.style;
 		}
 
-		schematics['@kantist/rilke-cli:component'] = componentSchematicsOptions;
+		schematics['@rilke/cli:component'] = componentSchematicsOptions;
 	}
 
 	if (options.skipTests || options.minimal) {
@@ -95,28 +95,28 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 			'state',
 			'api',
 		].forEach((type) => {
-			if (!(`@kantist/rilke-cli:${type}` in schematics)) {
-				schematics[`@kantist/rilke-cli:${type}`] = {};
+			if (!(`@rilke/cli:${type}` in schematics)) {
+				schematics[`@rilke/cli:${type}`] = {};
 			}
-			(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).skipTests = true;
+			(schematics[`@rilke/cli:${type}`] as JsonObject).skipTests = true;
 		});
 	}
 
 	if (options.ready) {
 		['facade', 'state', 'model', 'interface', 'api'].forEach((type) => {
-			if (!(`@kantist/rilke-cli:${type}` in schematics)) {
-				schematics[`@kantist/rilke-cli:${type}`] = {};
+			if (!(`@rilke/cli:${type}` in schematics)) {
+				schematics[`@rilke/cli:${type}`] = {};
 			}
-			(schematics[`@kantist/rilke-cli:${type}`] as JsonObject).ready = true;
+			(schematics[`@rilke/cli:${type}`] as JsonObject).ready = true;
 		});
 	}
 
 	if (options.strict) {
-		if (!('@kantist/rilke-cli:application' in schematics)) {
-			schematics['@kantist/rilke-cli:application'] = {};
+		if (!('@rilke/cli:application' in schematics)) {
+			schematics['@rilke/cli:application'] = {};
 		}
 
-		(schematics['@kantist/rilke-cli:application'] as JsonObject).strict = true;
+		(schematics['@rilke/cli:application'] as JsonObject).strict = true;
 	}
 
 	const sourceRoot = join(normalize(projectRoot), 'src');

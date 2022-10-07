@@ -28,7 +28,7 @@ try {
 
 	if (command == 'new' || command == 'n') {
 		process.argv.push('--collection');
-		process.argv.push('@kantist/rilke-cli');
+		process.argv.push('@rilke/cli');
 	}
 } catch (_) {}
 

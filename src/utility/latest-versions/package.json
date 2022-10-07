@@ -3,6 +3,7 @@
 	"comment": "This file is needed so that depedencies are synced by Renovate.",
 	"private": true,
 	"dependencies": {
+		"@rilke/common": "14.0.0",
 		"@nguniversal/express-engine": "14.0.3",
 		"@nguniversal/builders": "14.0.3",
 		"express": "4.18.1",

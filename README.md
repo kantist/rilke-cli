@@ -1,8 +1,8 @@
 <p align="center"><a href="https://rilke.ist" target="_blank" rel="noopener noreferrer"><img width="320" src="https://rilke.ist/assets/logo/logo-stroked.png" alt="Rilke logo"></a></p>
 <p align="center">
-	<a href="https://npmcharts.com/compare/@kantist/rilke-cli?minimal=true"><img src="https://img.shields.io/npm/dm/@kantist/rilke-cli.svg?sanitize=true" alt="Downloads"></a>
-	<a href="https://www.npmjs.com/package/@kantist/rilke-cli"><img src="https://img.shields.io/npm/v/@kantist/rilke-cli.svg?sanitize=true" alt="Version"></a>
-	<a href="https://www.npmjs.com/package/@kantist/rilke-cli"><img src="https://img.shields.io/npm/l/@kantist/rilke-cli.svg?sanitize=true" alt="License"></a>
+	<a href="https://npmcharts.com/compare/@rilke/cli?minimal=true"><img src="https://img.shields.io/npm/dm/@rilke/cli.svg?sanitize=true" alt="Downloads"></a>
+	<a href="https://www.npmjs.com/package/@rilke/cli"><img src="https://img.shields.io/npm/v/@rilke/cli.svg?sanitize=true" alt="Version"></a>
+	<a href="https://www.npmjs.com/package/@rilke/cli"><img src="https://img.shields.io/npm/l/@rilke/cli.svg?sanitize=true" alt="License"></a>
 	<br>
 	<img src="https://github.com/kantist/rilke-cli/actions/workflows/npm-publish.yml/badge.svg" alt="status">
 </p>

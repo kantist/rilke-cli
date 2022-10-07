@@ -3,15 +3,11 @@ import locale from '@angular/common/locales/<%= locale %>';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { CoreLayer } from '@core/core.layer';
-
 <% if (routing) { %>import { AppRoutingModule } from './app-routing.module';<% } %>
 import { AppComponent } from './app.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
-import { JwtInterceptor } from '@core/interceptors/jwt.interceptor';
-import { SessionInterceptor } from '@core/interceptors/session.interceptor';
+import { SessionInterceptor, JwtInterceptor } from '@rilke/common/api';
 
 registerLocaleData(locale);
 
@@ -22,13 +18,11 @@ registerLocaleData(locale);
 	imports: [
 		BrowserModule.withServerTransition({ appId: 'serverApp' }),<% if (routing) { %>
 		AppRoutingModule,<% } %>
-		CoreLayer
 	],
 	providers: [
 		{ provide: LocationStrategy, useClass: PathLocationStrategy },
 		{ provide: LOCALE_ID, useValue: '<%= locale %>' },
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },
 	],
 	bootstrap: [AppComponent]
