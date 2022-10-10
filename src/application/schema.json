@@ -32,33 +32,21 @@
 		},
 		"viewEncapsulation": {
 			"description": "The view encapsulation strategy to use in the new application.",
-			"enum": [
-				"Emulated",
-				"None",
-				"ShadowDom"
-			],
+			"enum": ["Emulated", "None", "ShadowDom"],
 			"type": "string"
 		},
 		"locale": {
 			"description": "Determine which locale it belongs to.",
 			"type": "string",
 			"default": "tr",
-			"enum": [
-				"tr",
-				"en",
-				"fr",
-				"ru",
-				"de",
-				"es",
-				"ar"
-			],
+			"enum": ["tr", "en", "fr", "ru", "de", "es", "ar"],
 			"x-prompt": {
 				"message": "Which locale would you like to use it in?",
 				"type": "list",
 				"items": [
 					{
 						"value": "tr",
-						"label": "Turkish"
+						"label": "Türkçe"
 					},
 					{
 						"value": "en",
@@ -111,12 +99,7 @@
 			"description": "The file extension or preprocessor to use for style files.",
 			"type": "string",
 			"default": "scss",
-			"enum": [
-				"css",
-				"scss",
-				"sass",
-				"less"
-			]
+			"enum": ["css", "scss", "sass", "less"]
 		},
 		"skipTests": {
 			"description": "Do not create \"spec.ts\" test files for the application.",
@@ -150,7 +133,5 @@
 			"default": true
 		}
 	},
-	"required": [
-		"name"
-	]
+	"required": ["name"]
 }

@@ -28,7 +28,7 @@
 		"@angular/platform-server": "<%= latestVersions.Angular %>",
 		"@angular/router": "<%= latestVersions.Angular %>",
 		"@angular/service-worker": "<%= latestVersions.Angular %>",
-		"@rilke/common": "<%= latestVersions['@rilke/common'] %>"
+		"@rilke/common": "<%= latestVersions['@rilke/common'] %>",
 		"@nguniversal/express-engine": "<%= latestVersions['@nguniversal/express-engine'] %>",
 		"express": "<%= latestVersions['express'] %>",
 		"localstorage-polyfill": "<%= latestVersions['localstorage-polyfill'] %>",
