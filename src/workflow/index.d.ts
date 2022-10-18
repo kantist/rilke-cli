@@ -5,5 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://rilke.ist/license
  */
-export declare function indentBy(indentations: number): (strings: any, ...values: any) => string;
-export declare function secretFormatter(word: string): string;
+
+import { Rule } from '@angular-devkit/schematics';
+import { Schema as WorkflowOptions } from './schema';
+
+export default function (options: WorkflowOptions): Rule;

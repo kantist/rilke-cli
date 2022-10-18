@@ -30,3 +30,7 @@ function stripIndent(strings: any, ...values: any) {
 
 	return (indent > 0 ? endResult.replace(regexp, '') : endResult).trim();
 }
+
+export function secretFormatter(word: string) {
+	return word.replace(/-/g, '_').toUpperCase();
+}

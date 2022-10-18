@@ -3,3 +3,6 @@ node_modules/
 third_party/
 bin/
 src/cli/
+*.d.ts
+*.js
+*.js.map

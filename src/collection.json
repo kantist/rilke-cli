@@ -129,6 +129,12 @@
 			"factory": "./dockerfile",
 			"description": "Create a dockerfile.",
 			"schema": "./dockerfile/schema.json"
+		},
+		"workflow": {
+			"aliases": ["wf"],
+			"factory": "./workflow",
+			"description": "Create a workflow for Github Actions.",
+			"schema": "./workflow/schema.json"
 		}
 	}
 }

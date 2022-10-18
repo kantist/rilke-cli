@@ -1,0 +1,66 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "SchematicsRilkeDocker",
+	"title": "Rilke Workflow Options Schema",
+	"type": "object",
+	"description": "Create a workflow for Github Actions",
+	"additionalProperties": false,
+	"properties": {
+		"name": {
+			"type": "string",
+			"default": "prod",
+			"description": "Which name to use for the workflow file.",
+			"enum": ["pre-prod", "prod", "dev"],
+			"x-prompt": {
+				"message": "Which name to use for the workflow file?",
+				"type": "list",
+				"items": [
+					{
+						"value": "pre-prod",
+						"label": "Pre-Production"
+					},
+					{
+						"value": "prod",
+						"label": "Production"
+					},
+					{
+						"value": "dev",
+						"label": "Development"
+					}
+				]
+			}
+		},
+		"container": {
+			"type": "string",
+			"description": "The container name in hub.",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "Which container name would you like to use for the component?"
+		},
+		"port": {
+			"type": "number",
+			"description": "The container running port.",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "Which running port would you like to use for the component?"
+		},
+		"path": {
+			"type": "string",
+			"format": "path",
+			"default": "",
+			"description": "The path at which to create the class, relative to the workspace root.",
+			"visible": false
+		},
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		}
+	}
+}

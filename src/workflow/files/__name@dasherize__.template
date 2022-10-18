@@ -1,0 +1,39 @@
+name: Container
+on:
+  push:
+    branches:
+      - <%= name %>
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: <%= container %>
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        dockerfile: <%= name %>.dockerfile
+        tags: "<%= name %>"
+  publish:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.<%= secretFormatter(name) %>_SSH_HOST }}
+          username: ${{ secrets.<%= secretFormatter(name) %>_SSH_USERNAME }}
+          key: ${{ secrets.<%= secretFormatter(name) %>_SSH_PRIV_KEY }}
+          port: 22
+          script: |
+            docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_ACCESS_TOKEN }}
+            docker pull <%= container %>:<%= name %>
+            docker rm -f <%= container_name %>-<%= name %> || true
+            docker run --name <%= container_name %>-<%= name %> -p <%= port %>:4000 --restart=always -d <%= container %>:<%= name %>
+            exit
+            EOF
