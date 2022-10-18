@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
+import { normalize } from '@angular-devkit/core';
 import { Rule } from '@angular-devkit/schematics';
 import { generateFromFiles } from '../utility/generate-from-files';
 import { secretFormatter } from '../utility/helper';
@@ -16,6 +17,8 @@ export default function (options: WorkflowOptions): Rule {
 		options.container_name = options.container.split('/').pop();
 
 		options.secretFormatter = secretFormatter;
+
+		options.path = normalize('.github/workflows/');
 
 		return generateFromFiles(options);
 	};
