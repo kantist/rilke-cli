@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "SchematicsRilkeDocker",
+	"$id": "SchematicsRilkeWorkflow",
 	"title": "Rilke Workflow Options Schema",
 	"type": "object",
 	"description": "Create a workflow for Github Actions",
@@ -37,7 +37,7 @@
 				"$source": "argv",
 				"index": 0
 			},
-			"x-prompt": "Which container name would you like to use for the component?"
+			"x-prompt": "Which container name would you like to use for the workflow?"
 		},
 		"port": {
 			"type": "number",
@@ -46,7 +46,7 @@
 				"$source": "argv",
 				"index": 0
 			},
-			"x-prompt": "Which running port would you like to use for the component?"
+			"x-prompt": "Which running port would you like to use for the docker container?"
 		},
 		"path": {
 			"type": "string",
