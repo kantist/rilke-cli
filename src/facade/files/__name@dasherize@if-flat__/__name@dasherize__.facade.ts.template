@@ -58,7 +58,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 		});
 
 		this.apiService.get(apiCall).subscribe(
-			<%= dasherize(name) %>s => this.<%= camelize(name) %>State.setAll(<%= dasherize(name) %>s)
+			<%= camelize(name) %>s => this.<%= camelize(name) %>State.setAll(<%= camelize(name) %>s)
 		);
 	}
 

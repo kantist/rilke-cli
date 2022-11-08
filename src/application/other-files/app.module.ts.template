@@ -7,7 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { SessionInterceptor, JwtInterceptor } from '@rilke/common/api';
+import { SessionInterceptor, JwtInterceptor, API_URL } from '@rilke/common/api';
+import { environment } from '@env';
 
 registerLocaleData(locale);
 
@@ -16,12 +17,14 @@ registerLocaleData(locale);
 		AppComponent
 	],
 	imports: [
+		HttpClientModule,
 		BrowserModule.withServerTransition({ appId: 'serverApp' }),<% if (routing) { %>
 		AppRoutingModule,<% } %>
 	],
 	providers: [
 		{ provide: LocationStrategy, useClass: PathLocationStrategy },
 		{ provide: LOCALE_ID, useValue: '<%= locale %>' },
+		{ provide: API_URL, useValue: environment.apiUrl },
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },
 	],

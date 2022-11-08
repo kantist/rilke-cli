@@ -57,10 +57,6 @@
 					{
 						"value": "shared",
 						"label": "Shared"
-					},
-					{
-						"value": "core",
-						"label": "Core"
 					}
 				]
 			}

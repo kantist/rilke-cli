@@ -168,7 +168,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 					polyfills: `${sourceRoot}/polyfills.ts`,
 					tsConfig: `${projectRoot}tsconfig.app.json`,
 					inlineStyleLanguage,
-					assets: [`${sourceRoot}/assets`],
+					assets: [`${sourceRoot}/assets`, `${sourceRoot}/manifest.webmanifest`],
 					styles: [`${sourceRoot}/assets/style/styles.${options.style}`],
 					stylePreprocessorOptions: {
 						includePaths: ['src/assets/style'],
@@ -289,7 +289,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 
 	return updateWorkspace((workspace) => {
 		if (workspace.projects.size === 0) {
-			workspace.extensions.defaultProject = options.name;
+			// workspace.extensions.defaultProject = options.name;
 		}
 
 		workspace.projects.add({
