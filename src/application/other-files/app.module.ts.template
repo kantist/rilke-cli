@@ -6,7 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 <% if (routing) { %>import { AppRoutingModule } from './app-routing.module';<% } %>
 import { AppComponent } from './app.component';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TOKEN_KEY } from '@rilke/common/auth';
 import { SessionInterceptor, JwtInterceptor, API_URL } from '@rilke/common/api';
 import { environment } from '@env';
 
@@ -25,6 +26,7 @@ registerLocaleData(locale);
 		{ provide: LocationStrategy, useClass: PathLocationStrategy },
 		{ provide: LOCALE_ID, useValue: '<%= locale %>' },
 		{ provide: API_URL, useValue: environment.apiUrl },
+		{ provide: TOKEN_KEY, useValue: 'bearerToken' },
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },
 	],
