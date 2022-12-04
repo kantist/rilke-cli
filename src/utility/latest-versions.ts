@@ -16,12 +16,12 @@ export const latestVersions: Record<string, string> & {
 	...require('./latest-versions/package.json')['dependencies'],
 
 	// As Angular CLI works with same minor versions of Angular Framework, a tilde match for the current
-	Angular: '14.1.2',
+	Angular: '15.0.1',
 
 	Rilke: '' + require('../../package.json')['version'],
 
 	// Since @angular-devkit/build-angular and @schematics/angular are always
 	// published together from the same monorepo, and they are both
 	// non-experimental, they will always have the same version.
-	DevkitBuildAngular: '14.1.2',
+	DevkitBuildAngular: '15.0.1',
 };

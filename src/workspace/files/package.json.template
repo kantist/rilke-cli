@@ -2,33 +2,32 @@
 	"name": "<%= utils.dasherize(name) %>",
 	"version": "0.0.0",
 	"scripts": {
-		"rilke": "rilke",
-		"start": "rilke serve",
-		"build": "ng build",
-		"watch": "ng build --watch --configuration development",<% if (!minimal) { %>
-		"test": "rilke test",<% } %>
-		"lint": "rilke lint",
-		"lint:fix": "rilke lint --fix",
+		"start": "ril serve",
+		"build": "ril build",
+		"watch": "ril build --watch --configuration development",<% if (!minimal) { %>
+		"test": "ril test",<% } %>
+		"lint": "ril lint",
+		"lint:fix": "ril lint --fix",
 		"lint:styles": "stylelint \"**/*.scss\"",
 		"lint:styles:fix": "stylelint \"**/*.scss\" --fix",
 		"serve:ssr": "node dist/server/main.js",
-		"prod:build:ssr": "ng build && ng run <%= utils.dasherize(name) %>:server:production",
-		"pre-prod:build:ssr": "ng build --configuration preproduction && ng run <%= utils.dasherize(name) %>:server:preproduction",
-		"dev:build:ssr": "ng build --configuration development && ng run <%= utils.dasherize(name) %>:server:development"
+		"prod:build:ssr": "ril build && ril run <%= utils.dasherize(name) %>:server:production",
+		"pre-prod:build:ssr": "ril build --configuration preproduction && ril run <%= utils.dasherize(name) %>:server:preproduction",
+		"dev:build:ssr": "ril build --configuration development && ril run <%= utils.dasherize(name) %>:server:development"
 	},
 	"private": true,
 	"dependencies": {
+		"@rilke/common": "<%= latestVersions['@rilke/common'] %>",
 		"@angular/animations": "<%= latestVersions.Angular %>",
 		"@angular/common": "<%= latestVersions.Angular %>",
 		"@angular/compiler": "<%= latestVersions.Angular %>",
 		"@angular/core": "<%= latestVersions.Angular %>",
 		"@angular/forms": "<%= latestVersions.Angular %>",
+		"@angular/router": "<%= latestVersions.Angular %>",
 		"@angular/platform-browser": "<%= latestVersions.Angular %>",
 		"@angular/platform-browser-dynamic": "<%= latestVersions.Angular %>",
 		"@angular/platform-server": "<%= latestVersions.Angular %>",
-		"@angular/router": "<%= latestVersions.Angular %>",
 		"@angular/service-worker": "<%= latestVersions.Angular %>",
-		"@rilke/common": "<%= latestVersions['@rilke/common'] %>",
 		"@nguniversal/express-engine": "<%= latestVersions['@nguniversal/express-engine'] %>",
 		"express": "<%= latestVersions['express'] %>",
 		"localstorage-polyfill": "<%= latestVersions['localstorage-polyfill'] %>",
@@ -39,14 +38,16 @@
 		"zone.js": "<%= latestVersions['zone.js'] %>"
 	},
 	"devDependencies": {
+		"@rilke/cli": "<%= latestVersions.Rilke %>",
+		"@angular/cli": "<%= '~' + version %>",
+		"@angular/compiler-cli": "<%= latestVersions.Angular %>",
 		"@angular-devkit/build-angular": "<%= latestVersions.Angular %>",
 		"@nguniversal/builders": "<%= latestVersions['@nguniversal/builders'] %>",
-		"@types/express": "<%= latestVersions['@types/express'] %>",
-		"@angular-eslint/builder": "<%= latestVersions['@angular-eslint/eslint'] %>",
-		"@angular-eslint/eslint-plugin": "<%= latestVersions['@angular-eslint/eslint'] %>",
-		"@angular-eslint/eslint-plugin-template": "<%= latestVersions['@angular-eslint/eslint'] %>",
-		"@angular-eslint/schematics": "<%= latestVersions['@angular-eslint/eslint'] %>",
-		"@angular-eslint/template-parser": "<%= latestVersions['@angular-eslint/eslint'] %>",
+		"@angular-eslint/builder": "<%= latestVersions['@angular-eslint'] %>",
+		"@angular-eslint/eslint-plugin": "<%= latestVersions['@angular-eslint'] %>",
+		"@angular-eslint/eslint-plugin-template": "<%= latestVersions['@angular-eslint'] %>",
+		"@angular-eslint/schematics": "<%= latestVersions['@angular-eslint'] %>",
+		"@angular-eslint/template-parser": "<%= latestVersions['@angular-eslint'] %>",
 		"@typescript-eslint/parser": "<%= latestVersions['@typescript-eslint'] %>",
 		"@typescript-eslint/eslint-plugin": "<%= latestVersions['@typescript-eslint'] %>",
 		"eslint": "<%= latestVersions['eslint'] %>",
@@ -54,11 +55,9 @@
 		"prettier": "<%= latestVersions['prettier'] %>",
 		"stylelint": "<%= latestVersions['stylelint'] %>",
 		"stylelint-config-standard": "<%= latestVersions['stylelint-config-standard'] %>",
-		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>",
-		"@angular/cli": "<%= '~' + version %>",
-		"@rilke/cli": "<%= latestVersions.Rilke %>",
-		"@angular/compiler-cli": "<%= latestVersions.Angular %>",<% if (!minimal) { %>
+		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>",<% if (!minimal) { %>
 		"@types/jasmine": "<%= latestVersions['@types/jasmine'] %>",<% } %>
+		"@types/express": "<%= latestVersions['@types/express'] %>",
  		"typescript": "<%= latestVersions['typescript'] %>"
 	}
 }

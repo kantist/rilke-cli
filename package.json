@@ -1,6 +1,6 @@
 {
 	"name": "@rilke/cli",
-	"version": "14.0.8",
+	"version": "15.0.0",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
@@ -16,9 +16,12 @@
 		"type": "git",
 		"url": "https://github.com/kantist/rilke-cli.git"
 	},
+	"engines": {
+		"node": "^14.20.0 || ^16.13.0 || ^18.10.0"
+	},
 	"homepage": "https://rilke.ist/cli",
 	"bugs": {
-		"url": "https://github.com/kantist/kantist-cli/issues"
+		"url": "https://github.com/kantist/rilke-cli/issues"
 	},
 	"keywords": [
 		"angular",
@@ -34,22 +37,22 @@
 	"license": "MIT",
 	"schematics": "./src/collection.json",
 	"dependencies": {
-		"@angular-devkit/core": "14.1.2",
-		"@angular-devkit/schematics": "14.1.2",
-		"@angular/cli": "14.1.2",
+		"@angular-devkit/core": "15.0.2",
+		"@angular-devkit/schematics": "15.0.2",
+		"@angular/cli": "15.0.2",
 		"jsonc-parser": "3.0.0",
-		"shelljs": "^0.8.4",
-		"typescript": "4.7.4"
+		"shelljs": "^0.8.5",
+		"typescript": "4.8.4"
 	},
 	"devDependencies": {
-		"@types/node": "^12.11.1",
-		"@types/jasmine": "~3.8.0",
-		"jasmine": "^3.5.0",
-		"@typescript-eslint/eslint-plugin": "5.33.0",
-		"@typescript-eslint/parser": "5.33.0",
-		"esbuild": "0.15.1",
-		"esbuild-wasm": "0.15.1",
-		"eslint": "8.21.0",
+		"@types/node": "^14.15.0",
+		"@types/jasmine": "~4.3.0",
+		"jasmine": "^4.0.0",
+		"@typescript-eslint/eslint-plugin": "5.45.0",
+		"@typescript-eslint/parser": "5.45.0",
+		"esbuild": "0.15.16",
+		"esbuild-wasm": "0.15.16",
+		"eslint": "8.28.0",
 		"eslint-config-prettier": "8.5.0",
 		"eslint-plugin-header": "3.1.1",
 		"eslint-plugin-import": "2.26.0"
