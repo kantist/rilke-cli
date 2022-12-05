@@ -3,6 +3,9 @@
 	"rules": {
 		"indentation": "tab",
 		"no-missing-end-of-source-newline": null,
+		"custom-property-pattern": null,
+		"value-list-comma-newline-after": null,
+		"declaration-colon-newline-after": null,
 		"string-quotes": null,
 		"color-function-notation": null,
 		"scss/dollar-variable-empty-line-before": null,
