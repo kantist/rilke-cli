@@ -38,11 +38,11 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 	}
 
 	getAll$(): Observable<I<%= classify(name) %>s> {
-		return this.<%= camelize(name) %>State.getAll$();
+		return this.<%= camelize(name) %>State.getAll$().pipe(filter((<%= camelize(name) %>) => <%= camelize(name) %> !== null));
 	}
 
 	get$(): Observable<I<%= classify(name) %>> {
-		return this.<%= camelize(name) %>State.get$();
+		return this.<%= camelize(name) %>State.get$().pipe(filter((<%= camelize(name) %>) => <%= camelize(name) %> !== null));
 	}
 
 	fetch() {

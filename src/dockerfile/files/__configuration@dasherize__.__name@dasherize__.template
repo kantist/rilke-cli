@@ -1,6 +1,7 @@
 FROM node:14-alpine as buildContainer
 WORKDIR /app
 COPY ./package.json /app/
+RUN npm install -g @rilke/cli
 RUN npm install
 COPY ./ /app
 RUN npm run <%= configuration %>:build:ssr
