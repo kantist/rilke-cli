@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';<% if (ready) {%>
 import { ApiService, ApiCall } from '@rilke/common/api';
 import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
 import { <%= classify(name) %>State } from '@features/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.state';
-import { Observable } from 'rxjs';<% }%>
+import { filter, Observable } from 'rxjs';<% }%>
 
 @Injectable()
 export class <%= classify(name) %>Facade {<% if (ready) {%>
