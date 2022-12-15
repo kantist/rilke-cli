@@ -16,7 +16,6 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 	<% }%>) {<% if (ready) {%>
 		this.page = 1;
 		this.itemsPerPage = 10;
-		this.fetch();
 	<% }%>}<% if (ready) {%>
 
 	getPage() {
