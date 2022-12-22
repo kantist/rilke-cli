@@ -60,7 +60,7 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 			(options.type ? '.' : '') +
 			strings.dasherize(options.type);
 		const relativePath = buildRelativePath(modulePath, componentPath);
-		const classifiedName = strings.classify(options.name) + strings.classify(options.type);
+		const classifiedName = strings.classify(options.selector || options.name) + strings.classify(options.type);
 		const declarationChanges = addDeclarationToModule(source, modulePath, classifiedName, relativePath);
 
 		const declarationRecorder = host.beginUpdate(modulePath);
