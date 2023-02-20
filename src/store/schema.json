@@ -42,5 +42,5 @@
 			"default": false
 		}
 	},
-	"required": ["name", "layer", "module"]
+	"required": ["name"]
 }
