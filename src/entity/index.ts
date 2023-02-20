@@ -19,7 +19,6 @@ import {
 	schematic,
 	url,
 } from '@angular-devkit/schematics';
-import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as EntityOptions } from './schema';
 
