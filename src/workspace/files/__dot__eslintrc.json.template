@@ -68,6 +68,7 @@
 				"@typescript-eslint/restrict-plus-operands": "off",
 				"@typescript-eslint/restrict-template-expressions": "off",
 				"@typescript-eslint/unbound-method": "off",
+				"@typescript-eslint/no-empty-interface": "off",
 				"@typescript-eslint/no-explicit-any": "off",
 
 				"import/first": "error",

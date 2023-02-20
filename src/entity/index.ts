@@ -8,6 +8,7 @@
 
 import { normalize, strings } from '@angular-devkit/core';
 import {
+	MergeStrategy,
 	Rule,
 	SchematicsException,
 	Tree,
@@ -56,7 +57,7 @@ export default function (options: EntityOptions): Rule {
 		]);
 
 		return chain([
-			mergeWith(templateSource),
+			mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict),
 			schematic('state', {
 				name: options.name,
 				layer: 'stores',
