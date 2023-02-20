@@ -12,9 +12,9 @@ export interface Schema {
 	 */
 	name: string;
 	/**
-	 * The name of the store.
+	 * The name of the module/store.
 	 */
-	storeName: string;
+	module?: string;
 	/**
 	 * The path at which to create the service, relative to the workspace root.
 	 */

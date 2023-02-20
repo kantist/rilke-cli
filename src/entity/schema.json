@@ -15,10 +15,11 @@
 			},
 			"x-prompt": "What name would you like to use for the entity?"
 		},
-		"storeName": {
+		"module": {
 			"type": "string",
-			"description": "The name of the store.",
-			"x-prompt": "What store name would you like to use for the entity?"
+			"description": "The declaring NgModule/Store.",
+			"alias": "m",
+			"x-prompt": "Which NgModule would you like to use this enum?"
 		},
 		"path": {
 			"type": "string",

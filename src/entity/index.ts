@@ -47,7 +47,7 @@ export default function (options: EntityOptions): Rule {
 		// Remap path
 		options.path = buildPath(options); // src/app/stores/
 
-		const parsedPath = parseName(options.path, options.storeName);
+		const parsedPath = parseName(options.path, options.module as string);
 		options.name = parsedPath.name;
 		options.path = parsedPath.path;
 
@@ -65,19 +65,19 @@ export default function (options: EntityOptions): Rule {
 			schematic('state', {
 				name: options.name,
 				layer: 'stores',
-				module: options.storeName,
+				module: options.module,
 				ready: options.ready,
 			}),
 			schematic('model', {
 				name: options.name,
 				layer: 'stores',
-				module: options.storeName,
+				module: options.module,
 				ready: options.ready,
 			}),
 			schematic('facade', {
 				name: options.name,
 				layer: 'stores',
-				module: options.storeName,
+				module: options.module,
 				ready: options.ready,
 			}),
 		]);

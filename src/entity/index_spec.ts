@@ -9,14 +9,11 @@
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { Schema as ApplicationOptions } from '../application/schema';
 import { Schema as WorkspaceOptions } from '../workspace/schema';
-import { Schema as ServiceOptions } from './schema';
+import { Schema as EntityOptions } from './schema';
 
 describe('Service Schematic', () => {
-	const schematicRunner = new SchematicTestRunner(
-		'@schematics/angular',
-		require.resolve('../collection.json'),
-	);
-	const defaultOptions: ServiceOptions = {
+	const schematicRunner = new SchematicTestRunner('@schematics/angular', require.resolve('../collection.json'));
+	const defaultOptions: EntityOptions = {
 		name: 'foo',
 		flat: false,
 		project: 'bar',
@@ -38,9 +35,7 @@ describe('Service Schematic', () => {
 	let appTree: UnitTestTree;
 	beforeEach(async () => {
 		appTree = await schematicRunner.runSchematicAsync('workspace', workspaceOptions).toPromise();
-		appTree = await schematicRunner
-			.runSchematicAsync('application', appOptions, appTree)
-			.toPromise();
+		appTree = await schematicRunner.runSchematicAsync('application', appOptions, appTree).toPromise();
 	});
 
 	it('should create a service', async () => {
@@ -73,9 +68,7 @@ describe('Service Schematic', () => {
 		const config = JSON.parse(appTree.readContent('/angular.json'));
 		config.projects.bar.sourceRoot = 'projects/bar/custom';
 		appTree.overwrite('/angular.json', JSON.stringify(config, null, 2));
-		appTree = await schematicRunner
-			.runSchematicAsync('service', defaultOptions, appTree)
-			.toPromise();
+		appTree = await schematicRunner.runSchematicAsync('service', defaultOptions, appTree).toPromise();
 		expect(appTree.files).toContain('/projects/bar/custom/app/foo/foo.service.ts');
 	});
 });
