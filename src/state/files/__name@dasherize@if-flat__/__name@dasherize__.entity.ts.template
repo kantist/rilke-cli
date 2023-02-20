@@ -1,0 +1,15 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';<% if (ready) {%>
+
+import { I<%= classify(name) %>Data } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+
+export const <%= camelize(name) %>Adaptor: EntityAdapter<I<%= classify(name) %>Data> = createEntityAdapter<I<%= classify(name) %>Data>({
+	selectId: (<%= camelize(name) %>: I<%= classify(name) %>Data) => <%= camelize(name) %>.id,
+});
+
+export interface DataState extends EntityState<I<%= classify(name) %>Data> {}<% }%>
+
+<% if (!ready) {%>export const <%= camelize(name) %>Adaptor: EntityAdapter<any> = createEntityAdapter<any>({
+	selectId: (<%= camelize(name) %>: any) => <%= camelize(name) %>.id,
+});
+
+export interface DataState extends EntityState<any> {}<% }%>

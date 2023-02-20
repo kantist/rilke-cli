@@ -1,15 +1,13 @@
-<% if (ready) {%>import { IMeta } from "@shared/interfaces/meta.interface";
-
-export interface <%= prefix %><%= classify(name) %>s {
-	data: <%= prefix %><%= classify(name) %>Detail[],
-	meta: IMeta
+<% if (ready) {%>export interface <%= prefix %><%= classify(name) %>s {
+	data: <%= prefix %><%= classify(name) %>Data[],
+	meta: any
 }
 
 export interface <%= prefix %><%= classify(name) %> {
-	data: <%= prefix %><%= classify(name) %>Detail
+	data: <%= prefix %><%= classify(name) %>Data
 }
 
-export interface <%= prefix %><%= classify(name) %>Detail {
+export interface <%= prefix %><%= classify(name) %>Data {
 	id?: string,
 	type?: '<%= dasherize(name) %>',
 	attributes: {

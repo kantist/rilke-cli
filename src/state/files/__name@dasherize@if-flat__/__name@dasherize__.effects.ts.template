@@ -1,0 +1,135 @@
+import { Injectable } from '@angular/core';
+
+import * as <%= camelize(name) %>Action from './<%= dasherize(name) %>.actions';<% if (ready) {%>
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of, catchError, map, mergeMap } from 'rxjs';
+
+import { ApiCall, ApiService } from '@rilke/common/api';
+
+import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/params.interface';<% }%>
+
+@Injectable()
+export class <%= classify(name) %>Effects {<% if (ready) {%>
+	constructor(private actions$: Actions, private apiService: ApiService) {}
+
+	load<%= classify(name) %>s$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(<%= camelize(name) %>Action.ActionTypes.Load<%= classify(name) %>s),
+			// tap((val) => console.log('BEFORE MAP:', val)),
+			mergeMap((params: I<%= classify(name) %>Params) =>
+				this.apiService
+					.get(
+						new ApiCall({
+							path: '<%= dasherize(name) %>',
+							options: {
+								params: {
+									...params,
+								},
+							},
+						})
+					)
+					.pipe(
+						map((<%= camelize(name) %>s: I<%= classify(name) %>s) => <%= camelize(name) %>Action.load<%= classify(name) %>sSuccess(<%= camelize(name) %>s)),
+						catchError((err) => of(<%= camelize(name) %>Action.load<%= classify(name) %>sFail(err)))
+					)
+			)
+			// tap((val) => console.log('AFTER MAP:', val))
+		)
+	);
+
+	load<%= classify(name) %>$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(<%= camelize(name) %>Action.ActionTypes.Load<%= classify(name) %>),
+			mergeMap((payload: { id: string; params: I<%= classify(name) %>Params }) =>
+				this.apiService
+					.get(
+						new ApiCall({
+							path: '<%= dasherize(name) %>/' + payload.id,
+							options: {
+								params: {
+									...payload.params,
+								},
+							},
+						})
+					)
+					.pipe(
+						map((<%= camelize(name) %>: I<%= classify(name) %>) => <%= camelize(name) %>Action.load<%= classify(name) %>Success(<%= camelize(name) %>)),
+						catchError((err) => of(<%= camelize(name) %>Action.load<%= classify(name) %>Fail(err)))
+					)
+			)
+		)
+	);
+
+	create<%= classify(name) %>$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(<%= camelize(name) %>Action.ActionTypes.Create<%= classify(name) %>),
+			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>; params: I<%= classify(name) %>Params }) =>
+				this.apiService
+					.post(
+						new ApiCall({
+							path: '<%= dasherize(name) %>',
+							body: payload.<%= camelize(name) %>,
+							options: {
+								params: {
+									...payload.params,
+								},
+							},
+						})
+					)
+					.pipe(
+						map((created<%= classify(name) %>: I<%= classify(name) %>) => <%= camelize(name) %>Action.create<%= classify(name) %>Success(created<%= classify(name) %>)),
+						catchError((err) => of(<%= camelize(name) %>Action.create<%= classify(name) %>Success(payload.<%= camelize(name) %>)))
+					)
+			)
+		)
+	);
+
+	update<%= classify(name) %>$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(<%= camelize(name) %>Action.ActionTypes.Update<%= classify(name) %>),
+			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>; params: I<%= classify(name) %>Params }) =>
+				this.apiService
+					.patch(
+						new ApiCall({
+							path: '<%= dasherize(name) %>/' + payload.<%= camelize(name) %>.data.id,
+							body: payload.<%= camelize(name) %>,
+							options: {
+								params: {
+									...payload.params,
+								},
+							},
+						})
+					)
+					.pipe(
+						map((updated<%= classify(name) %>: I<%= classify(name) %>) => <%= camelize(name) %>Action.update<%= classify(name) %>Success(updated<%= classify(name) %>)),
+						catchError((err) => of(<%= camelize(name) %>Action.update<%= classify(name) %>Fail(err)))
+					)
+			)
+		)
+	);
+
+	delete<%= classify(name) %>$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(<%= camelize(name) %>Action.ActionTypes.Delete<%= classify(name) %>),
+			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>; params: I<%= classify(name) %>Params }) =>
+				this.apiService
+					.delete(
+						new ApiCall({
+							path: '<%= dasherize(name) %>/' + payload.<%= camelize(name) %>.data.id,
+							options: {
+								params: {
+									...payload.params,
+								},
+							},
+						})
+					)
+					.pipe(
+						map(() => <%= camelize(name) %>Action.delete<%= classify(name) %>Success({ id: payload.<%= camelize(name) %>.data.id })),
+						catchError((err) => of(<%= camelize(name) %>Action.delete<%= classify(name) %>Fail(err)))
+					)
+			)
+		)
+	);
+<% }%>}

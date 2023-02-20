@@ -21,12 +21,9 @@ import {
 } from '@angular-devkit/schematics';
 import { Schema as ComponentOptions } from '../component/schema';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import {
-	addRedirectRouteDeclarationToModule,
-	addRouteDeclarationToModule
-} from '../utility/ast-utils';
+import { addRedirectRouteDeclarationToModule, addRouteDeclarationToModule } from '../utility/ast-utils';
 import { InsertChange } from '../utility/change';
-import { buildRelativePath, findModuleFromOptions } from '../utility/find-module';
+import { findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as LayoutOptions } from './schema';
@@ -41,10 +38,7 @@ function readIntoSourceFile(host: Tree, modulePath: string): ts.SourceFile {
 	return ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
 }
 
-function addRouteDeclarationToNgModule(
-	options: LayoutOptions,
-	routingModulePath: Path | undefined
-): Rule {
+function addRouteDeclarationToNgModule(options: LayoutOptions, routingModulePath: Path | undefined): Rule {
 	return (host: Tree) => {
 		if (!options.route) {
 			return host;
@@ -98,15 +92,15 @@ function addRouteDeclarationToNgModule(
 	};
 }
 
-function buildRelativeModulePath(options: LayoutOptions, modulePath: string): string {
+function buildRelativeModulePath(options: LayoutOptions): string {
 	const importModulePath = normalize(
-		`/${options.path}/` +
+		`@layouts/` +
 			(options.flat ? '' : strings.dasherize(options.name) + '/') +
 			strings.dasherize(options.name) +
 			'.layout'
 	);
 
-	return buildRelativePath(modulePath, importModulePath);
+	return importModulePath;
 }
 
 function getRoutingModulePath(host: Tree, modulePath: string): Path | undefined {
@@ -124,7 +118,9 @@ function buildPath(options: LayoutOptions) {
 function buildRoute(options: LayoutOptions) {
 	const moduleName = `${strings.classify(options.name)}Layout`;
 
-	return `{ path: '${options.route}', loadChildren:() => import('${buildRelativeModulePath(options, options.module as string)}').then(l => l.${moduleName}) }`;
+	return `{ path: '${options.route}', loadChildren:() => import('${buildRelativeModulePath(
+		options
+	)}').then(l => l.${moduleName}) }`;
 }
 
 export default function (options: LayoutOptions): Rule {
@@ -173,7 +169,7 @@ export default function (options: LayoutOptions): Rule {
 			layer: 'layouts',
 			skipSelector: true,
 			subscriptionManagement: false,
-			parent: true
+			parent: true,
 		};
 
 		const notFoundComponentOptions: Partial<ComponentOptions> = {
@@ -182,7 +178,7 @@ export default function (options: LayoutOptions): Rule {
 			layer: 'layouts',
 			skipSelector: true,
 			subscriptionManagement: false,
-			parent: true
+			parent: true,
 		};
 
 		return chain([

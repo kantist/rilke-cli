@@ -11,4 +11,4 @@ import { RouterModule } from '@angular/router';<% } %>
 	],
 	declarations: []
 })
-export class <%= classify(name) %>Layout { }
+export class <%= classify(name) %>Layout {}

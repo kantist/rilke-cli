@@ -19,10 +19,7 @@ function readJsonFile(tree: UnitTestTree, path: string): any {
 }
 
 describe('Application Schematic', () => {
-	const schematicRunner = new SchematicTestRunner(
-		'@schematics/angular',
-		require.resolve('../collection.json'),
-	);
+	const schematicRunner = new SchematicTestRunner('@schematics/angular', require.resolve('../collection.json'));
 
 	const workspaceOptions: WorkspaceOptions = {
 		name: 'workspace',
@@ -38,17 +35,13 @@ describe('Application Schematic', () => {
 
 	let workspaceTree: UnitTestTree;
 	beforeEach(async () => {
-		workspaceTree = await schematicRunner
-			.runSchematicAsync('workspace', workspaceOptions)
-			.toPromise();
+		workspaceTree = await schematicRunner.runSchematicAsync('workspace', workspaceOptions).toPromise();
 	});
 
 	it('should create all files of an application', async () => {
 		const options = { ...defaultOptions };
 
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const files = tree.files;
 		expect(files).toEqual(
 			jasmine.arrayContaining([
@@ -68,16 +61,14 @@ describe('Application Schematic', () => {
 				'/projects/foo/src/app/app.component.html',
 				'/projects/foo/src/app/app.component.spec.ts',
 				'/projects/foo/src/app/app.component.ts',
-			]),
+			])
 		);
 	});
 
 	it('should add the application to the workspace', async () => {
 		const options = { ...defaultOptions };
 
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const workspace = JSON.parse(tree.readContent('/angular.json'));
 		expect(workspace.projects.foo).toBeDefined();
 		expect(workspace.defaultProject).toBe('foo');
@@ -86,9 +77,7 @@ describe('Application Schematic', () => {
 	it('should set the prefix to app if none is set', async () => {
 		const options = { ...defaultOptions };
 
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const workspace = JSON.parse(tree.readContent('/angular.json'));
 		expect(workspace.projects.foo.prefix).toEqual('app');
 	});
@@ -96,9 +85,7 @@ describe('Application Schematic', () => {
 	it('should set the prefix correctly', async () => {
 		const options = { ...defaultOptions, prefix: 'pre' };
 
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const workspace = JSON.parse(tree.readContent('/angular.json'));
 		expect(workspace.projects.foo.prefix).toEqual('pre');
 	});
@@ -106,9 +93,7 @@ describe('Application Schematic', () => {
 	it('should handle the routing flag', async () => {
 		const options = { ...defaultOptions, routing: true };
 
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const files = tree.files;
 		expect(files).toContain('/projects/foo/src/app/app.module.ts');
 		expect(files).toContain('/projects/foo/src/app/app-routing.module.ts');
@@ -119,18 +104,14 @@ describe('Application Schematic', () => {
 	});
 
 	it('should import BrowserModule in the app module', async () => {
-		const tree = await schematicRunner
-			.runSchematicAsync('application', defaultOptions, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', defaultOptions, workspaceTree).toPromise();
 		const path = '/projects/foo/src/app/app.module.ts';
 		const content = tree.readContent(path);
 		expect(content).toMatch(/import { BrowserModule } from '@angular\/platform-browser';/);
 	});
 
 	it('should declare app component in the app module', async () => {
-		const tree = await schematicRunner
-			.runSchematicAsync('application', defaultOptions, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', defaultOptions, workspaceTree).toPromise();
 		const path = '/projects/foo/src/app/app.module.ts';
 		const content = tree.readContent(path);
 		expect(content).toMatch(/import { AppComponent } from '\.\/app\.component';/);
@@ -144,7 +125,7 @@ describe('Application Schematic', () => {
 					...defaultOptions,
 					viewEncapsulation: 'ShadowDom',
 				},
-				workspaceTree,
+				workspaceTree
 			)
 			.toPromise();
 		const path = '/projects/foo/src/main.ts';
@@ -154,36 +135,28 @@ describe('Application Schematic', () => {
 	});
 
 	it('should set the right paths in the tsconfig.app.json', async () => {
-		const tree = await schematicRunner
-			.runSchematicAsync('application', defaultOptions, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', defaultOptions, workspaceTree).toPromise();
 		const { files, extends: _extends } = readJsonFile(tree, '/projects/foo/tsconfig.app.json');
 		expect(files).toEqual(['src/main.ts', 'src/polyfills.ts']);
 		expect(_extends).toBe('../../tsconfig.json');
 	});
 
 	it('should set the right paths in the tsconfig.spec.json', async () => {
-		const tree = await schematicRunner
-			.runSchematicAsync('application', defaultOptions, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', defaultOptions, workspaceTree).toPromise();
 		const { files, extends: _extends } = readJsonFile(tree, '/projects/foo/tsconfig.spec.json');
 		expect(files).toEqual(['src/test.ts', 'src/polyfills.ts']);
 		expect(_extends).toBe('../../tsconfig.json');
 	});
 
 	it('should set the right coverage folder in the karma.json file', async () => {
-		const tree = await schematicRunner
-			.runSchematicAsync('application', defaultOptions, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', defaultOptions, workspaceTree).toPromise();
 		const karmaConf = getFileContent(tree, '/projects/foo/karma.conf.js');
 		expect(karmaConf).toContain(`dir: require('path').join(__dirname, '../../coverage/foo')`);
 	});
 
 	it('minimal=true should not create e2e and test targets', async () => {
 		const options = { ...defaultOptions, minimal: true };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const config = JSON.parse(tree.readContent('/angular.json'));
 		const architect = config.projects.foo.architect;
 		expect(architect.test).not.toBeDefined();
@@ -192,9 +165,7 @@ describe('Application Schematic', () => {
 
 	it('minimal=true should configure the schematics options for components', async () => {
 		const options = { ...defaultOptions, minimal: true };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const config = JSON.parse(tree.readContent('/angular.json'));
 		const schematics = config.projects.foo.schematics;
 		expect(schematics['@schematics/angular:component']).toEqual({
@@ -206,9 +177,7 @@ describe('Application Schematic', () => {
 
 	it('minimal=true allows inlineStyle=false when configuring the schematics options for components', async () => {
 		const options = { ...defaultOptions, minimal: true, inlineStyle: false };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const config = JSON.parse(tree.readContent('/angular.json'));
 		const schematics = config.projects.foo.schematics;
 		expect(schematics['@schematics/angular:component']).toEqual({
@@ -219,9 +188,7 @@ describe('Application Schematic', () => {
 
 	it('minimal=true allows inlineTemplate=false when configuring the schematics options for components', async () => {
 		const options = { ...defaultOptions, minimal: true, inlineTemplate: false };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const config = JSON.parse(tree.readContent('/angular.json'));
 		const schematics = config.projects.foo.schematics;
 		expect(schematics['@schematics/angular:component']).toEqual({
@@ -232,9 +199,7 @@ describe('Application Schematic', () => {
 
 	it('should create correct files when using minimal', async () => {
 		const options = { ...defaultOptions, minimal: true };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const files = tree.files;
 		[
 			'/projects/foo/tsconfig.spec.json',
@@ -257,15 +222,13 @@ describe('Application Schematic', () => {
 				'/projects/foo/src/styles.css',
 				'/projects/foo/src/app/app.module.ts',
 				'/projects/foo/src/app/app.component.ts',
-			]),
+			])
 		);
 	});
 
 	it('should create correct files when using minimal and inlineStyle=false', async () => {
 		const options = { ...defaultOptions, minimal: true, inlineStyle: false };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const files = tree.files;
 		[
 			'/projects/foo/tsconfig.spec.json',
@@ -288,15 +251,13 @@ describe('Application Schematic', () => {
 				'/projects/foo/src/app/app.module.ts',
 				'/projects/foo/src/app/app.component.css',
 				'/projects/foo/src/app/app.component.ts',
-			]),
+			])
 		);
 	});
 
 	it('should create correct files when using minimal and inlineTemplate=false', async () => {
 		const options = { ...defaultOptions, minimal: true, inlineTemplate: false };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const files = tree.files;
 		[
 			'/projects/foo/tsconfig.spec.json',
@@ -319,7 +280,7 @@ describe('Application Schematic', () => {
 				'/projects/foo/src/app/app.module.ts',
 				'/projects/foo/src/app/app.component.html',
 				'/projects/foo/src/app/app.component.ts',
-			]),
+			])
 		);
 	});
 
@@ -331,7 +292,7 @@ describe('Application Schematic', () => {
 
 			const packageJson = JSON.parse(tree.readContent('package.json'));
 			expect(packageJson.devDependencies['@angular-devkit/build-angular']).toEqual(
-				latestVersions.DevkitBuildAngular,
+				latestVersions.DevkitBuildAngular
 			);
 		});
 
@@ -340,7 +301,7 @@ describe('Application Schematic', () => {
 				.runSchematicAsync('application', defaultOptions, workspaceTree)
 				.toPromise();
 			const pkg = JSON.parse(tree.readContent('/package.json'));
-			expect(pkg.devDependencies['@angular/compiler-cli']).toEqual(latestVersions.Angular);
+			expect(pkg.devDependencies['@angular/compiler-cli']).toEqual(latestVersions['@angular']);
 			expect(pkg.devDependencies['typescript']).toEqual(latestVersions['typescript']);
 		});
 
@@ -348,10 +309,7 @@ describe('Application Schematic', () => {
 			const oldPackageJson = workspaceTree.readContent('package.json');
 			workspaceTree.overwrite(
 				'package.json',
-				oldPackageJson.replace(
-					`"typescript": "${latestVersions['typescript']}"`,
-					`"typescript": "~2.5.2"`,
-				),
+				oldPackageJson.replace(`"typescript": "${latestVersions['typescript']}"`, `"typescript": "~2.5.2"`)
 			);
 
 			const tree = await schematicRunner
@@ -369,7 +327,7 @@ describe('Application Schematic', () => {
 						name: 'foo',
 						skipPackageJson: true,
 					},
-					workspaceTree,
+					workspaceTree
 				)
 				.toPromise();
 
@@ -382,9 +340,7 @@ describe('Application Schematic', () => {
 		it('should put app files in the right spot', async () => {
 			const options = { ...defaultOptions, projectRoot: '' };
 
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const files = tree.files;
 			expect(files).toEqual(
 				jasmine.arrayContaining([
@@ -404,16 +360,14 @@ describe('Application Schematic', () => {
 					'/src/app/app.component.html',
 					'/src/app/app.component.spec.ts',
 					'/src/app/app.component.ts',
-				]),
+				])
 			);
 		});
 
 		it('should set values in angular.json correctly', async () => {
 			const options = { ...defaultOptions, projectRoot: '' };
 
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const config = JSON.parse(tree.readContent('/angular.json'));
 			const prj = config.projects.foo;
 			expect(prj.root).toEqual('');
@@ -432,9 +386,7 @@ describe('Application Schematic', () => {
 
 		it('should set values in angular.json correctly when using a style preprocessor', async () => {
 			const options = { ...defaultOptions, projectRoot: '', style: 'sass' };
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const config = JSON.parse(tree.readContent('/angular.json'));
 			const prj = config.projects.foo;
 			const buildOpt = prj.architect.build.options;
@@ -446,9 +398,7 @@ describe('Application Schematic', () => {
 
 		it('sets "inlineStyleLanguage" in angular.json when using a style preprocessor', async () => {
 			const options = { ...defaultOptions, projectRoot: '', style: 'sass' };
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const config = JSON.parse(tree.readContent('/angular.json'));
 			const prj = config.projects.foo;
 
@@ -461,9 +411,7 @@ describe('Application Schematic', () => {
 
 		it('does not set "inlineStyleLanguage" in angular.json when not using a style preprocessor', async () => {
 			const options = { ...defaultOptions, projectRoot: '' };
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const config = JSON.parse(tree.readContent('/angular.json'));
 			const prj = config.projects.foo;
 
@@ -476,9 +424,7 @@ describe('Application Schematic', () => {
 
 		it('does not set "inlineStyleLanguage" in angular.json when using CSS styles', async () => {
 			const options = { ...defaultOptions, projectRoot: '', style: 'css' };
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const config = JSON.parse(tree.readContent('/angular.json'));
 			const prj = config.projects.foo;
 
@@ -491,9 +437,7 @@ describe('Application Schematic', () => {
 
 		it('should set the relative tsconfig paths', async () => {
 			const options = { ...defaultOptions, projectRoot: '' };
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const appTsConfig = readJsonFile(tree, '/tsconfig.app.json');
 			expect(appTsConfig.extends).toEqual('./tsconfig.json');
 			const specTsConfig = readJsonFile(tree, '/tsconfig.spec.json');
@@ -506,9 +450,7 @@ describe('Application Schematic', () => {
 				.runSchematicAsync('workspace', { ...workspaceOptions, newProjectRoot: '' })
 				.toPromise();
 			const options = { ...defaultOptions, projectRoot: undefined };
-			const tree = await schematicRunner
-				.runSchematicAsync('application', options, workspaceTree)
-				.toPromise();
+			const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 			const config = JSON.parse(tree.readContent('/angular.json'));
 			const project = config.projects.foo;
 			expect(project.root).toEqual('foo');
@@ -527,18 +469,14 @@ describe('Application Schematic', () => {
 
 	it(`should create kebab-case project folder names with camelCase project name`, async () => {
 		const options: ApplicationOptions = { ...defaultOptions, name: 'myCool' };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const exists = tree.exists('/projects/my-cool/.browserslistrc');
 		expect(exists).toBeTrue();
 	});
 
 	it(`should create kebab-case project folder names with PascalCase project name`, async () => {
 		const options: ApplicationOptions = { ...defaultOptions, name: 'MyCool' };
-		const tree = await schematicRunner
-			.runSchematicAsync('application', options, workspaceTree)
-			.toPromise();
+		const tree = await schematicRunner.runSchematicAsync('application', options, workspaceTree).toPromise();
 		const exists = tree.exists('/projects/my-cool/.browserslistrc');
 		expect(exists).toBeTrue();
 	});

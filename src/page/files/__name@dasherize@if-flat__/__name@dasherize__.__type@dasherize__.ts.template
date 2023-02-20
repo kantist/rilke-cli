@@ -1,10 +1,8 @@
 import { Component, OnInit<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%><% if(subscriptionManagement) { %>, OnDestroy<% }%> } from '@angular/core';<% if (subscriptionManagement) {%>
 import { Subscription } from 'rxjs';<% }%>
 
-import { SeoService } from '@rilke/common/seo';
-
-@Component({<% if(!skipSelector) {%>
-	selector: '<%= selector %>',<%}%><% if(inlineTemplate) { %>
+@Component({<% if(!skipSelector) { %>
+	selector: '<%= selector %>',<% } %><% if(inlineTemplate) { %>
 	template: `
 		<p>
 			<%= dasherize(name) %> works!
@@ -17,17 +15,12 @@ import { SeoService } from '@rilke/common/seo';
 	encapsulation: ViewEncapsulation.<%= viewEncapsulation %><% } if (changeDetection !== 'Default') { %>,
 	changeDetection: ChangeDetectionStrategy.<%= changeDetection %><% } %>
 })
-export class <%= classify(name) %><%= classify(type) %> implements OnInit<% if(subscriptionManagement) { %>, OnDestroy<% }%> {<% if (subscriptionManagement) {%>
+export class <%= classify(className) %> implements OnInit<% if(subscriptionManagement) { %>, OnDestroy<% }%> {<% if (subscriptionManagement) {%>
 	private readonly subscriptions: Subscription[] = [];
 <% }%>
-	constructor(
-		private seo: SeoService
-	) {
-		this.seo.updateTitle('<%= capitalize(name) %>');
-	}
+	constructor() {}
 
-	ngOnInit() {
-	}<% if (subscriptionManagement) {%>
+	ngOnInit() {}<% if (subscriptionManagement) {%>
 
 	ngOnDestroy() {
 		this.subscriptions.forEach((subscription) => {

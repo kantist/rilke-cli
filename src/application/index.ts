@@ -37,12 +37,12 @@ function addDependenciesToPackageJson(options: ApplicationOptions) {
 			{
 				type: NodeDependencyType.Dev,
 				name: '@angular/compiler-cli',
-				version: latestVersions.Angular,
+				version: latestVersions['@angular'],
 			},
 			{
 				type: NodeDependencyType.Dev,
 				name: '@angular-devkit/build-angular',
-				version: latestVersions.DevkitBuildAngular,
+				version: latestVersions['@angular'],
 			},
 			{
 				type: NodeDependencyType.Dev,
@@ -67,7 +67,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 
 	const schematics: JsonObject = {};
 
-	if (options.inlineTemplate || options.inlineStyle || options.minimal || options.style !== 'css') {
+	if (options.inlineTemplate || options.inlineStyle || options.minimal || options.style !== 'scss') {
 		const componentSchematicsOptions: JsonObject = {};
 		if (options.inlineTemplate ?? options.minimal) {
 			componentSchematicsOptions.inlineTemplate = true;
@@ -75,7 +75,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 		if (options.inlineStyle ?? options.minimal) {
 			componentSchematicsOptions.inlineStyle = true;
 		}
-		if (options.style && options.style !== 'css') {
+		if (options.style && options.style !== 'scss') {
 			componentSchematicsOptions.style = options.style;
 		}
 
@@ -83,27 +83,18 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 	}
 
 	if (options.skipTests || options.minimal) {
-		[
-			'class',
-			'component',
-			'directive',
-			'guard',
-			'interceptor',
-			'pipe',
-			'service',
-			'facade',
-			'state',
-			'api',
-		].forEach((type) => {
-			if (!(`@rilke/cli:${type}` in schematics)) {
-				schematics[`@rilke/cli:${type}`] = {};
+		['class', 'component', 'directive', 'guard', 'interceptor', 'pipe', 'service', 'facade', 'state'].forEach(
+			(type) => {
+				if (!(`@rilke/cli:${type}` in schematics)) {
+					schematics[`@rilke/cli:${type}`] = {};
+				}
+				(schematics[`@rilke/cli:${type}`] as JsonObject).skipTests = true;
 			}
-			(schematics[`@rilke/cli:${type}`] as JsonObject).skipTests = true;
-		});
+		);
 	}
 
 	if (options.ready) {
-		['facade', 'state', 'model', 'interface', 'api'].forEach((type) => {
+		['facade', 'state', 'model', 'interface'].forEach((type) => {
 			if (!(`@rilke/cli:${type}` in schematics)) {
 				schematics[`@rilke/cli:${type}`] = {};
 			}

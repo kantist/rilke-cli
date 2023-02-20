@@ -12,10 +12,7 @@ import { latestVersions } from '../utility/latest-versions';
 import { Schema as WorkspaceOptions } from './schema';
 
 describe('Workspace Schematic', () => {
-	const schematicRunner = new SchematicTestRunner(
-		'@schematics/angular',
-		require.resolve('../collection.json'),
-	);
+	const schematicRunner = new SchematicTestRunner('@schematics/angular', require.resolve('../collection.json'));
 	const defaultOptions: WorkspaceOptions = {
 		name: 'foo',
 		version: '6.0.0',
@@ -34,7 +31,7 @@ describe('Workspace Schematic', () => {
 				'/package.json',
 				'/README.md',
 				'/tsconfig.json',
-			]),
+			])
 		);
 	});
 
@@ -53,7 +50,7 @@ describe('Workspace Schematic', () => {
 	it('should use the latest known versions in package.json', async () => {
 		const tree = await schematicRunner.runSchematicAsync('workspace', defaultOptions).toPromise();
 		const pkg = JSON.parse(tree.readContent('/package.json'));
-		expect(pkg.dependencies['@angular/core']).toEqual(latestVersions.Angular);
+		expect(pkg.dependencies['@angular/core']).toEqual(latestVersions['@angular']);
 		expect(pkg.dependencies['rxjs']).toEqual(latestVersions['rxjs']);
 		expect(pkg.dependencies['zone.js']).toEqual(latestVersions['zone.js']);
 		expect(pkg.devDependencies['typescript']).toEqual(latestVersions['typescript']);
@@ -65,13 +62,7 @@ describe('Workspace Schematic', () => {
 			.toPromise();
 		const files = tree.files;
 		expect(files).toEqual(
-			jasmine.arrayContaining([
-				'/angular.json',
-				'/.gitignore',
-				'/package.json',
-				'/README.md',
-				'/tsconfig.json',
-			]),
+			jasmine.arrayContaining(['/angular.json', '/.gitignore', '/package.json', '/README.md', '/tsconfig.json'])
 		);
 
 		expect(files).not.toContain('/.editorconfig');
@@ -87,22 +78,16 @@ describe('Workspace Schematic', () => {
 		const tree = await schematicRunner
 			.runSchematicAsync('workspace', { ...defaultOptions, strict: false })
 			.toPromise();
-		const { compilerOptions, angularCompilerOptions } = parseJson(
-			tree.readContent('tsconfig.json').toString(),
-		);
+		const { compilerOptions, angularCompilerOptions } = parseJson(tree.readContent('tsconfig.json').toString());
 		expect(compilerOptions.strict).toBeUndefined();
-		expect(
-			Object.keys(angularCompilerOptions).filter((option) => option.startsWith('strict')),
-		).toEqual([]);
+		expect(Object.keys(angularCompilerOptions).filter((option) => option.startsWith('strict'))).toEqual([]);
 	});
 
 	it('should add strict compiler options when true', async () => {
 		const tree = await schematicRunner
 			.runSchematicAsync('workspace', { ...defaultOptions, strict: true })
 			.toPromise();
-		const { compilerOptions, angularCompilerOptions } = parseJson(
-			tree.readContent('tsconfig.json').toString(),
-		);
+		const { compilerOptions, angularCompilerOptions } = parseJson(tree.readContent('tsconfig.json').toString());
 		expect(compilerOptions.strict).toBe(true);
 		expect(angularCompilerOptions.strictTemplates).toBe(true);
 	});

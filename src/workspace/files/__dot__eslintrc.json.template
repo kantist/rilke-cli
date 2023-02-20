@@ -1,22 +1,16 @@
 {
 	"root": true,
-	"extends": [
-	],
+	"extends": [],
 	"parserOptions": {
 		"ecmaVersion": 2020,
 		"sourceType": "module"
 	},
-	"rules": {
-	},
+	"rules": {},
 	"overrides": [
 		{
-			"files": [
-				"*.ts"
-			],
+			"files": ["*.ts"],
 			"parserOptions": {
-				"project": [
-					"tsconfig.json"
-				],
+				"project": ["tsconfig.json"],
 				"createDefaultProgram": true
 			},
 			"extends": [
@@ -88,14 +82,9 @@
 			}
 		},
 		{
-			"files": [
-				"*.html"
-			],
-			"extends": [
-				"plugin:@angular-eslint/template/recommended"
-			],
-			"rules": {
-			}
+			"files": ["*.html"],
+			"extends": ["plugin:@angular-eslint/template/recommended"],
+			"rules": {}
 		}
 	]
 }

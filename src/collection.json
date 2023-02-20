@@ -64,6 +64,11 @@
 			"description": "Create a store.",
 			"schema": "./store/schema.json"
 		},
+		"entity": {
+			"factory": "./entity",
+			"description": "Create a entity.",
+			"schema": "./entity/schema.json"
+		},
 		"facade": {
 			"aliases": ["fc"],
 			"factory": "./facade",

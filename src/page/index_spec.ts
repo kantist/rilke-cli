@@ -13,10 +13,7 @@ import { Schema as WorkspaceOptions } from '../workspace/schema';
 import { Schema as ComponentOptions } from './schema';
 
 describe('Component Schematic', () => {
-	const schematicRunner = new SchematicTestRunner(
-		'@schematics/angular',
-		require.resolve('../collection.json'),
-	);
+	const schematicRunner = new SchematicTestRunner('@schematics/angular', require.resolve('../collection.json'));
 	const defaultOptions: ComponentOptions = {
 		name: 'foo',
 		// path: 'src/app',
@@ -25,6 +22,7 @@ describe('Component Schematic', () => {
 		changeDetection: 'Default',
 		style: 'css',
 		type: 'Component',
+		className: '',
 		skipTests: false,
 		module: undefined,
 		layer: 'features',
@@ -50,9 +48,7 @@ describe('Component Schematic', () => {
 	let appTree: UnitTestTree;
 	beforeEach(async () => {
 		appTree = await schematicRunner.runSchematicAsync('workspace', workspaceOptions).toPromise();
-		appTree = await schematicRunner
-			.runSchematicAsync('application', appOptions, appTree)
-			.toPromise();
+		appTree = await schematicRunner.runSchematicAsync('application', appOptions, appTree).toPromise();
 	});
 
 	it('should create a component', async () => {
@@ -65,7 +61,7 @@ describe('Component Schematic', () => {
 				'/projects/bar/src/app/foo/foo.component.html',
 				'/projects/bar/src/app/foo/foo.component.spec.ts',
 				'/projects/bar/src/app/foo/foo.component.ts',
-			]),
+			])
 		);
 		const moduleContent = tree.readContent('/projects/bar/src/app/app.module.ts');
 		expect(moduleContent).toMatch(/import.*Foo.*from '.\/foo\/foo.component'/);
@@ -115,7 +111,7 @@ describe('Component Schematic', () => {
 				'/projects/bar/src/app/foo.component.html',
 				'/projects/bar/src/app/foo.component.spec.ts',
 				'/projects/bar/src/app/foo.component.ts',
-			]),
+			])
 		);
 	});
 
@@ -132,7 +128,7 @@ describe('Component Schematic', () => {
 				declarations: []
 			})
 			export class FooModule { }
-		`,
+		`
 		);
 
 		const tree = await schematicRunner.runSchematicAsync('component', options, appTree).toPromise();
@@ -176,7 +172,7 @@ describe('Component Schematic', () => {
 		let files = tree.files;
 		let root = `/${pathOption}/foo/foo.component`;
 		expect(files).toEqual(
-			jasmine.arrayContaining([`${root}.css`, `${root}.html`, `${root}.spec.ts`, `${root}.ts`]),
+			jasmine.arrayContaining([`${root}.css`, `${root}.html`, `${root}.spec.ts`, `${root}.ts`])
 		);
 
 		const options2 = { ...options, name: 'BAR' };
@@ -184,7 +180,7 @@ describe('Component Schematic', () => {
 		files = tree2.files;
 		root = `/${pathOption}/bar/bar.component`;
 		expect(files).toEqual(
-			jasmine.arrayContaining([`${root}.css`, `${root}.html`, `${root}.spec.ts`, `${root}.ts`]),
+			jasmine.arrayContaining([`${root}.css`, `${root}.html`, `${root}.spec.ts`, `${root}.ts`])
 		);
 	});
 
@@ -195,7 +191,7 @@ describe('Component Schematic', () => {
 		const files = tree.files;
 		const root = `/${options.path}/foo/foo.component`;
 		expect(files).toEqual(
-			jasmine.arrayContaining([`${root}.css`, `${root}.html`, `${root}.spec.ts`, `${root}.ts`]),
+			jasmine.arrayContaining([`${root}.css`, `${root}.html`, `${root}.spec.ts`, `${root}.ts`])
 		);
 	});
 
@@ -318,7 +314,7 @@ describe('Component Schematic', () => {
 		const tree = await schematicRunner.runSchematicAsync('component', options, appTree).toPromise();
 		const content = tree.readContent('/projects/bar/src/app/app.module.ts');
 		expect(content).toMatch(
-			/import { TestComponentComponent } from '\.\/dir\/test-component\/test-component.component'/,
+			/import { TestComponentComponent } from '\.\/dir\/test-component\/test-component.component'/
 		);
 	});
 
@@ -332,7 +328,7 @@ describe('Component Schematic', () => {
 
 		const content = appTree.readContent('/projects/bar/src/app/admin/module/module.module.ts');
 		expect(content).toMatch(
-			/import { TestComponentComponent } from '..\/..\/other\/test-component\/test-component.component'/,
+			/import { TestComponentComponent } from '..\/..\/other\/test-component\/test-component.component'/
 		);
 	});
 
@@ -357,14 +353,12 @@ describe('Component Schematic', () => {
 
 		// should fail without a module in that dir
 		await expectAsync(
-			schematicRunner.runSchematicAsync('component', defaultOptions, appTree).toPromise(),
+			schematicRunner.runSchematicAsync('component', defaultOptions, appTree).toPromise()
 		).toBeRejected();
 
 		// move the module
 		appTree.rename('/projects/bar/src/app/app.module.ts', '/projects/bar/custom/app/app.module.ts');
-		appTree = await schematicRunner
-			.runSchematicAsync('component', defaultOptions, appTree)
-			.toPromise();
+		appTree = await schematicRunner.runSchematicAsync('component', defaultOptions, appTree).toPromise();
 		expect(appTree.files).toContain('/projects/bar/custom/app/foo/foo.component.ts');
 	});
 
@@ -378,7 +372,7 @@ describe('Component Schematic', () => {
 				'/projects/bar/src/app/foo/foo.component.css',
 				'/projects/bar/src/app/foo/foo.component.html',
 				'/projects/bar/src/app/foo/foo.component.ts',
-			]),
+			])
 		);
 		expect(tree.files).not.toContain('/projects/bar/src/app/foo/foo.component.spec.ts');
 	});

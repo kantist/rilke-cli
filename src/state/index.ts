@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-import { normalize , strings } from '@angular-devkit/core';
+import { normalize, strings, tags } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
 	Rule,
@@ -22,13 +22,13 @@ import {
 	url,
 } from '@angular-devkit/schematics';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { addProviderToModule, insertImport } from '../utility/ast-utils';
-import { InsertChange, applyToUpdateRecorder } from '../utility/change';
+import { addSymbolToNgModuleMetadata, insertImport, isImported } from '../utility/ast-utils';
+import { applyToUpdateRecorder } from '../utility/change';
 import { buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as StateOptions } from './schema';
- 
+
 function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
 	const buffer = host.read(path);
 	if (!buffer) {
@@ -39,46 +39,94 @@ function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
 
 	return source;
 }
- 
-function addProviderToNgModule(options: StateOptions): Rule {
-	return (host: Tree) => {
-		if (options.skipProvide || !options.module) {
-			return host;
-		}
 
-		const modulePath = options.module;
-		const statePath =
-			`/${options.path}/` +
-			(options.flat ? '' : strings.dasherize(options.name) + '/') +
-			strings.dasherize(options.name) +
-			'.state';
-		const relativePath = buildRelativePath(modulePath, statePath);
-		const classifiedName = strings.classify(`${options.name}State`);
-
-		// Add provider to module
-		let moduleSource = getTsSourceFile(host, modulePath);
-		const providerChanges = addProviderToModule(
-			moduleSource,
-			modulePath,
-			classifiedName,
-			null,
-		);
-		const providerRecorder = host.beginUpdate(modulePath);
-		for (const change of providerChanges) {
-			if (change instanceof InsertChange) {
-				providerRecorder.insertLeft(change.pos, change.toAdd);
-			}
-		}
-		host.commitUpdate(providerRecorder);
-
-		// Add import
-		moduleSource = getTsSourceFile(host, modulePath);
-		const importChange = insertImport(moduleSource, modulePath, classifiedName, relativePath);
+function addImportPackageToModule(host: Tree, modulePath: string, importModule: string, importPath: string) {
+	const moduleSource = getTsSourceFile(host, modulePath);
+	if (!isImported(moduleSource, importModule, importPath)) {
+		const importChange = insertImport(moduleSource, modulePath, importModule, importPath);
 		if (importChange) {
 			const recorder = host.beginUpdate(modulePath);
 			applyToUpdateRecorder(recorder, [importChange]);
 			host.commitUpdate(recorder);
 		}
+	}
+
+	return host;
+}
+
+function addReducerToNgModule(options: StateOptions): Rule {
+	return (host: Tree) => {
+		if (!options.module) {
+			return host;
+		}
+
+		const modulePath = options.module;
+
+		// Add import Reducer to module if not exist
+		const path =
+			`/${options.path}/` +
+			(options.flat ? '' : strings.dasherize(options.name) + '/') +
+			strings.dasherize(options.name) +
+			'.reducer';
+		const relativePath = buildRelativePath(modulePath, path);
+		const classifiedName = strings.camelize(`${options.name}Reducer`);
+
+		host = addImportPackageToModule(host, modulePath, classifiedName, relativePath);
+
+		const importText = tags.stripIndent`
+			StoreModule.forFeature('${strings.camelize(options.name)}', ${classifiedName})
+		`;
+
+		const moduleSource = getTsSourceFile(host, modulePath);
+		const importChanges = addSymbolToNgModuleMetadata(moduleSource, modulePath, 'imports', importText);
+
+		const importRecorder = host.beginUpdate(modulePath);
+		if (importChanges) {
+			applyToUpdateRecorder(importRecorder, importChanges);
+		}
+		host.commitUpdate(importRecorder);
+
+		// Add import StoreModule to module if not exist
+		host = addImportPackageToModule(host, modulePath, 'StoreModule', '@ngrx/store');
+
+		return host;
+	};
+}
+
+function addEffectToNgModule(options: StateOptions): Rule {
+	return (host: Tree) => {
+		if (!options.module) {
+			return host;
+		}
+
+		const modulePath = options.module;
+
+		// Add import Reducer to module if not exist
+		const path =
+			`/${options.path}/` +
+			(options.flat ? '' : strings.dasherize(options.name) + '/') +
+			strings.dasherize(options.name) +
+			'.effects';
+		const relativePath = buildRelativePath(modulePath, path);
+		const classifiedName = strings.classify(`${options.name}Effects`);
+
+		host = addImportPackageToModule(host, modulePath, classifiedName, relativePath);
+
+		const importText = tags.stripIndent`
+			EffectsModule.forFeature(${classifiedName})
+		`;
+
+		const moduleSource = getTsSourceFile(host, modulePath);
+		const importChanges = addSymbolToNgModuleMetadata(moduleSource, modulePath, 'imports', importText);
+
+		const importRecorder = host.beginUpdate(modulePath);
+		if (importChanges) {
+			applyToUpdateRecorder(importRecorder, importChanges);
+		}
+		host.commitUpdate(importRecorder);
+
+		// Add import EffectsModule to module if not exist
+		host = addImportPackageToModule(host, modulePath, 'EffectsModule', '@ngrx/effects');
 
 		return host;
 	};
@@ -129,6 +177,6 @@ export default function (options: StateOptions): Rule {
 			move(parsedPath.path),
 		]);
 
-		return chain([addProviderToNgModule(options), mergeWith(templateSource)]);
+		return chain([addReducerToNgModule(options), addEffectToNgModule(options), mergeWith(templateSource)]);
 	};
 }

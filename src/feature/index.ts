@@ -23,9 +23,7 @@ import {
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addRedirectRouteDeclarationToModule, addRouteDeclarationToModule } from '../utility/ast-utils';
 import { InsertChange } from '../utility/change';
-import {
-	ROUTING_MODULE_EXT,
-} from '../utility/find-module';
+import { ROUTING_MODULE_EXT } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as FeatureOptions } from './schema';
@@ -40,10 +38,7 @@ function readIntoSourceFile(host: Tree, modulePath: string): ts.SourceFile {
 	return ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
 }
 
-function addRouteDeclarationToNgModule(
-	options: FeatureOptions,
-	routingModulePath: Path,
-): Rule {
+function addRouteDeclarationToNgModule(options: FeatureOptions, routingModulePath: Path): Rule {
 	return (host: Tree) => {
 		if (!options.routing || !options.route) {
 			return host;
@@ -56,12 +51,17 @@ function addRouteDeclarationToNgModule(
 			throw new Error(`Couldn't find the module nor its routing module.`);
 		}
 
+		let routesName = 'routes';
+		if (options.layout) {
+			routesName = 'children';
+		}
+
 		// If has not any routes
 		const addRedirectDeclaration = addRedirectRouteDeclarationToModule(
 			readIntoSourceFile(host, path),
 			path,
-			'children',
-			options.route,
+			routesName,
+			options.route
 		) as InsertChange;
 
 		if (addRedirectDeclaration) {
@@ -73,8 +73,8 @@ function addRouteDeclarationToNgModule(
 		const addDeclaration = addRouteDeclarationToModule(
 			readIntoSourceFile(host, path),
 			path,
-			'children',
-			buildRoute(options),
+			routesName,
+			buildRoute(options)
 		) as InsertChange;
 
 		if (addDeclaration) {
@@ -88,7 +88,14 @@ function addRouteDeclarationToNgModule(
 }
 
 function getRoutingModulePath(host: Tree, options: FeatureOptions): Path | undefined {
-	const routingModulePath = `${options.path}/layouts/${strings.dasherize(options.layout as string)}/${strings.dasherize(options.layout as string) + ROUTING_MODULE_EXT}`;
+	let routingModulePath;
+	if (options.layout) {
+		routingModulePath = `${options.path}/layouts/${strings.dasherize(options.layout as string)}/${
+			strings.dasherize(options.layout as string) + ROUTING_MODULE_EXT
+		}`;
+	} else {
+		routingModulePath = `${options.path}/app-routing.module.ts`;
+	}
 
 	return host.exists(routingModulePath) ? normalize(routingModulePath) : undefined;
 }
@@ -113,7 +120,9 @@ function buildRelativeModulePath(options: FeatureOptions): string {
 function buildRoute(options: FeatureOptions) {
 	const moduleName = `${strings.classify(options.name)}Feature`;
 
-	return `{ path: '${options.route}', loadChildren:() => import('${buildRelativeModulePath(options)}').then(f => f.${moduleName}) }`;
+	return `{ path: '${options.route}', loadChildren:() => import('${buildRelativeModulePath(
+		options
+	)}').then(f => f.${moduleName}) }`;
 }
 
 export default function (options: FeatureOptions): Rule {
@@ -148,9 +157,7 @@ export default function (options: FeatureOptions): Rule {
 		options.path = parsedPath.path;
 
 		const templateSource = apply(url('./files'), [
-			options.routing
-				? noop()
-				: filter((path) => !path.endsWith('-routing.module.ts.template')),
+			options.routing ? noop() : filter((path) => !path.endsWith('-routing.module.ts.template')),
 			applyTemplates({
 				...strings,
 				'if-flat': (s: string) => (options.flat ? '' : s),
@@ -159,9 +166,6 @@ export default function (options: FeatureOptions): Rule {
 			move(parsedPath.path),
 		]);
 
-		return chain([
-			addRouteDeclarationToNgModule(options, routingModulePath as Path),
-			mergeWith(templateSource),
-		]);
+		return chain([addRouteDeclarationToNgModule(options, routingModulePath as Path), mergeWith(templateSource)]);
 	};
 }

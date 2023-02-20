@@ -34,7 +34,7 @@ export interface Schema {
 	/**
 	 * Determine which layer it belongs to.
 	 */
-	layer?: "features" | "layouts" | "shared";
+	layer?: 'features' | 'layouts' | 'shared' | 'stores';
 	/**
 	 * The declaring NgModule.
 	 */
@@ -46,7 +46,7 @@ export interface Schema {
 	/**
 	 * Do not provide this interceptor into the owning NgModule.
 	 */
-   	skipProvide?: boolean;
+	skipProvide?: boolean;
 	/**
 	 * When true, creates files with ready made code.
 	 */

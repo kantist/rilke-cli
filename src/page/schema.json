@@ -81,6 +81,10 @@
 			"description": "Adds a developer-defined type to the filename, in the format \"name.type.ts\".",
 			"default": "Page"
 		},
+		"className": {
+			"type": "string",
+			"description": "The name of the component class"
+		},
 		"skipTests": {
 			"type": "boolean",
 			"description": "Do not create \"spec.ts\" test files for the new page.",

@@ -15,13 +15,5 @@ export const latestVersions: Record<string, string> & {
 	// but ts_library doesn't support JSON inputs.
 	...require('./latest-versions/package.json')['dependencies'],
 
-	// As Angular CLI works with same minor versions of Angular Framework, a tilde match for the current
-	Angular: '15.0.2',
-
 	Rilke: '' + require('../../package.json')['version'],
-
-	// Since @angular-devkit/build-angular and @schematics/angular are always
-	// published together from the same monorepo, and they are both
-	// non-experimental, they will always have the same version.
-	DevkitBuildAngular: '15.0.2',
 };

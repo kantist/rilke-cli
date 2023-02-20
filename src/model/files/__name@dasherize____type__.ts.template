@@ -1,16 +1,15 @@
 <% if (ready) {%>import { uuid } from '@rilke/common/utility';
-import { IMeta } from "@shared/interfaces/meta.interface";
 
 export interface <%= prefix %><%= classify(name) %>s {
-	data: <%= prefix %><%= classify(name) %>Detail[],
-	meta: IMeta
+	data: <%= prefix %><%= classify(name) %>Data[],
+	meta: any
 }
 
 export interface <%= prefix %><%= classify(name) %> {
-	data: <%= prefix %><%= classify(name) %>Detail
+	data: <%= prefix %><%= classify(name) %>Data
 }
 
-export interface <%= prefix %><%= classify(name) %>Detail {
+export interface <%= prefix %><%= classify(name) %>Data {
 	id?: string,
 	type?: '<%= dasherize(name) %>',
 	attributes: {
@@ -18,7 +17,7 @@ export interface <%= prefix %><%= classify(name) %>Detail {
 }
 
 export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %> {
-	data: <%= prefix %><%= classify(name) %>Detail;
+	data: <%= prefix %><%= classify(name) %>Data;
 
 	constructor(
 		<%= camelize(name) %>: <%= prefix %><%= classify(name) %>

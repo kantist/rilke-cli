@@ -48,8 +48,6 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 			return host;
 		}
 
-		options.type = options.type != null ? options.type : 'Component';
-
 		const modulePath = options.module;
 		const source = readIntoSourceFile(host, modulePath);
 
@@ -60,8 +58,7 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 			(options.type ? '.' : '') +
 			strings.dasherize(options.type);
 		const relativePath = buildRelativePath(modulePath, componentPath);
-		const classifiedName = strings.classify(options.selector || options.name) + strings.classify(options.type);
-		const declarationChanges = addDeclarationToModule(source, modulePath, classifiedName, relativePath);
+		const declarationChanges = addDeclarationToModule(source, modulePath, options.className, relativePath);
 
 		const declarationRecorder = host.beginUpdate(modulePath);
 		for (const change of declarationChanges) {
@@ -95,17 +92,23 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
 	};
 }
 
-function buildSelector(options: ComponentOptions, projectPrefix: string) {
+function buildClassName(options: ComponentOptions) {
+	let selector = options.selector;
+
+	if (options.prefix) {
+		// remove prefix from selector for class name
+		selector = options.selector?.replace(options.prefix + '-', '');
+	}
+
+	return strings.classify(selector || options.name) + strings.classify(options.type);
+}
+
+function buildSelector(options: ComponentOptions) {
 	let selector = strings.dasherize(options.name as string);
-	selector = options.name.split('/').pop() as string; // remove path
-	const pathPrefix = options.name.split('/')[0]; // get first path
+	selector = options.name.replace(/\//g, '-') as string;
 
 	if (options.prefix) {
 		selector = `${options.prefix}-${selector}`;
-	} else if (options.prefix === undefined && projectPrefix) {
-		selector = `${projectPrefix}-${selector}`;
-	} else if (pathPrefix !== selector) {
-		selector = `${pathPrefix}-${selector}`;
 	}
 
 	return selector;
@@ -134,8 +137,12 @@ export default function (options: ComponentOptions): Rule {
 			throw new SchematicsException(`Project "${options.project}" does not exist.`);
 		}
 
+		if (!options.prefix && project && project.prefix) {
+			options.prefix = project.prefix;
+		}
+
 		// Create selector
-		options.selector = options.selector || buildSelector(options, (project && project.prefix) || '');
+		options.selector = options.selector || buildSelector(options);
 
 		options.path = buildDefaultPath(project); // src/app/
 		options.module = findModuleFromOptions(host, options);
@@ -149,6 +156,8 @@ export default function (options: ComponentOptions): Rule {
 
 		validateName(options.name);
 		validateHtmlSelector(options.selector);
+
+		options.className = buildClassName(options);
 
 		const skipStyleFile = options.inlineStyle || options.style === 'none';
 		const templateSource = apply(url('./files'), [

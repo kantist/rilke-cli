@@ -36,40 +36,10 @@
 			"default": false,
 			"description": "When true, creates files at the top level of the project."
 		},
-		"layer": {
-			"description": "Determine which layer it belongs to.",
-			"type": "string",
-			"alias": "l",
-			"default": "features",
-			"enum": ["features", "layouts", "shared", "core"],
-			"x-prompt": {
-				"message": "Which layer would you like to use it in?",
-				"type": "list",
-				"items": [
-					{
-						"value": "features",
-						"label": "Features"
-					},
-					{
-						"value": "layouts",
-						"label": "Layouts"
-					},
-					{
-						"value": "shared",
-						"label": "Shared"
-					}
-				]
-			}
-		},
-		"module": {
-			"type": "string",
-			"description": "The declaring NgModule.",
-			"alias": "m",
-			"x-prompt": "Which NgModule would you like to use this store?"
-		},
-		"moduleName": {
-			"type": "string",
-			"description": "The declaring NgModule name."
+		"ready": {
+			"description": "When true, creates files with ready made code.",
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"required": ["name", "layer", "module"]

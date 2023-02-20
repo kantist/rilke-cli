@@ -51,7 +51,7 @@
 			"type": "string",
 			"alias": "l",
 			"default": "features",
-			"enum": ["features", "layouts", "shared"],
+			"enum": ["features", "layouts", "shared", "stores"],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
 				"type": "list",
@@ -59,6 +59,10 @@
 					{
 						"value": "features",
 						"label": "Features"
+					},
+					{
+						"value": "stores",
+						"label": "Stores"
 					},
 					{
 						"value": "layouts",
@@ -75,7 +79,7 @@
 			"type": "string",
 			"description": "The declaring NgModule.",
 			"alias": "m",
-			"x-prompt": "Which NgModule would you like to use this service?"
+			"x-prompt": "Which NgModule would you like to use this class?"
 		},
 		"moduleName": {
 			"type": "string",

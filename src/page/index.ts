@@ -66,8 +66,6 @@ function addRouteDeclarationToRoutes(options: PageOptions): Rule {
 			throw new Error('Module option required when creating a lazy loaded routing module.');
 		}
 
-		options.type = options.type != null ? options.type : 'Page';
-
 		const pagePath =
 			`/${options.path}/` +
 			(options.flat ? '' : strings.dasherize(options.name) + '/') +
@@ -76,9 +74,11 @@ function addRouteDeclarationToRoutes(options: PageOptions): Rule {
 			strings.dasherize(options.type);
 		const routerPath = getRoutingModulePath(host, options.module) as string;
 		const relativePath = buildRelativePath(routerPath, pagePath);
-		const classifiedName = strings.classify(options.name) + strings.classify(options.type);
+
 		const classifiedModule = strings.camelize(options.moduleName as string) + 'Routes';
-		const routeLiteral = `{ path: '${options.route}', component: ${classifiedName} }`;
+		const routeLiteral = `{ path: '${options.route}', component: ${options.className}, title: '${strings.capitalize(
+			options.name
+		)}' }`;
 
 		let path: string;
 		if (routerPath) {
@@ -96,7 +96,7 @@ function addRouteDeclarationToRoutes(options: PageOptions): Rule {
 		const addRedirectDeclaration = addRedirectRouteDeclarationToModule(
 			readIntoSourceFile(host, path),
 			routerPath,
-			classifiedName,
+			options.className,
 			options.route
 		) as InsertChange;
 
@@ -107,7 +107,7 @@ function addRouteDeclarationToRoutes(options: PageOptions): Rule {
 		}
 
 		// Add import page to route
-		host = addImportPackageToModule(host, routerPath, classifiedName, relativePath);
+		host = addImportPackageToModule(host, routerPath, options.className, relativePath);
 
 		const addDeclaration = addRouteDeclarationToModule(
 			readIntoSourceFile(host, path),
@@ -132,8 +132,6 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 			return host;
 		}
 
-		options.type = options.type != null ? options.type : 'Page';
-
 		const modulePath = options.module;
 		const source = readIntoSourceFile(host, modulePath);
 
@@ -144,8 +142,7 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 			(options.type ? '.' : '') +
 			strings.dasherize(options.type);
 		const relativePath = buildRelativePath(modulePath, pagePath);
-		const classifiedName = strings.classify(options.name) + strings.classify(options.type);
-		const declarationChanges = addDeclarationToModule(source, modulePath, classifiedName, relativePath);
+		const declarationChanges = addDeclarationToModule(source, modulePath, options.className, relativePath);
 
 		const declarationRecorder = host.beginUpdate(modulePath);
 		for (const change of declarationChanges) {
@@ -179,17 +176,23 @@ function addDeclarationToNgModule(options: PageOptions): Rule {
 	};
 }
 
-function buildSelector(options: PageOptions, projectPrefix: string) {
+function buildClassName(options: PageOptions) {
+	let selector = options.selector;
+
+	if (options.prefix) {
+		// remove prefix from selector for class name
+		selector = options.selector?.replace(options.prefix + '-', '');
+	}
+
+	return strings.classify(selector || options.name) + strings.classify(options.type);
+}
+
+function buildSelector(options: PageOptions) {
 	let selector = strings.dasherize(options.name as string);
-	selector = options.name.split('/').pop() as string; // remove path
-	let pathPrefix = options.name.split('/')[0]; // get first path
+	selector = options.name.replace(/\//g, '-') as string;
 
 	if (options.prefix) {
 		selector = `${options.prefix}-${selector}`;
-	} else if (options.prefix === undefined && projectPrefix) {
-		selector = `${projectPrefix}-${selector}`;
-	} else if (pathPrefix !== selector) {
-		selector = `${pathPrefix}-${selector}`;
 	}
 
 	return selector;
@@ -232,12 +235,16 @@ export default function (options: PageOptions): Rule {
 			throw new SchematicsException(`Project "${options.project}" does not exist.`);
 		}
 
+		if (!options.prefix && project && project.prefix) {
+			options.prefix = project.prefix;
+		}
+
 		if (!options.route) {
 			options.route = strings.dasherize(options.name);
 		}
 
 		// Create selector
-		options.selector = options.selector || buildSelector(options, (project && project.prefix) || '');
+		options.selector = options.selector || buildSelector(options);
 
 		options.path = buildDefaultPath(project); // src/app/
 		options.module = findModuleFromOptions(host, options);
@@ -251,6 +258,8 @@ export default function (options: PageOptions): Rule {
 
 		validateName(options.name);
 		validateHtmlSelector(options.selector);
+
+		options.className = buildClassName(options);
 
 		const skipStyleFile = options.inlineStyle || options.style === 'none';
 		const templateSource = apply(url('./files'), [

@@ -1,4 +1,2 @@
-<p>
-	<%= dasherize(name) %> works!
-</p><% if(parent) { %>
+<p><%= dasherize(name) %> works!</p><% if(parent) { %>
 <router-outlet></router-outlet><% } %>

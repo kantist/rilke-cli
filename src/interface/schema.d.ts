@@ -26,7 +26,7 @@ export interface Schema {
 	/**
 	 * Determine which layer it belongs to.
 	 */
-	layer?: "features" | "layouts" | "shared" | "core";
+	layer?: 'features' | 'layouts' | 'shared' | 'stores';
 	/**
 	 * The declaring NgModule.
 	 */
@@ -42,5 +42,5 @@ export interface Schema {
 	/**
 	 * When true, creates files with ready made code.
 	 */
-	 ready?: boolean;
+	ready?: boolean;
 }

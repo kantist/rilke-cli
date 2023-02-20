@@ -1,135 +1,48 @@
 import { Injectable } from '@angular/core';<% if (ready) {%>
-import { ApiService, ApiCall } from '@rilke/common/api';
-import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@features/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
-import { <%= classify(name) %>State } from '@features/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.state';
-import { filter, Observable } from 'rxjs';<% }%>
+import { Action, Store } from '@ngrx/store';
+
+import * as <%= camelize(name) %>Selectors from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.selectors';
+import * as <%= camelize(name) %>Action from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.actions';
+import { <%= classify(name) %>State } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.reducer';
+
+import { I<%= classify(name) %> } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/params.interface';<% }%>
 
 @Injectable()
 export class <%= classify(name) %>Facade {<% if (ready) {%>
-	private page: number;
-	itemsPerPage: number;
-	filter: any = {};
+	isLoading$ = this.store.select(<%= camelize(name) %>Selectors.selectIsLoading);
+	error$ = this.store.select(<%= camelize(name) %>Selectors.selectError);
+
+	getAll$ = this.store.select(<%= camelize(name) %>Selectors.getAll);
+	get$ = (id: string) => this.store.select(<%= camelize(name) %>Selectors.get(id));
+
+	meta$ = this.store.select(<%= camelize(name) %>Selectors.selectMeta);
 	<% }%>
 	constructor(<% if (ready) {%>
-		private apiService: ApiService,
-		private <%= camelize(name) %>State: <%= classify(name) %>State,
-	<% }%>) {<% if (ready) {%>
-		this.page = 1;
-		this.itemsPerPage = 10;
-	<% }%>}<% if (ready) {%>
+		private store: Store<<%= classify(name) %>State>
+	<% }%>) {}<% if (ready) {%>
 
-	getPage() {
-		return this.page;
+	dispatch(action: Action) {
+		this.store.dispatch(action);
 	}
 
-	setPage(page) {
-		this.page = page;
-		this.fetch();
+	fetch(params: I<%= classify(name) %>Params = null) {
+		this.store.dispatch(<%= camelize(name) %>Action.load<%= classify(name) %>s(params));
 	}
 
-	nextPage() {
-		this.page++;
-		this.fetch();
+	fetchSingle(id: string) {
+		this.store.dispatch(<%= camelize(name) %>Action.load<%= classify(name) %>({ id }));
 	}
 
-	isUpdating$(): Observable<boolean> {
-		return this.<%= camelize(name) %>State.isUpdating$();
-	}
-
-	getAll$(): Observable<I<%= classify(name) %>s> {
-		return this.<%= camelize(name) %>State.getAll$().pipe(filter((<%= camelize(name) %>) => <%= camelize(name) %> !== null));
-	}
-
-	get$(): Observable<I<%= classify(name) %>> {
-		return this.<%= camelize(name) %>State.get$().pipe(filter((<%= camelize(name) %>) => <%= camelize(name) %> !== null));
-	}
-
-	fetch() {
-		const apiCall = new ApiCall({
-			path: '<%= dasherize(name) %>',
-			options: {
-				params: {
-					...this.filter,
-					'page[number]': this.page,
-					'page[size]': this.itemsPerPage
-				}
-			}
-		});
-
-		this.apiService.get(apiCall).subscribe(
-			<%= camelize(name) %>s => this.<%= camelize(name) %>State.setAll(<%= camelize(name) %>s)
-		);
-	}
-
-	get(id: string) {
-		const apiCall = new ApiCall({
-			path: '<%= dasherize(name) %>/' + id
-		});
-
-		this.apiService.get(apiCall).subscribe(
-			<%= camelize(name) %> => this.<%= camelize(name) %>State.set(<%= camelize(name) %>)
-		);
-	}
-
-	add(<%= camelize(name) %>: I<%= classify(name) %>) {
-		this.<%= camelize(name) %>State.setUpdating(true);
-
-		this.<%= camelize(name) %>State.add(<%= camelize(name) %>);
-
-		const apiCall = new ApiCall({
-			path: '<%= camelize(name) %>/',
-			body: <%= camelize(name) %>
-		});
-
-		this.apiService.post(apiCall).subscribe({
-			next: (added<%= classify(name) %>WithId: I<%= classify(name) %>) => {
-				this.<%= camelize(name) %>State.updateWithId(<%= camelize(name) %>, added<%= classify(name) %>WithId);
-			},
-			error: () => {
-				this.<%= camelize(name) %>State.remove(<%= camelize(name) %>);
-			},
-			complete: () => {
-				this.<%= camelize(name) %>State.setUpdating(false)
-			}
-		});
+	create(<%= camelize(name) %>: I<%= classify(name) %>) {
+		this.store.dispatch(<%= camelize(name) %>Action.create<%= classify(name) %>({ <%= camelize(name) %> }));
 	}
 
 	update(<%= camelize(name) %>: I<%= classify(name) %>) {
-		this.<%= camelize(name) %>State.setUpdating(true);
-
-		this.<%= camelize(name) %>State.update(<%= camelize(name) %>);
-
-		const apiCall = new ApiCall({
-			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id,
-			body: <%= camelize(name) %>
-		});
-
-		this.apiService.patch(apiCall).subscribe({
-			next: () => {},
-			error: (error: any) => {},
-			complete: () => {
-				this.<%= camelize(name) %>State.setUpdating(false)
-			}
-		});
+		this.store.dispatch(<%= camelize(name) %>Action.update<%= classify(name) %>({ <%= camelize(name) %> }));
 	}
 
-	remove(<%= camelize(name) %>: I<%= classify(name) %>) {
-		this.<%= camelize(name) %>State.setUpdating(true);
-
-		this.<%= camelize(name) %>State.remove(<%= camelize(name) %>);
-
-		const apiCall = new ApiCall({
-			path: '<%= dasherize(name) %>/' + <%= camelize(name) %>.data.id
-		});
-
-		this.apiService.delete(apiCall).subscribe({
-			next: () => {},
-			error: (error: any) => {
-				this.<%= camelize(name) %>State.add(<%= camelize(name) %>);
-			},
-			complete: () => {
-				this.<%= camelize(name) %>State.setUpdating(false)
-			}
-		});
+	delete(<%= camelize(name) %>: I<%= classify(name) %>) {
+		this.store.dispatch(<%= camelize(name) %>Action.delete<%= classify(name) %>({ <%= camelize(name) %> }));
 	}<% }%>
 }

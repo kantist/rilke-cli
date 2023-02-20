@@ -61,6 +61,10 @@
 						"label": "Features"
 					},
 					{
+						"value": "stores",
+						"label": "Stores"
+					},
+					{
 						"value": "layouts",
 						"label": "Layouts"
 					},

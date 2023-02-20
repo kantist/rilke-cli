@@ -41,7 +41,7 @@
 			"type": "string",
 			"alias": "l",
 			"default": "features",
-			"enum": ["features", "layouts", "shared", "core"],
+			"enum": ["features", "layouts", "shared", "stores"],
 			"x-prompt": {
 				"message": "Which layer would you like to use it in?",
 				"type": "list",
@@ -49,6 +49,10 @@
 					{
 						"value": "features",
 						"label": "Features"
+					},
+					{
+						"value": "stores",
+						"label": "Stores"
 					},
 					{
 						"value": "layouts",

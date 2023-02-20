@@ -61,6 +61,10 @@
 						"label": "Features"
 					},
 					{
+						"value": "stores",
+						"label": "Stores"
+					},
+					{
 						"value": "layouts",
 						"label": "Layouts"
 					},
@@ -83,7 +87,7 @@
 		},
 		"skipProvide": {
 			"type": "boolean",
-			"description": "Do not provide this interceptor into the owning NgModule.",
+			"description": "Do not provide this facade into the owning NgModule.",
 			"default": false
 		},
 		"ready": {

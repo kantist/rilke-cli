@@ -9,4 +9,4 @@ import { SharedLayer } from '@shared/shared.layer';<% } %>
 	],
 	declarations: []
 })
-export class <%= classify(name) %>Feature { }
+export class <%= classify(name) %>Feature {}

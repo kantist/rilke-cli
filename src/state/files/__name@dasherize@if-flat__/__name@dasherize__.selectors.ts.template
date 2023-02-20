@@ -1,0 +1,22 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { <%= classify(name) %>State } from './<%= dasherize(name) %>.reducer';
+import { <%= camelize(name) %>Adaptor } from './<%= dasherize(name) %>.entity';
+
+const selectState = createFeatureSelector<<%= classify(name) %>State>('<%= camelize(name) %>');
+const selectDataState = createSelector(selectState, (state: <%= classify(name) %>State) => state.data);
+
+// Entity Selectors
+export const { selectAll, selectEntities, selectIds, selectTotal } = <%= camelize(name) %>Adaptor.getSelectors();
+
+export const getAll = createSelector(selectDataState, selectAll);
+
+export const getEntities = createSelector(selectDataState, selectEntities);
+export const getIds = createSelector(selectDataState, selectIds);
+export const getTotal = createSelector(selectDataState, selectTotal);
+
+export const get = (id: string) => createSelector(getAll, (items) => items[id]);
+
+// Meta Selectors<% if (ready) {%>
+export const selectMeta = createSelector(selectState, (state: <%= classify(name) %>State) => state.meta);<% }%>
+export const selectError = createSelector(selectState, (state: <%= classify(name) %>State) => state.error);
+export const selectIsLoading = createSelector(selectState, (state: <%= classify(name) %>State) => state.isLoading);

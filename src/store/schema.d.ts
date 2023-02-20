@@ -24,15 +24,7 @@ export interface Schema {
 	 */
 	flat?: boolean;
 	/**
-	 * Determine which layer it belongs to.
+	 * When true, creates files with ready made code.
 	 */
-	layer?: "features" | "layouts" | "shared" | "core";
-	/**
-	 * The declaring NgModule.
-	 */
-	module?: string;
-	/**
-	 * The declaring NgModule name.
-	 */
-	moduleName?: string;
+	ready?: boolean;
 }

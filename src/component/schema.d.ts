@@ -30,11 +30,11 @@ export interface Schema {
 	/**
 	 * The view encapsulation strategy to use in the new component.
 	 */
-	viewEncapsulation?: "Emulated" | "None" | "ShadowDom";
+	viewEncapsulation?: 'Emulated' | 'None' | 'ShadowDom';
 	/**
 	 * The change detection strategy to use in the new component.
 	 */
-	changeDetection?: "Default" | "OnPush";
+	changeDetection?: 'Default' | 'OnPush';
 	/**
 	 * The prefix to apply to the generated component selector.
 	 */
@@ -42,11 +42,15 @@ export interface Schema {
 	/**
 	 * The file extension or preprocessor to use for style files, or 'none' to skip generating the style file.
 	 */
-	style?: "css" | "scss" | "sass" | "less" | "none";
+	style?: 'css' | 'scss' | 'sass' | 'less' | 'none';
 	/**
 	 * Adds a developer-defined type to the filename, in the format "name.type.ts".
 	 */
-	type?: string;
+	type: string;
+	/**
+	 * The name of the component class".
+	 */
+	className: string;
 	/**
 	 * Do not create "spec.ts" test files for the new component.
 	 */
@@ -70,7 +74,7 @@ export interface Schema {
 	/**
 	 * Determine which layer it belongs to.
 	 */
-	layer?: "features" | "layouts" | "shared";
+	layer?: 'features' | 'layouts' | 'shared';
 	/**
 	 * The declaring NgModule.
 	 */

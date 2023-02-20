@@ -24,6 +24,7 @@ export const MODULE_EXT = '.module.ts';
 export const LAYER_EXT = '.layer.ts';
 export const FEATURE_EXT = '.feature.ts';
 export const LAYOUT_EXT = '.layout.ts';
+export const STORE_EXT = '.store.ts';
 export const ROUTING_MODULE_EXT = '-routing.module.ts';
 
 /**
@@ -69,6 +70,7 @@ export function findModuleFromOptions(host: Tree, options: ModuleOptions): Path 
 				`${moduleBaseName}${LAYER_EXT}`,
 				`${moduleBaseName}${FEATURE_EXT}`,
 				`${moduleBaseName}${LAYOUT_EXT}`,
+				`${moduleBaseName}${STORE_EXT}`,
 			].map((x) => join(c, x));
 
 			for (const sc of candidateFiles) {
@@ -80,7 +82,7 @@ export function findModuleFromOptions(host: Tree, options: ModuleOptions): Path 
 
 		throw new Error(
 			`Specified module '${options.module}' does not exist.\n` +
-				`Looked in the following directories:\n    ${candidatesDirs.join('\n    ')}`,
+				`Looked in the following directories:\n    ${candidatesDirs.join('\n    ')}`
 		);
 	}
 }
@@ -92,7 +94,7 @@ export function findModule(
 	host: Tree,
 	generateDir: string,
 	moduleExt = MODULE_EXT,
-	routingModuleExt = ROUTING_MODULE_EXT,
+	routingModuleExt = ROUTING_MODULE_EXT
 ): Path {
 	let dir: DirEntry | null = host.getDir('/' + generateDir);
 	let foundRoutingModule = false;
@@ -108,7 +110,7 @@ export function findModule(
 		} else if (filteredMatches.length > 1) {
 			throw new Error(
 				'More than one module matches. Use the skip-import option to skip importing ' +
-					'the component into the closest module or use the module option to specify a module.',
+					'the component into the closest module or use the module option to specify a module.'
 			);
 		}
 
@@ -117,8 +119,8 @@ export function findModule(
 
 	const errorMsg = foundRoutingModule
 		? 'Could not find a non Routing NgModule.' +
-			`\nModules with suffix '${routingModuleExt}' are strictly reserved for routing.` +
-			'\nUse the skip-import option to skip importing in NgModule.'
+		  `\nModules with suffix '${routingModuleExt}' are strictly reserved for routing.` +
+		  '\nUse the skip-import option to skip importing in NgModule.'
 		: 'Could not find an NgModule. Use the skip-import option to skip importing in NgModule.';
 
 	throw new Error(errorMsg);
@@ -139,10 +141,7 @@ export function buildRelativePath(from: string, to: string): string {
 	fromParts.pop();
 	const toFileName = toParts.pop();
 
-	const relativePath = relative(
-		normalize(fromParts.join('/') || '/'),
-		normalize(toParts.join('/') || '/'),
-	);
+	const relativePath = relative(normalize(fromParts.join('/') || '/'), normalize(toParts.join('/') || '/'));
 	let pathPrefix = '';
 
 	// Set the path prefix for same dir or child dir, parent dir starts with `..`
