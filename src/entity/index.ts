@@ -24,7 +24,7 @@ import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/wo
 import { Schema as EntityOptions } from './schema';
 
 function buildPath(options: EntityOptions) {
-	const path = normalize(`${options.path}/stores/`);
+	const path = normalize(`${options.path}/stores/${options.module}`);
 
 	return path;
 }
@@ -45,11 +45,7 @@ export default function (options: EntityOptions): Rule {
 		options.path = buildDefaultPath(project); // src/app/
 
 		// Remap path
-		options.path = buildPath(options); // src/app/stores/
-
-		const parsedPath = parseName(options.path as string, options.module as string);
-		options.name = parsedPath.name;
-		options.path = parsedPath.path;
+		options.path = buildPath(options); // src/app/stores/{store}
 
 		const templateSource = apply(url('./files'), [
 			applyTemplates({
@@ -57,7 +53,7 @@ export default function (options: EntityOptions): Rule {
 				'if-flat': (s: string) => (options.flat ? '' : s),
 				...options,
 			}),
-			move(parsedPath.path),
+			move(options.path),
 		]);
 
 		return chain([
