@@ -65,6 +65,7 @@
 			"schema": "./store/schema.json"
 		},
 		"entity": {
+			"aliases": ["en"],
 			"factory": "./entity",
 			"description": "Create a entity.",
 			"schema": "./entity/schema.json"

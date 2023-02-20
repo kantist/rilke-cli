@@ -47,7 +47,7 @@ export default function (options: EntityOptions): Rule {
 		// Remap path
 		options.path = buildPath(options); // src/app/stores/
 
-		const parsedPath = parseName(options.path, options.module as string);
+		const parsedPath = parseName(options.path as string, options.module as string);
 		options.name = parsedPath.name;
 		options.path = parsedPath.path;
 
