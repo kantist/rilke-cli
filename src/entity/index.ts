@@ -21,6 +21,7 @@ import {
 	url,
 	noop,
 } from '@angular-devkit/schematics';
+import { getPackageJsonDependency } from '../utility/dependencies';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as EntityOptions } from './schema';
 
@@ -37,6 +38,11 @@ export default function (options: EntityOptions): Rule {
 
 		if (!project) {
 			throw new SchematicsException(`Project "${options.project}" does not exist.`);
+		}
+
+		const rilkeStore = getPackageJsonDependency(host, '@rilke/store');
+		if (rilkeStore === null) {
+			throw new SchematicsException('You need to install @rilke/store first. Run: ril add @rilke/store');
 		}
 
 		if (options.path === undefined) {
@@ -60,8 +66,12 @@ export default function (options: EntityOptions): Rule {
 			move(options.path),
 		]);
 
+		// Check app-store.module.ts
+		const store = host.read(`${options.path}/stores/${options.module}/${options.module}.store`);
+
 		return chain([
 			metaInterface ? noop() : mergeWith(templateSource, MergeStrategy.Overwrite),
+			store ? noop() : schematic('store', { name: options.module }),
 			schematic('state', {
 				name: options.name,
 				layer: 'stores',

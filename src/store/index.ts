@@ -18,6 +18,7 @@ import {
 	move,
 	url,
 } from '@angular-devkit/schematics';
+import { getPackageJsonDependency } from '../utility/dependencies';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as StoreOptions } from './schema';
@@ -35,6 +36,11 @@ export default function (options: StoreOptions): Rule {
 
 		if (!project) {
 			throw new SchematicsException(`Project "${options.project}" does not exist.`);
+		}
+
+		const rilkeStore = getPackageJsonDependency(host, '@rilke/store');
+		if (rilkeStore === null) {
+			throw new SchematicsException('You need to install @rilke/store first. Run: ril add @rilke/store');
 		}
 
 		if (options.path === undefined) {

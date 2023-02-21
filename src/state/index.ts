@@ -24,6 +24,7 @@ import {
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { addSymbolToNgModuleMetadata, insertImport, isImported } from '../utility/ast-utils';
 import { applyToUpdateRecorder } from '../utility/change';
+import { getPackageJsonDependency } from '../utility/dependencies';
 import { buildRelativePath, findModuleFromOptions } from '../utility/find-module';
 import { parseName } from '../utility/parse-name';
 import { buildDefaultPath, getWorkspace } from '../utility/workspace';
@@ -153,6 +154,11 @@ export default function (options: StateOptions): Rule {
 
 		if (!project) {
 			throw new SchematicsException(`Project "${options.project}" does not exist.`);
+		}
+
+		const rilkeStore = getPackageJsonDependency(host, '@rilke/store');
+		if (rilkeStore === null) {
+			throw new SchematicsException('You need to install @rilke/store first. Run: ril add @rilke/store');
 		}
 
 		options.type = options.type ? `.${options.type}` : 'State';
