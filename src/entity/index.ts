@@ -19,6 +19,7 @@ import {
 	move,
 	schematic,
 	url,
+	noop,
 } from '@angular-devkit/schematics';
 import { buildDefaultPath, createDefaultPath, getWorkspace } from '../utility/workspace';
 import { Schema as EntityOptions } from './schema';
@@ -47,6 +48,9 @@ export default function (options: EntityOptions): Rule {
 		// Remap path
 		options.path = buildPath(options); // src/app/stores/{store}
 
+		// Check if meta.interface.ts exists
+		const metaInterface = host.read(options.path + '/interfaces/meta.interface.ts');
+
 		const templateSource = apply(url('./files'), [
 			applyTemplates({
 				...strings,
@@ -57,7 +61,7 @@ export default function (options: EntityOptions): Rule {
 		]);
 
 		return chain([
-			mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict),
+			metaInterface ? noop() : mergeWith(templateSource, MergeStrategy.Overwrite),
 			schematic('state', {
 				name: options.name,
 				layer: 'stores',

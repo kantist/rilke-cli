@@ -3,11 +3,11 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as <%= classify(name) %>Actions from './<%= dasherize(name) %>.actions';
 import { DataState, <%= camelize(name) %>Adaptor } from './<%= dasherize(name) %>.entity';<% if (ready) {%>
 
-import { IMeta } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/meta.interface';<% }%>
+import { I<%= classify(name) %>Meta } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>-meta.interface';<% }%>
 
 export interface <%= classify(name) %>State {
 	data: DataState;<% if (ready) {%>
-	meta: IMeta | undefined;<% }%>
+	meta: I<%= classify(name) %>Meta | undefined;<% }%>
 	isLoading: boolean;
 	error: any;
 }

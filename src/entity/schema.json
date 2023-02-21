@@ -19,7 +19,7 @@
 			"type": "string",
 			"description": "The declaring NgModule/Store.",
 			"alias": "m",
-			"x-prompt": "Which NgModule would you like to use this enum?"
+			"x-prompt": "Which NgModule would you like to use this entity?"
 		},
 		"path": {
 			"type": "string",
