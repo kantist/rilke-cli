@@ -73,9 +73,9 @@
 		},
 		"data-flow": {
 			"aliases": ["df"],
-			"factory": "./dataflow",
+			"factory": "./data-flow",
 			"description": "Create a dataflow.",
-			"schema": "./dataflow/schema.json"
+			"schema": "./data-flow/schema.json"
 		},
 		"facade": {
 			"aliases": ["fc"],
