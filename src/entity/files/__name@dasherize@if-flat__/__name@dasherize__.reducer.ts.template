@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import * as <%= classify(name) %>Actions from './<%= dasherize(name) %>.actions';
-import { DataState, <%= camelize(name) %>Adaptor } from './<%= dasherize(name) %>.entity';<% if (ready) {%>
+import { DataState, <%= camelize(name) %>Adaptor } from './<%= dasherize(name) %>.adapters';<% if (ready) {%>
 
 import { I<%= classify(name) %>Meta } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>-meta.interface';<% }%>
 

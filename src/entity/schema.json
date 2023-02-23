@@ -3,28 +3,22 @@
 	"$id": "SchematicsRilkeEntity",
 	"title": "Rilke Entity Options Schema",
 	"type": "object",
-	"additionalProperties": false,
 	"description": "Creates a new, generic entity definition in the given or default project.",
+	"additionalProperties": false,
 	"properties": {
 		"name": {
 			"type": "string",
-			"description": "The name of the entity.",
+			"description": "The name of the new entity.",
 			"$default": {
 				"$source": "argv",
 				"index": 0
 			},
 			"x-prompt": "What name would you like to use for the entity?"
 		},
-		"module": {
-			"type": "string",
-			"description": "The declaring NgModule/Store.",
-			"alias": "m",
-			"x-prompt": "Which NgModule would you like to use this entity?"
-		},
 		"path": {
 			"type": "string",
 			"format": "path",
-			"description": "The path at which to create the store, relative to the workspace root.",
+			"description": "The path at which to create the entity, relative to the workspace root.",
 			"visible": false,
 			"$default": {
 				"$source": "workingDirectory"
@@ -37,16 +31,70 @@
 				"$source": "projectName"
 			}
 		},
+		"skipTests": {
+			"type": "boolean",
+			"description": "Do not create \"spec.ts\" test files for the new entity.",
+			"default": false
+		},
+		"type": {
+			"type": "string",
+			"description": "Adds a developer-defined type to the filename, in the format \"name.type.ts\".",
+			"default": ""
+		},
 		"flat": {
 			"type": "boolean",
 			"default": false,
 			"description": "When true, creates files at the top level of the project."
 		},
+		"layer": {
+			"description": "Determine which layer it belongs to.",
+			"type": "string",
+			"alias": "l",
+			"default": "features",
+			"enum": ["features", "layouts", "shared", "stores"],
+			"x-prompt": {
+				"message": "Which layer would you like to use it in?",
+				"type": "list",
+				"items": [
+					{
+						"value": "features",
+						"label": "Features"
+					},
+					{
+						"value": "stores",
+						"label": "Stores"
+					},
+					{
+						"value": "layouts",
+						"label": "Layouts"
+					},
+					{
+						"value": "shared",
+						"label": "Shared"
+					}
+				]
+			}
+		},
+		"module": {
+			"type": "string",
+			"description": "The declaring NgModule.",
+			"alias": "m",
+			"x-prompt": "Which NgModule would you like to use this service?"
+		},
+		"moduleName": {
+			"type": "string",
+			"description": "The declaring NgModule name."
+		},
+		"skipProvide": {
+			"type": "boolean",
+			"description": "Do not provide this interceptor into the owning NgModule.",
+			"default": false
+		},
 		"ready": {
 			"description": "When true, creates files with ready made code.",
 			"type": "boolean",
-			"default": true
+			"default": false
 		}
 	},
-	"required": ["name", "module"]
+	"required": ["name", "layer", "module"]
 }

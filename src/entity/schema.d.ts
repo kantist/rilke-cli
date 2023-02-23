@@ -8,15 +8,11 @@
 
 export interface Schema {
 	/**
-	 * The name of the entity/state.
+	 * The name of the new class.
 	 */
 	name: string;
 	/**
-	 * The name of the module/store.
-	 */
-	module?: string;
-	/**
-	 * The path at which to create the service, relative to the workspace root.
+	 * The path at which to create the class, relative to the workspace root.
 	 */
 	path?: string; // path
 	/**
@@ -24,9 +20,33 @@ export interface Schema {
 	 */
 	project?: string;
 	/**
+	 * Do not create "spec.ts" test files for the new class.
+	 */
+	skipTests?: boolean;
+	/**
+	 * Adds a developer-defined type to the filename, in the format "name.type.ts".
+	 */
+	type?: string;
+	/**
 	 * When true (the default), creates files at the top level of the project.
 	 */
 	flat?: boolean;
+	/**
+	 * Determine which layer it belongs to.
+	 */
+	layer?: 'features' | 'layouts' | 'shared' | 'stores';
+	/**
+	 * The declaring NgModule.
+	 */
+	module?: string;
+	/**
+	 * The declaring NgModule name.
+	 */
+	moduleName?: string;
+	/**
+	 * Do not provide this interceptor into the owning NgModule.
+	 */
+	skipProvide?: boolean;
 	/**
 	 * When true, creates files with ready made code.
 	 */

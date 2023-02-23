@@ -30,6 +30,12 @@
 			"description": "Create a feature.",
 			"schema": "./feature/schema.json"
 		},
+		"store": {
+			"aliases": ["s"],
+			"factory": "./store",
+			"description": "Create a store.",
+			"schema": "./store/schema.json"
+		},
 		"page": {
 			"aliases": ["p"],
 			"factory": "./page",
@@ -59,16 +65,17 @@
 			"description": "Create a state.",
 			"schema": "./state/schema.json"
 		},
-		"store": {
-			"factory": "./store",
-			"description": "Create a store.",
-			"schema": "./store/schema.json"
-		},
 		"entity": {
 			"aliases": ["en"],
 			"factory": "./entity",
 			"description": "Create a entity.",
 			"schema": "./entity/schema.json"
+		},
+		"data-flow": {
+			"aliases": ["df"],
+			"factory": "./dataflow",
+			"description": "Create a dataflow.",
+			"schema": "./dataflow/schema.json"
 		},
 		"facade": {
 			"aliases": ["fc"],
@@ -77,7 +84,7 @@
 			"schema": "./facade/schema.json"
 		},
 		"service": {
-			"aliases": ["s"],
+			"aliases": ["srv"],
 			"factory": "./service",
 			"description": "Create a service.",
 			"schema": "./service/schema.json"
@@ -131,7 +138,7 @@
 			"schema": "./service-worker/schema.json"
 		},
 		"dockerfile": {
-			"aliases": ["df"],
+			"aliases": ["docker"],
 			"factory": "./dockerfile",
 			"description": "Create a dockerfile.",
 			"schema": "./dockerfile/schema.json"

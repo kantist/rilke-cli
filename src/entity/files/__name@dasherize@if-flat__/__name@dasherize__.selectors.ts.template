@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { <%= classify(name) %>State } from './<%= dasherize(name) %>.reducer';
-import { <%= camelize(name) %>Adaptor } from './<%= dasherize(name) %>.entity';
+import { <%= camelize(name) %>Adaptor } from './<%= dasherize(name) %>.adapters';
 
 const selectState = createFeatureSelector<<%= classify(name) %>State>('<%= camelize(name) %>');
 const selectDataState = createSelector(selectState, (state: <%= classify(name) %>State) => state.data);
