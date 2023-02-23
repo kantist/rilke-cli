@@ -4,7 +4,7 @@
 	"title": "Rilke Feature Options Schema",
 	"type": "object",
 	"additionalProperties": false,
-	"description": "Creates a new, generic NgModule definition in the given or default project.",
+	"description": "Creates a new, generic feature definition in the given or default project.",
 	"properties": {
 		"name": {
 			"type": "string",

@@ -10,7 +10,7 @@ import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dashe
 
 @Injectable()
 export class <%= classify(name) %>Facade {<% if (ready) {%>
-	isLoading$ = this.store.select(<%= camelize(name) %>Selectors.selectIsLoading);
+	isUpdating$ = this.store.select(<%= camelize(name) %>Selectors.selectIsLoading);
 	error$ = this.store.select(<%= camelize(name) %>Selectors.selectError);
 
 	getAll$ = this.store.select(<%= camelize(name) %>Selectors.getAll);

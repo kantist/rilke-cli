@@ -84,10 +84,6 @@ export interface Schema {
 	 */
 	moduleName?: string;
 	/**
-	 * Determine if you use subscriptions
-	 */
-	subscriptionManagement?: boolean;
-	/**
 	 * The declaring NgModule exports this component.
 	 */
 	export?: boolean;

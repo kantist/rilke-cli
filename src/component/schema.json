@@ -145,12 +145,6 @@
 			"type": "string",
 			"description": "The declaring NgModule name."
 		},
-		"subscriptionManagement": {
-			"type": "boolean",
-			"description": "Determine if you use subscriptions",
-			"alias": "subscription-management",
-			"default": false
-		},
 		"export": {
 			"type": "boolean",
 			"default": false,

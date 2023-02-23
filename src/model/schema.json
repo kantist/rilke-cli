@@ -78,10 +78,7 @@
 		"type": {
 			"type": "string",
 			"description": "Adds a developer-defined type to the filename, in the format \"name.type.ts\".",
-			"$default": {
-				"$source": "argv",
-				"index": 1
-			}
+			"default": "model"
 		},
 		"ready": {
 			"description": "When true, creates files with ready made code.",

@@ -1,9 +1,8 @@
-<% if (provideIn) {%>import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-@Injectable({
+@Injectable(<% if (provideIn) {%>{
 	providedIn: 'root'
-})
-<% }%>export class <%= classify(name) %>Service {
-
+}<% }%>)
+export class <%= classify(name) %>Service {
 	constructor() { }
 }

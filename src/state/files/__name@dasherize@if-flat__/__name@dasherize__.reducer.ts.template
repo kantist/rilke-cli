@@ -8,14 +8,14 @@ import { I<%= classify(name) %>Meta } from '@<%= dasherize(layer) %>/<%= dasheri
 export interface <%= classify(name) %>State {
 	data: DataState;<% if (ready) {%>
 	meta: I<%= classify(name) %>Meta | undefined;<% }%>
-	isLoading: boolean;
+	isUpdating: boolean;
 	error: any;
 }
 
 const initialState: <%= classify(name) %>State = {
 	data: <%= camelize(name) %>Adaptor.getInitialState(),<% if (ready) {%>
 	meta: undefined,<% }%>
-	isLoading: false,
+	isUpdating: false,
 	error: null,
 };
 
@@ -24,91 +24,91 @@ export const <%= camelize(name) %>ReducerFn = createReducer(
 	// Fetch All
 	on(<%= classify(name) %>Actions.load<%= classify(name) %>s, (state) => ({
 		...state,
-		isLoading: true,
+		isUpdating: true,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.load<%= classify(name) %>sSuccess, (state, { data, meta }) => ({
 		...state,
 		data: <%= camelize(name) %>Adaptor.setAll(data, state.data),
 		meta: meta,
-		isLoading: false,
+		isUpdating: false,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.load<%= classify(name) %>sFail, (state, { error }) => ({
 		...state,
-		isLoading: false,
+		isUpdating: false,
 		error: error,
 	})),
 
 	// Fetch One
 	on(<%= classify(name) %>Actions.load<%= classify(name) %>, (state) => ({
 		...state,
-		isLoading: true,
+		isUpdating: true,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.load<%= classify(name) %>Success, (state, { data }) => ({
 		...state,
 		data: <%= camelize(name) %>Adaptor.setOne(data, state.data),
-		isLoading: false,
+		isUpdating: false,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.load<%= classify(name) %>Fail, (state, { error }) => ({
 		...state,
-		isLoading: false,
+		isUpdating: false,
 		error: error,
 	})),
 
 	// Create
 	on(<%= classify(name) %>Actions.create<%= classify(name) %>, (state) => ({
 		...state,
-		isLoading: true,
+		isUpdating: true,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.create<%= classify(name) %>Success, (state, { data }) => ({
 		...state,
 		data: <%= camelize(name) %>Adaptor.addOne(data, state.data),
-		isLoading: false,
+		isUpdating: false,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.create<%= classify(name) %>Fail, (state, { error }) => ({
 		...state,
-		isLoading: false,
+		isUpdating: false,
 		error: error,
 	})),
 
 	// Update
 	on(<%= classify(name) %>Actions.update<%= classify(name) %>, (state) => ({
 		...state,
-		isLoading: true,
+		isUpdating: true,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.update<%= classify(name) %>Success, (state, { data }) => ({
 		...state,
 		data: <%= camelize(name) %>Adaptor.updateOne({ id: data.id, changes: data }, state.data),
-		isLoading: false,
+		isUpdating: false,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.update<%= classify(name) %>Fail, (state, { error }) => ({
 		...state,
-		isLoading: false,
+		isUpdating: false,
 		error: error,
 	})),
 
 	// Delete
 	on(<%= classify(name) %>Actions.delete<%= classify(name) %>, (state) => ({
 		...state,
-		isLoading: true,
+		isUpdating: true,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.delete<%= classify(name) %>Success, (state, { id }) => ({
 		...state,
 		data: <%= camelize(name) %>Adaptor.removeOne(id, state.data),
-		isLoading: false,
+		isUpdating: false,
 		error: null,
 	})),
 	on(<%= classify(name) %>Actions.delete<%= classify(name) %>Fail, (state, { error }) => ({
 		...state,
-		isLoading: false,
+		isUpdating: false,
 		error: error,
 	}))
 <% }%>);

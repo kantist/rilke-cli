@@ -1,5 +1,4 @@
-import { Component, OnInit<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%><% if(subscriptionManagement) { %>, OnDestroy<% }%> } from '@angular/core';<% if (subscriptionManagement) {%>
-import { Subscription } from 'rxjs';<% }%>
+import { Component, OnInit<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%> } from '@angular/core';
 
 @Component({<% if(!skipSelector) { %>
 	selector: '<%= selector %>',<% } %><% if(inlineTemplate) { %>
@@ -15,16 +14,8 @@ import { Subscription } from 'rxjs';<% }%>
 	encapsulation: ViewEncapsulation.<%= viewEncapsulation %><% } if (changeDetection !== 'Default') { %>,
 	changeDetection: ChangeDetectionStrategy.<%= changeDetection %><% } %>
 })
-export class <%= classify(className) %> implements OnInit<% if(subscriptionManagement) { %>, OnDestroy<% }%> {<% if (subscriptionManagement) {%>
-	private readonly subscriptions: Subscription[] = [];
-<% }%>
+export class <%= classify(className) %> implements OnInit {
 	constructor() {}
 
-	ngOnInit() {}<% if (subscriptionManagement) {%>
-
-	ngOnDestroy() {
-		this.subscriptions.forEach((subscription) => {
-			subscription.unsubscribe();
-		});
-	}<% }%>
+	ngOnInit() {}
 }

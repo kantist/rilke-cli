@@ -168,7 +168,6 @@ export default function (options: LayoutOptions): Rule {
 			module: strings.dasherize(options.name),
 			layer: 'layouts',
 			skipSelector: true,
-			subscriptionManagement: false,
 			parent: true,
 		};
 
@@ -177,7 +176,6 @@ export default function (options: LayoutOptions): Rule {
 			module: strings.dasherize(options.name),
 			layer: 'layouts',
 			skipSelector: true,
-			subscriptionManagement: false,
 			parent: true,
 		};
 
