@@ -6,5 +6,5 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 import { Rule } from '@angular-devkit/schematics';
-import { Schema as EntityOptions } from './schema';
-export default function (options: EntityOptions): Rule;
+import { Schema as DataFlowOptions } from './schema';
+export default function (options: DataFlowOptions): Rule;

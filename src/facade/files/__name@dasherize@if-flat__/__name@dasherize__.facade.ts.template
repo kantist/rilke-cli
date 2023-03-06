@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';<% if (ready) {%>
 import { Action, Store } from '@ngrx/store';
 
-import * as <%= camelize(name) %>Selectors from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.selectors';
-import * as <%= camelize(name) %>Action from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.actions';
-import { <%= classify(name) %>State } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/states/<%= dasherize(name) %>/<%= dasherize(name) %>.reducer';
+import * as <%= camelize(name) %>Selectors from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/entities/<%= dasherize(name) %>/<%= dasherize(name) %>.selectors';
+import * as <%= camelize(name) %>Action from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/entities/<%= dasherize(name) %>/<%= dasherize(name) %>.actions';
+import { <%= classify(name) %>State } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/entities/<%= dasherize(name) %>/<%= dasherize(name) %>.reducer';
 
 import { I<%= classify(name) %> } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
-import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>-params.interface';<% }%>
+import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>/params.interface';<% }%>
 
 @Injectable()
 export class <%= classify(name) %>Facade {<% if (ready) {%>

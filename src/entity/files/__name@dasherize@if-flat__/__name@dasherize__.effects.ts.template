@@ -8,7 +8,7 @@ import { of, catchError, map, mergeMap } from 'rxjs';
 import { ApiCall, ApiService } from '@rilke/common/api';
 
 import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
-import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>-params.interface';<% }%>
+import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>/params.interface';<% }%>
 
 @Injectable()
 export class <%= classify(name) %>Effects {<% if (ready) {%>

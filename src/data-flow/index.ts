@@ -54,23 +54,21 @@ export default function (options: DataFlowOptions): Rule {
 		// Remap path
 		options.path = buildPath(options); // src/app/stores/{store}
 
-		// Check if meta.interface.ts exists
-		const metaInterface = host.read(options.path + '/interfaces/meta.interface.ts');
-
-		const templateSource = apply(url('./files'), [
-			applyTemplates({
-				...strings,
-				'if-flat': (s: string) => (options.flat ? '' : s),
-				...options,
-			}),
-			move(options.path),
-		]);
-
 		// Check app-store.module.ts
-		const store = host.read(`${options.path}/stores/${options.module}/${options.module}.store`);
+		const store = host.exists(`${options.path}/${options.module}.store.ts`);
 
 		return chain([
-			metaInterface ? noop() : mergeWith(templateSource, MergeStrategy.Overwrite),
+			mergeWith(
+				apply(url('./files'), [
+					applyTemplates({
+						...strings,
+						'if-flat': (s: string) => (options.flat ? '' : s),
+						...options,
+					}),
+					move(options.path),
+				]),
+				MergeStrategy.Overwrite
+			),
 			store ? noop() : schematic('store', { name: options.module }),
 			schematic('entity', {
 				name: options.name,
