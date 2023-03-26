@@ -14,7 +14,7 @@ export const getEntities = createSelector(selectDataState, selectEntities);
 export const getIds = createSelector(selectDataState, selectIds);
 export const getTotal = createSelector(selectDataState, selectTotal);
 
-export const get = (id: string) => createSelector(getAll, (items) => items[id]);
+export const get = (id: string) => createSelector(getEntities, (items) => items[id]);
 
 // Meta Selectors<% if (ready) {%>
 export const selectMeta = createSelector(selectState, (state: <%= classify(name) %>State) => state.meta);<% }%>
