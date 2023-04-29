@@ -18,14 +18,14 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 		this.actions$.pipe(
 			ofType(<%= camelize(name) %>Action.ActionTypes.Load<%= classify(name) %>s),
 			// tap((val) => console.log('BEFORE MAP:', val)),
-			mergeMap((params: I<%= classify(name) %>Params) =>
+			mergeMap((payload: { params: I<%= classify(name) %>Params }) =>
 				this.apiService
 					.get(
 						new ApiCall({
 							path: '<%= dasherize(name) %>',
 							options: {
 								params: {
-									...params,
+									...payload.params,
 								},
 							},
 						})

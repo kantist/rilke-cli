@@ -27,7 +27,7 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 	}
 
 	fetch(params: I<%= classify(name) %>Params = null) {
-		this.store.dispatch(<%= camelize(name) %>Action.load<%= classify(name) %>s(params));
+		this.store.dispatch(<%= camelize(name) %>Action.load<%= classify(name) %>s({ params }));
 	}
 
 	fetchSingle(id: string) {

@@ -28,7 +28,7 @@ export enum ActionTypes {<% if (ready) {%>
 <% }%>}<% if (ready) {%>
 
 // LOAD
-export const load<%= classify(name) %>s = createAction(ActionTypes.Load<%= classify(name) %>s, props<I<%= classify(name) %>Params>());
+export const load<%= classify(name) %>s = createAction(ActionTypes.Load<%= classify(name) %>s, props<{ params?: I<%= classify(name) %>Params }>());
 
 export const load<%= classify(name) %>sSuccess = createAction(ActionTypes.Load<%= classify(name) %>sSuccess, props<I<%= classify(name) %>s>());
 
