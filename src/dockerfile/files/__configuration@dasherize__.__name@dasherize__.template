@@ -1,4 +1,4 @@
-FROM node:14-alpine as buildContainer
+FROM node:16-alpine as buildContainer
 WORKDIR /app
 COPY ./package.json /app/
 RUN npm install -g @rilke/cli
@@ -6,7 +6,7 @@ RUN npm install
 COPY ./ /app
 RUN npm run <%= configuration %>:build:ssr
 
-FROM node:14-alpine
+FROM node:16-alpine
 
 WORKDIR /app
 # Copy dependency definitions
