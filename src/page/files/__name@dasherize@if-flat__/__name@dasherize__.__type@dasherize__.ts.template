@@ -14,5 +14,4 @@ import { Component<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(
 	encapsulation: ViewEncapsulation.<%= viewEncapsulation %><% } if (changeDetection !== 'Default') { %>,
 	changeDetection: ChangeDetectionStrategy.<%= changeDetection %><% } %>
 })
-export class <%= classify(className) %> {
-}
+export class <%= classify(className) %> {}

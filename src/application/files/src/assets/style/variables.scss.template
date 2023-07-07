@@ -16,3 +16,5 @@ $min1400: 'only screen and (min-width: 1400px)';
 
 $max1536: 'only screen and (max-width: 1536px)';
 $min1537: 'only screen and (min-width: 1537px)';
+
+$touchscreen: '(hover: none)';

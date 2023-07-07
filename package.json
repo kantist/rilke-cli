@@ -1,6 +1,6 @@
 {
 	"name": "@rilke/cli",
-	"version": "16.0.4",
+	"version": "16.0.5",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
@@ -17,7 +17,7 @@
 		"url": "https://github.com/kantist/rilke-cli.git"
 	},
 	"engines": {
-		"node": "^14.20.0 || ^16.13.0 || ^18.10.0"
+		"node": "^16.13.0 || ^18.10.0"
 	},
 	"homepage": "https://rilke.ist/cli",
 	"bugs": {

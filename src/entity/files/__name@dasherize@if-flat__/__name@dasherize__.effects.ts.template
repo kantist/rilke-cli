@@ -17,7 +17,6 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 	load<%= classify(name) %>s$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(<%= camelize(name) %>Action.ActionTypes.Load<%= classify(name) %>s),
-			// tap((val) => console.log('BEFORE MAP:', val)),
 			mergeMap((payload: { params: I<%= classify(name) %>Params }) =>
 				this.apiService
 					.get(
@@ -35,7 +34,6 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 						catchError((err) => of(<%= camelize(name) %>Action.load<%= classify(name) %>sFail(err)))
 					)
 			)
-			// tap((val) => console.log('AFTER MAP:', val))
 		)
 	);
 
