@@ -1,6 +1,6 @@
 {
 	"name": "@rilke/cli",
-	"version": "16.0.5",
+	"version": "16.0.6",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",

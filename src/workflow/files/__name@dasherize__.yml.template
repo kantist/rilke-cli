@@ -1,39 +1,76 @@
-name: Container
+name: <% if (name === 'prod') {%>Production<% } else { %>Staging<% }%>
 on:
-  push:
-    branches:
-      - <%= name %>
+    push:
+        branches:
+            - <% if (name === 'prod') {%>main<% } else { %>stage<% }%>
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: <%= container %>
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-        dockerfile: <%= name %>.dockerfile
-        tags: "<%= name %>"
-  publish:
-    name: Publish
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.<%= secretFormatter(name) %>_SSH_HOST }}
-          username: ${{ secrets.<%= secretFormatter(name) %>_SSH_USERNAME }}
-          key: ${{ secrets.<%= secretFormatter(name) %>_SSH_PRIV_KEY }}
-          port: 22
-          script: |
-            docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_ACCESS_TOKEN }}
-            docker pull <%= container %>:<%= name %>
-            docker rm -f <%= container_name %>-<%= name %> || true
-            docker run --name <%= container_name %>-<%= name %> -p <%= port %>:4000 --restart=always -d <%= container %>:<%= name %>
-            exit
-            EOF
+    environment:
+        name: Get Environment
+        runs-on: ubuntu-latest
+        outputs:<% if (name === 'prod') {%>
+            version: ${{ steps.versioning.outputs.version }}<% }%>
+            tag: <% if (name === 'prod') {%>v${{ steps.versioning.outputs.version }}<% } else { %><%= name %><% }%>
+            image: ${{ github.repository }}/<%= image %>
+            container: <%= project %>-<%= name %>
+            port: <%= port %><% if (name === 'prod') {%>
+
+        steps:
+            - name: Get Semver
+              uses: MCKanpolat/auto-semver-action@v1
+              id: versioning
+              with:
+                  releaseType: patch
+                  incrementPerCommit: false
+                  github_token: ${{ secrets.GITHUB_TOKEN }}<% } else { %>
+        steps:
+            - name: Get envrionments
+              uses: actions/checkout@master<% }%>
+
+    build:
+        name: Build
+        needs: environment
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - name: Publish to Registry
+              uses: elgohr/Publish-Docker-Github-Action@master
+              with:
+                  name: ${{ needs.environment.outputs.image }}
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+                  registry: ghcr.io
+                  dockerfile: <%= name %>.dockerfile
+                  tags: '${{ needs.environment.outputs.tag }}'
+
+    publish:
+        name: Publish
+        needs: [environment, build]
+        runs-on: ubuntu-latest
+        steps:
+            - name: executing remote ssh commands using ssh key
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.KANT_SSH_HOST }}
+                  username: ${{ secrets.KANT_SSH_USERNAME }}
+                  key: ${{ secrets.KANT_SSH_PRIV_KEY }}
+                  port: 22
+                  script: |
+                      docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+                      docker pull ghcr.io/${{ needs.environment.outputs.image }}:${{ needs.environment.outputs.tag }}
+                      docker rm -f ${{ needs.environment.outputs.container }} || true
+                      docker run --name ${{ needs.environment.outputs.container }} -p ${{ needs.environment.outputs.port }}:4000 --restart=always -d ghcr.io/${{ needs.environment.outputs.image }}:${{ needs.environment.outputs.tag }}
+                      exit
+<% if (name === 'prod') {%>
+    release:
+        name: Create Release
+        needs: [environment, build]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ needs.environment.outputs.tag }}
+                  name: ${{ needs.environment.outputs.version }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}<% }%>

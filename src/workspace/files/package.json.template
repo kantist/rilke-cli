@@ -12,7 +12,7 @@
 		"lint:styles:fix": "stylelint \"**/*.scss\" --fix",
 		"serve:ssr": "node dist/server/main.js",
 		"prod:build:ssr": "ril build && ril run <%= utils.dasherize(name) %>:server:production",
-		"pre-prod:build:ssr": "ril build --configuration preproduction && ril run <%= utils.dasherize(name) %>:server:preproduction",
+		"stage:build:ssr": "ril build --configuration staging && ril run <%= utils.dasherize(name) %>:server:staging",
 		"dev:build:ssr": "ril build --configuration development && ril run <%= utils.dasherize(name) %>:server:development"
 	},
 	"private": true,

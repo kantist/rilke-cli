@@ -10,29 +10,25 @@
 			"type": "string",
 			"default": "prod",
 			"description": "Which name to use for the workflow file.",
-			"enum": ["pre-prod", "prod", "dev"],
+			"enum": ["stage", "prod", "dev"],
 			"x-prompt": {
 				"message": "Which name to use for the workflow file?",
 				"type": "list",
 				"items": [
 					{
-						"value": "pre-prod",
-						"label": "Pre-Production"
+						"value": "stage",
+						"label": "Staging"
 					},
 					{
 						"value": "prod",
 						"label": "Production"
-					},
-					{
-						"value": "dev",
-						"label": "Development"
 					}
 				]
 			}
 		},
-		"container": {
+		"image": {
 			"type": "string",
-			"description": "The container name in hub.",
+			"description": "The image name in github package repository.",
 			"$default": {
 				"$source": "argv",
 				"index": 0

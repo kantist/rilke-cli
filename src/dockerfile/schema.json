@@ -22,14 +22,14 @@
 			"type": "string",
 			"default": "prod",
 			"description": "Which build configuration to use for the dockerfile.",
-			"enum": ["pre-prod", "prod", "dev"],
+			"enum": ["stage", "prod", "dev"],
 			"x-prompt": {
 				"message": "Which build configuration to use for the dockerfile?",
 				"type": "list",
 				"items": [
 					{
-						"value": "pre-prod",
-						"label": "Pre-Production"
+						"value": "stage",
+						"label": "Staging"
 					},
 					{
 						"value": "prod",

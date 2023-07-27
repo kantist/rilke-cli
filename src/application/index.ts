@@ -177,12 +177,12 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						],
 						outputHashing: 'all',
 					},
-					preproduction: {
+					staging: {
 						budgets,
 						fileReplacements: [
 							{
 								replace: `${sourceRoot}/environments/environment.ts`,
-								with: `${sourceRoot}/environments/environment.preprod.ts`,
+								with: `${sourceRoot}/environments/environment.staging.ts`,
 							},
 						],
 						outputHashing: 'all',
@@ -262,12 +262,12 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						sourceMap: false,
 						optimization: true,
 					},
-					preproduction: {
+					staging: {
 						outputHashing: 'media',
 						fileReplacements: [
 							{
 								replace: `${sourceRoot}/environments/environment.ts`,
-								with: `${sourceRoot}/environments/environment.preprod.ts`,
+								with: `${sourceRoot}/environments/environment.stage.ts`,
 							},
 						],
 						sourceMap: false,
