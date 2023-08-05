@@ -7,16 +7,19 @@ import { of, catchError, map, mergeMap } from 'rxjs';
 
 import { ApiCall, ApiService } from '@rilke/common/api';
 
-import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { I<%= classify(name) %>, I<%= classify(name) %>s, I<%= classify(name) %>Dto } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
 import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>/params.interface';<% }%>
 
 @Injectable()
 export class <%= classify(name) %>Effects {<% if (ready) {%>
+	destroy$ = new Subject<void>();
+
 	constructor(private actions$: Actions, private apiService: ApiService) {}
 
 	load<%= classify(name) %>s$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(<%= camelize(name) %>Action.ActionTypes.Load<%= classify(name) %>s),
+			tap(() => this.destroy$.next()),
 			mergeMap((payload: { params: I<%= classify(name) %>Params }) =>
 				this.apiService
 					.get(
@@ -30,6 +33,7 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 						})
 					)
 					.pipe(
+						takeUntil(this.destroy$),
 						map((<%= camelize(name) %>s: I<%= classify(name) %>s) => <%= camelize(name) %>Action.load<%= classify(name) %>sSuccess(<%= camelize(name) %>s)),
 						catchError((err) => of(<%= camelize(name) %>Action.load<%= classify(name) %>sFail(err)))
 					)
@@ -63,7 +67,7 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 	create<%= classify(name) %>$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(<%= camelize(name) %>Action.ActionTypes.Create<%= classify(name) %>),
-			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>; params: I<%= classify(name) %>Params }) =>
+			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>Dto; params: I<%= classify(name) %>Params }) =>
 				this.apiService
 					.post(
 						new ApiCall({
@@ -78,7 +82,7 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 					)
 					.pipe(
 						map((created<%= classify(name) %>: I<%= classify(name) %>) => <%= camelize(name) %>Action.create<%= classify(name) %>Success(created<%= classify(name) %>)),
-						catchError((err) => of(<%= camelize(name) %>Action.create<%= classify(name) %>Success(payload.<%= camelize(name) %>)))
+						catchError((err) => of(<%= camelize(name) %>Action.create<%= classify(name) %>Fail(err)))
 					)
 			)
 		)
@@ -87,7 +91,7 @@ export class <%= classify(name) %>Effects {<% if (ready) {%>
 	update<%= classify(name) %>$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(<%= camelize(name) %>Action.ActionTypes.Update<%= classify(name) %>),
-			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>; params: I<%= classify(name) %>Params }) =>
+			mergeMap((payload: { <%= camelize(name) %>: I<%= classify(name) %>Dto; params: I<%= classify(name) %>Params }) =>
 				this.apiService
 					.patch(
 						new ApiCall({

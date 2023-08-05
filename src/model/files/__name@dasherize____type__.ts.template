@@ -1,19 +1,29 @@
 <% if (ready) {%>import { uuid } from '@rilke/common/utility';
 
 export interface <%= prefix %><%= classify(name) %>s {
-	data: <%= prefix %><%= classify(name) %>Data[],
-	meta: any
+	data: <%= prefix %><%= classify(name) %>Data[];
+	meta: any;
 }
 
 export interface <%= prefix %><%= classify(name) %> {
-	data: <%= prefix %><%= classify(name) %>Data
+	data: <%= prefix %><%= classify(name) %>Data;
 }
 
 export interface <%= prefix %><%= classify(name) %>Data {
-	id?: string,
-	type?: '<%= dasherize(name) %>',
-	attributes: {
-	}
+	id?: string;
+	type?: '<%= dasherize(name) %>';
+	attributes: <%= prefix %><%= classify(name) %>DataAttributes;
+}
+
+export interface <%= prefix %><%= classify(name) %>DataAttributes {
+}
+
+export interface <%= prefix %><%= classify(name) %>Dto {
+	data: {
+		id?: string;
+		type?: '<%= dasherize(name) %>';
+		attributes: Partial<<%= prefix %><%= classify(name) %>DataAttributes>;
+	};
 }
 
 export class <%= classify(name) %> implements <%= prefix %><%= classify(name) %> {

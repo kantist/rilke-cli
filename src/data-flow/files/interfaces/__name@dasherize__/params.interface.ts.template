@@ -1,6 +1,6 @@
 export interface I<%= classify(name) %>Params {
 	'page[number]'?: number;
 	'page[size]'?: number;
-	'filter[firstname]'?: number;
-	sort?: 'firstname' | 'lastname';
+	[filter: string]?: any;
+	sort?: 'name' | '-name';
 }

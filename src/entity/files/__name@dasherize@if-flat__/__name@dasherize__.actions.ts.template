@@ -1,6 +1,6 @@
 <% if (ready) {%>import { createAction, props } from '@ngrx/store';
 import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>/params.interface';
-import { I<%= classify(name) %>, I<%= classify(name) %>s } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { I<%= classify(name) %>, I<%= classify(name) %>s, I<%= classify(name) %>Dto } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
 
 <% }%>/*
  * Action Types
@@ -42,14 +42,14 @@ export const load<%= classify(name) %>Success = createAction(ActionTypes.Load<%=
 export const load<%= classify(name) %>Fail = createAction(ActionTypes.Load<%= classify(name) %>Fail, props<{ error: any }>());
 
 // CREATE
-export const create<%= classify(name) %> = createAction(ActionTypes.Create<%= classify(name) %>, props<{ <%= camelize(name) %>: I<%= classify(name) %>; params?: I<%= classify(name) %>Params }>());
+export const create<%= classify(name) %> = createAction(ActionTypes.Create<%= classify(name) %>, props<{ <%= camelize(name) %>: I<%= classify(name) %>Dto; params?: I<%= classify(name) %>Params }>());
 
 export const create<%= classify(name) %>Success = createAction(ActionTypes.Create<%= classify(name) %>Success, props<I<%= classify(name) %>>());
 
 export const create<%= classify(name) %>Fail = createAction(ActionTypes.Create<%= classify(name) %>Fail, props<{ error: any }>());
 
 // UPDATE
-export const update<%= classify(name) %> = createAction(ActionTypes.Update<%= classify(name) %>, props<{ <%= camelize(name) %>: I<%= classify(name) %>; params?: I<%= classify(name) %>Params }>());
+export const update<%= classify(name) %> = createAction(ActionTypes.Update<%= classify(name) %>, props<{ <%= camelize(name) %>: I<%= classify(name) %>Dto; params?: I<%= classify(name) %>Params }>());
 
 export const update<%= classify(name) %>Success = createAction(ActionTypes.Update<%= classify(name) %>Success, props<I<%= classify(name) %>>());
 

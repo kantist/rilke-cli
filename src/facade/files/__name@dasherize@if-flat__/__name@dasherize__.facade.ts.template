@@ -5,7 +5,7 @@ import * as <%= camelize(name) %>Selectors from '@<%= dasherize(layer) %>/<%= da
 import * as <%= camelize(name) %>Action from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/entities/<%= dasherize(name) %>/<%= dasherize(name) %>.actions';
 import { <%= classify(name) %>State } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/entities/<%= dasherize(name) %>/<%= dasherize(name) %>.reducer';
 
-import { I<%= classify(name) %> } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
+import { I<%= classify(name) %>, I<%= classify(name) %>Dto } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/models/<%= dasherize(name) %>.model';
 import { I<%= classify(name) %>Params } from '@<%= dasherize(layer) %>/<%= dasherize(moduleName) %>/interfaces/<%= dasherize(name) %>/params.interface';<% }%>
 
 @Injectable()
@@ -34,11 +34,11 @@ export class <%= classify(name) %>Facade {<% if (ready) {%>
 		this.store.dispatch(<%= camelize(name) %>Action.load<%= classify(name) %>({ id }));
 	}
 
-	create(<%= camelize(name) %>: I<%= classify(name) %>) {
+	create(<%= camelize(name) %>: I<%= classify(name) %>Dto) {
 		this.store.dispatch(<%= camelize(name) %>Action.create<%= classify(name) %>({ <%= camelize(name) %> }));
 	}
 
-	update(<%= camelize(name) %>: I<%= classify(name) %>) {
+	update(<%= camelize(name) %>: I<%= classify(name) %>Dto) {
 		this.store.dispatch(<%= camelize(name) %>Action.update<%= classify(name) %>({ <%= camelize(name) %> }));
 	}
 
