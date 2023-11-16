@@ -6,6 +6,9 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
+/* eslint-disable indent */
+/* eslint-disable no-mixed-spaces-and-tabs */
+
 import { JsonObject, join, normalize, strings } from '@angular-devkit/core';
 import {
 	MergeStrategy,
@@ -42,7 +45,7 @@ function addDependenciesToPackageJson(options: ApplicationOptions) {
 			{
 				type: NodeDependencyType.Dev,
 				name: '@angular-devkit/build-angular',
-				version: latestVersions['@angular'],
+				version: latestVersions['@angular-devkit'],
 			},
 			{
 				type: NodeDependencyType.Dev,
@@ -94,7 +97,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 	}
 
 	if (options.ready) {
-		['facade', 'state', 'model', 'interface'].forEach((type) => {
+		['facade', 'state', 'entity', 'model', 'interface'].forEach((type) => {
 			if (!(`@rilke/cli:${type}` in schematics)) {
 				schematics[`@rilke/cli:${type}`] = {};
 			}
@@ -150,21 +153,26 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 		schematics,
 		targets: {
 			build: {
-				builder: Builders.Browser,
+				builder: Builders.Application,
 				defaultConfiguration: 'production',
 				options: {
-					outputPath: `dist/browser`,
+					outputPath: `dist/${options.name}`,
 					index: `${sourceRoot}/index.html`,
-					main: `${sourceRoot}/main.ts`,
-					polyfills: `${sourceRoot}/polyfills.ts`,
+					browser: `${sourceRoot}/main.ts`,
+					polyfills: ['zone.js'],
 					tsConfig: `${projectRoot}tsconfig.app.json`,
 					inlineStyleLanguage,
 					assets: [`${sourceRoot}/assets`, `${sourceRoot}/manifest.webmanifest`],
 					styles: [`${sourceRoot}/assets/style/styles.${options.style}`],
 					stylePreprocessorOptions: {
-						includePaths: ['src/assets/style'],
+						includePaths: [`${sourceRoot}/assets/style`],
 					},
 					scripts: [],
+					server: `${sourceRoot}/main.server.ts`,
+					prerender: true,
+					ssr: {
+						entry: `server.ts`,
+					},
 				},
 				configurations: {
 					production: {
@@ -188,12 +196,9 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 						outputHashing: 'all',
 					},
 					development: {
-						buildOptimizer: false,
 						optimization: false,
-						vendorChunk: true,
 						extractLicenses: false,
 						sourceMap: true,
-						namedChunks: true,
 					},
 				},
 			},
@@ -221,15 +226,13 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 				: {
 						builder: Builders.Karma,
 						options: {
-							main: `${sourceRoot}/test.ts`,
-							polyfills: `${sourceRoot}/polyfills.ts`,
+							polyfills: ['zone.js', 'zone.js/testing'],
 							tsConfig: `${projectRoot}tsconfig.spec.json`,
-							karmaConfig: `${projectRoot}karma.conf.js`,
 							inlineStyleLanguage,
 							assets: [`${sourceRoot}/assets`],
 							styles: [`${sourceRoot}/assets/style/styles.${options.style}`],
 							stylePreprocessorOptions: {
-								includePaths: ['src/assets/style'],
+								includePaths: [`${sourceRoot}/assets/style`],
 							},
 							scripts: [],
 						},
@@ -238,41 +241,6 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 				builder: '@angular-eslint/builder:lint',
 				options: {
 					lintFilePatterns: ['**/*.ts', '**/*.html'],
-				},
-			},
-			server: {
-				builder: Builders.Server,
-				options: {
-					outputPath: 'dist/server',
-					main: `${projectRoot}server.ts`,
-					tsConfig: `${projectRoot}tsconfig.server.json`,
-					stylePreprocessorOptions: {
-						includePaths: ['src/assets/style'],
-					},
-				},
-				configurations: {
-					production: {
-						outputHashing: 'media',
-						fileReplacements: [
-							{
-								replace: `${sourceRoot}/environments/environment.ts`,
-								with: `${sourceRoot}/environments/environment.prod.ts`,
-							},
-						],
-						sourceMap: false,
-						optimization: true,
-					},
-					staging: {
-						outputHashing: 'media',
-						fileReplacements: [
-							{
-								replace: `${sourceRoot}/environments/environment.ts`,
-								with: `${sourceRoot}/environments/environment.stage.ts`,
-							},
-						],
-						sourceMap: false,
-						optimization: true,
-					},
 				},
 			},
 		},
@@ -291,7 +259,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, appDir: string): Rul
 }
 
 function minimalPathFilter(path: string): boolean {
-	const toRemoveList = /(test.ts|tsconfig.spec.json|karma.conf.js).template$/;
+	const toRemoveList = /(tsconfig.spec.json).template$/;
 
 	return !toRemoveList.test(path);
 }

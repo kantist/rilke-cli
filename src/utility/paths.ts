@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-
 import { normalize, split } from '@angular-devkit/core';
 
 export function relativePathToWorkspaceRoot(projectRoot: string | undefined): string {

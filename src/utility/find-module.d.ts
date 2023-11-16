@@ -16,6 +16,7 @@ export interface ModuleOptions {
     skipImport?: boolean;
     moduleExt?: string;
     routingModuleExt?: string;
+    standalone?: boolean;
 }
 export declare const MODULE_EXT = ".module.ts";
 export declare const LAYER_EXT = ".layer.ts";

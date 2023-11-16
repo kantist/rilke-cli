@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-
 import { JsonValue } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import {
@@ -23,7 +22,7 @@ import {
 export type InsertionIndex = (properties: string[]) => number;
 export type JSONPath = (string | number)[];
 
-/** @internal */
+/** @private */
 export class JSONFile {
 	content: string;
 
@@ -43,8 +42,8 @@ export class JSONFile {
 			const { error, offset } = errors[0];
 			throw new Error(
 				`Failed to parse "${this.path}" as JSON AST Object. ${printParseErrorCode(
-					error,
-				)} at location: ${offset}.`,
+					error
+				)} at location: ${offset}.`
 			);
 		}
 
@@ -66,16 +65,11 @@ export class JSONFile {
 		return node === undefined ? undefined : getNodeValue(node);
 	}
 
-	modify(
-		jsonPath: JSONPath,
-		value: JsonValue | undefined,
-		insertInOrder?: InsertionIndex | false,
-	): void {
+	modify(jsonPath: JSONPath, value: JsonValue | undefined, insertInOrder?: InsertionIndex | false): void {
 		let getInsertionIndex: InsertionIndex | undefined;
 		if (insertInOrder === undefined) {
 			const property = jsonPath.slice(-1)[0];
-			getInsertionIndex = (properties) =>
-				[...properties, property].sort().findIndex((p) => p === property);
+			getInsertionIndex = (properties) => [...properties, property].sort().findIndex((p) => p === property);
 		} else if (insertInOrder !== false) {
 			getInsertionIndex = insertInOrder;
 		}

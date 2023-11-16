@@ -96,5 +96,5 @@
 			"default": false
 		}
 	},
-	"required": ["name", "layer", "module"]
+	"required": ["name", "project", "layer", "module"]
 }

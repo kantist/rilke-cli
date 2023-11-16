@@ -7,9 +7,9 @@
  */
 import { JsonValue } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
-export declare type InsertionIndex = (properties: string[]) => number;
-export declare type JSONPath = (string | number)[];
-/** @internal */
+export type InsertionIndex = (properties: string[]) => number;
+export type JSONPath = (string | number)[];
+/** @private */
 export declare class JSONFile {
     private readonly host;
     private readonly path;

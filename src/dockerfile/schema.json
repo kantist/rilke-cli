@@ -49,5 +49,6 @@
 				"$source": "projectName"
 			}
 		}
-	}
+	},
+	"required": ["configuration", "project"]
 }

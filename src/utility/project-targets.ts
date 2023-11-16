@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
-
 import { SchematicsException } from '@angular-devkit/schematics';
 
 export function targetBuildNotFoundError(): SchematicsException {

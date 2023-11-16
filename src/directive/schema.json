@@ -106,5 +106,5 @@
 			"description": "The declaring NgModule exports this directive."
 		}
 	},
-	"required": ["name", "layer", "module"]
+	"required": ["name", "project", "layer", "module"]
 }

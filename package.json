@@ -1,6 +1,6 @@
 {
 	"name": "@rilke/cli",
-	"version": "16.0.9",
+	"version": "17.0.0",
 	"description": "A Schematic for Rilke Architect",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
@@ -17,7 +17,7 @@
 		"url": "https://github.com/kantist/rilke-cli.git"
 	},
 	"engines": {
-		"node": "^16.13.0 || ^18.10.0"
+		"node": "^18.13.0 || ^20.9.0"
 	},
 	"homepage": "https://rilke.ist/cli",
 	"bugs": {
@@ -37,16 +37,16 @@
 	"license": "MIT",
 	"schematics": "./src/collection.json",
 	"dependencies": {
-		"@angular-devkit/core": "16.0.2",
-		"@angular-devkit/schematics": "16.0.2",
-		"@angular/cli": "16.0.2",
+		"@angular-devkit/core": "17.0.0",
+		"@angular-devkit/schematics": "17.0.0",
+		"@angular/cli": "17.0.0",
 		"jsonc-parser": "3.2.0",
 		"shelljs": "^0.8.5",
-		"typescript": "5.0.4"
+		"typescript": "~5.2.0"
 	},
 	"devDependencies": {
 		"@types/jasmine": "~4.3.0",
-		"@types/node": "^14.15.0",
+		"@types/node": "^20.0.9",
 		"@typescript-eslint/eslint-plugin": "5.45.0",
 		"@typescript-eslint/parser": "5.45.0",
 		"esbuild": "0.15.16",

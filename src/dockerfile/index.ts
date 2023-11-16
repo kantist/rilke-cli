@@ -9,8 +9,7 @@
 import { Rule } from '@angular-devkit/schematics';
 import { generateFromFiles } from '../utility/generate-from-files';
 import { Schema as DockerfileOptions } from './schema';
- 
+
 export default function (options: DockerfileOptions): Rule {
-  	return generateFromFiles(options);
+	return generateFromFiles(options);
 }
- 

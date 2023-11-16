@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://rilke.ist/license
  */
 
+/* eslint-disable no-mixed-spaces-and-tabs */
+
 import { NormalizedRoot, Path, dirname, join, normalize, relative } from '@angular-devkit/core';
 import { DirEntry, Tree } from '@angular-devkit/schematics';
 
@@ -18,6 +20,7 @@ export interface ModuleOptions {
 	skipImport?: boolean;
 	moduleExt?: string;
 	routingModuleExt?: string;
+	standalone?: boolean;
 }
 
 export const MODULE_EXT = '.module.ts';
@@ -31,8 +34,7 @@ export const ROUTING_MODULE_EXT = '-routing.module.ts';
  * Find the module referred by a set of options passed to the schematics.
  */
 export function findModuleFromOptions(host: Tree, options: ModuleOptions): Path | undefined {
-	// eslint-disable-next-line no-prototype-builtins
-	if (options.hasOwnProperty('skipImport') && options.skipImport) {
+	if (options.standalone || options.skipImport) {
 		return undefined;
 	}
 
@@ -109,7 +111,7 @@ export function findModule(
 			return join(dir.path, filteredMatches[0]);
 		} else if (filteredMatches.length > 1) {
 			throw new Error(
-				'More than one module matches. Use the skip-import option to skip importing ' +
+				`More than one module matches. Use the '--skip-import' option to skip importing ` +
 					'the component into the closest module or use the module option to specify a module.'
 			);
 		}
@@ -120,8 +122,8 @@ export function findModule(
 	const errorMsg = foundRoutingModule
 		? 'Could not find a non Routing NgModule.' +
 		  `\nModules with suffix '${routingModuleExt}' are strictly reserved for routing.` +
-		  '\nUse the skip-import option to skip importing in NgModule.'
-		: 'Could not find an NgModule. Use the skip-import option to skip importing in NgModule.';
+		  `\nUse the '--skip-import' option to skip importing in NgModule.`
+		: `Could not find an NgModule. Use the '--skip-import' option to skip importing in NgModule.`;
 
 	throw new Error(errorMsg);
 }

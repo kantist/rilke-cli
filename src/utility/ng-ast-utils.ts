@@ -9,6 +9,7 @@
 import { normalize } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { dirname } from 'path';
+import { findBootstrapApplicationCall } from '../private/standalone';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNode, getSourceNodes } from '../utility/ast-utils';
 
@@ -46,7 +47,7 @@ export function findBootstrapModuleCall(host: Tree, mainPath: string): ts.CallEx
 	return bootstrapCall;
 }
 
-export function findBootstrapModulePath(host: Tree, mainPath: string): string {
+function findBootstrapModulePath(host: Tree, mainPath: string): string {
 	const bootstrapCall = findBootstrapModuleCall(host, mainPath);
 	if (!bootstrapCall) {
 		throw new SchematicsException('Bootstrap call not found');
@@ -77,4 +78,11 @@ export function getAppModulePath(host: Tree, mainPath: string): string {
 	const modulePath = normalize(`/${mainDir}/${moduleRelativePath}.ts`);
 
 	return modulePath;
+}
+
+export function isStandaloneApp(host: Tree, mainPath: string): boolean {
+	const source = ts.createSourceFile(mainPath, host.readText(mainPath), ts.ScriptTarget.Latest, true);
+	const bootstrapCall = findBootstrapApplicationCall(source);
+
+	return bootstrapCall !== null;
 }

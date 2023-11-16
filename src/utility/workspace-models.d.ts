@@ -16,12 +16,13 @@ export declare enum ProjectType {
  * `angular.json` workspace file.
  */
 export declare enum Builders {
+    Application = "@angular-devkit/build-angular:application",
     AppShell = "@angular-devkit/build-angular:app-shell",
     Server = "@angular-devkit/build-angular:server",
     Browser = "@angular-devkit/build-angular:browser",
+    BrowserEsbuild = "@angular-devkit/build-angular:browser-esbuild",
     Karma = "@angular-devkit/build-angular:karma",
     TsLint = "@angular-devkit/build-angular:tslint",
-    DeprecatedNgPackagr = "@angular-devkit/build-ng-packagr:build",
     NgPackagr = "@angular-devkit/build-angular:ng-packagr",
     DevServer = "@angular-devkit/build-angular:dev-server",
     ExtractI18n = "@angular-devkit/build-angular:extract-i18n",
@@ -43,7 +44,7 @@ export interface BrowserBuilderBaseOptions {
     scripts?: (object | string)[];
     sourceMap?: boolean;
 }
-export declare type OutputHashing = 'all' | 'media' | 'none' | 'bundles';
+export type OutputHashing = 'all' | 'media' | 'none' | 'bundles';
 export interface BrowserBuilderOptions extends BrowserBuilderBaseOptions {
     serviceWorker?: boolean;
     optimization?: boolean;
@@ -108,22 +109,20 @@ export interface BuilderTarget<TBuilder extends Builders, TOptions> {
         [key: string]: Partial<TOptions>;
     };
 }
-export declare type LibraryBuilderTarget = BuilderTarget<Builders.NgPackagr, LibraryBuilderOptions>;
-export declare type BrowserBuilderTarget = BuilderTarget<Builders.Browser, BrowserBuilderOptions>;
-export declare type ServerBuilderTarget = BuilderTarget<Builders.Server, ServerBuilderOptions>;
-export declare type AppShellBuilderTarget = BuilderTarget<Builders.AppShell, AppShellBuilderOptions>;
-export declare type TestBuilderTarget = BuilderTarget<Builders.Karma, TestBuilderOptions>;
-export declare type ServeBuilderTarget = BuilderTarget<Builders.DevServer, ServeBuilderOptions>;
-export declare type ExtractI18nBuilderTarget = BuilderTarget<Builders.ExtractI18n, ExtractI18nOptions>;
-export declare type E2EBuilderTarget = BuilderTarget<Builders.Protractor, E2EOptions>;
+export type LibraryBuilderTarget = BuilderTarget<Builders.NgPackagr, LibraryBuilderOptions>;
+export type BrowserBuilderTarget = BuilderTarget<Builders.Browser, BrowserBuilderOptions>;
+export type ServerBuilderTarget = BuilderTarget<Builders.Server, ServerBuilderOptions>;
+export type AppShellBuilderTarget = BuilderTarget<Builders.AppShell, AppShellBuilderOptions>;
+export type TestBuilderTarget = BuilderTarget<Builders.Karma, TestBuilderOptions>;
+export type ServeBuilderTarget = BuilderTarget<Builders.DevServer, ServeBuilderOptions>;
+export type ExtractI18nBuilderTarget = BuilderTarget<Builders.ExtractI18n, ExtractI18nOptions>;
+export type E2EBuilderTarget = BuilderTarget<Builders.Protractor, E2EOptions>;
 interface WorkspaceCLISchema {
     warnings?: Record<string, boolean>;
     schematicCollections?: string[];
-    defaultCollection?: string;
 }
 export interface WorkspaceSchema {
     version: 1;
-    defaultProject?: string;
     cli?: WorkspaceCLISchema;
     projects: {
         [key: string]: WorkspaceProject<ProjectType.Application | ProjectType.Library>;

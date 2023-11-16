@@ -48,5 +48,5 @@
 			"default": true
 		}
 	},
-	"required": ["name", "module"]
+	"required": ["name", "project", "module"]
 }

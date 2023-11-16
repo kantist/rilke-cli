@@ -19,33 +19,26 @@ import {
 	move,
 	url,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { addFunctionalProvidersToStandaloneBootstrap } from '../private/standalone';
 import * as ts from '../third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { addSymbolToNgModuleMetadata, getEnvironmentExportName, insertImport, isImported } from '../utility/ast-utils';
+import { addDependency, readWorkspace, writeWorkspace } from '../utility';
+import { addSymbolToNgModuleMetadata, insertImport } from '../utility/ast-utils';
 import { applyToUpdateRecorder } from '../utility/change';
-import { addPackageJsonDependency, getPackageJsonDependency } from '../utility/dependencies';
-import { getAppModulePath } from '../utility/ng-ast-utils';
+import { getPackageJsonDependency } from '../utility/dependencies';
+import { getAppModulePath, isStandaloneApp } from '../utility/ng-ast-utils';
 import { relativePathToWorkspaceRoot } from '../utility/paths';
 import { targetBuildNotFoundError } from '../utility/project-targets';
-import { getWorkspace } from '../utility/workspace';
-import { BrowserBuilderOptions } from '../utility/workspace-models';
+import { Builders } from '../utility/workspace-models';
 import { Schema as ServiceWorkerOptions } from './schema';
 
 function addDependencies(): Rule {
-	return (host: Tree, context: SchematicContext) => {
-		const packageName = '@angular/service-worker';
-		context.logger.debug(`adding dependency (${packageName})`);
+	return (host: Tree) => {
 		const coreDep = getPackageJsonDependency(host, '@angular/core');
-		if (coreDep === null) {
-			throw new SchematicsException('Could not find version.');
+		if (!coreDep) {
+			throw new SchematicsException('Could not find "@angular/core" version.');
 		}
-		const serviceWorkerDep = {
-			...coreDep,
-			name: packageName,
-		};
-		addPackageJsonDependency(host, serviceWorkerDep);
 
-		return host;
+		return addDependency('@angular/service-worker', coreDep.version);
 	};
 }
 
@@ -56,50 +49,19 @@ function updateAppModule(mainPath: string): Rule {
 		const modulePath = getAppModulePath(host, mainPath);
 		context.logger.debug(`module path: ${modulePath}`);
 
-		// add import
-		let moduleSource = getTsSourceFile(host, modulePath);
-		let importModule = 'ServiceWorkerModule';
-		let importPath = '@angular/service-worker';
-		if (!isImported(moduleSource, importModule, importPath)) {
-			const change = insertImport(moduleSource, modulePath, importModule, importPath);
-			if (change) {
-				const recorder = host.beginUpdate(modulePath);
-				applyToUpdateRecorder(recorder, [change]);
-				host.commitUpdate(recorder);
-			}
-		}
+		addImport(host, modulePath, 'ServiceWorkerModule', '@angular/service-worker');
+		addImport(host, modulePath, 'isDevMode', '@angular/core');
 
-		// add import for environments
-		// import { environment } from '../environments/environment';
-		moduleSource = getTsSourceFile(host, modulePath);
-		const environmentExportName = getEnvironmentExportName(moduleSource);
-		// if environemnt import already exists then use the found one
-		// otherwise use the default name
-		importModule = environmentExportName || 'environment';
-		// TODO: dynamically find environments relative path
-		importPath = '../environments/environment';
-
-		if (!environmentExportName) {
-			// if environment import was not found then insert the new one
-			// with default path and default export name
-			const change = insertImport(moduleSource, modulePath, importModule, importPath);
-			if (change) {
-				const recorder = host.beginUpdate(modulePath);
-				applyToUpdateRecorder(recorder, [change]);
-				host.commitUpdate(recorder);
-			}
-		}
-
-		// register SW in app module
+		// register SW in application module
 		const importText = tags.stripIndent`
-			ServiceWorkerModule.register('ngsw-worker.js', {
-				enabled: ${importModule}.production,
-				// Register the ServiceWorker as soon as the app is stable
-				// or after 30 seconds (whichever comes first).
-				registrationStrategy: 'registerWhenStable:30000'
-			})
-		`;
-		moduleSource = getTsSourceFile(host, modulePath);
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        // Register the ServiceWorker as soon as the application is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+      })
+    `;
+		const moduleSource = getTsSourceFile(host, modulePath);
 		const metadataChanges = addSymbolToNgModuleMetadata(moduleSource, modulePath, 'imports', importText);
 		if (metadataChanges) {
 			const recorder = host.beginUpdate(modulePath);
@@ -111,20 +73,50 @@ function updateAppModule(mainPath: string): Rule {
 	};
 }
 
+function addProvideServiceWorker(mainPath: string): Rule {
+	return (host: Tree) => {
+		const updatedFilePath = addFunctionalProvidersToStandaloneBootstrap(
+			host,
+			mainPath,
+			'provideServiceWorker',
+			'@angular/service-worker',
+			[
+				ts.factory.createStringLiteral('ngsw-worker.js', true),
+				ts.factory.createObjectLiteralExpression(
+					[
+						ts.factory.createPropertyAssignment(
+							ts.factory.createIdentifier('enabled'),
+							ts.factory.createPrefixUnaryExpression(
+								ts.SyntaxKind.ExclamationToken,
+								ts.factory.createCallExpression(ts.factory.createIdentifier('isDevMode'), undefined, [])
+							)
+						),
+						ts.factory.createPropertyAssignment(
+							ts.factory.createIdentifier('registrationStrategy'),
+							ts.factory.createStringLiteral('registerWhenStable:30000', true)
+						),
+					],
+					true
+				),
+			]
+		);
+
+		addImport(host, updatedFilePath, 'isDevMode', '@angular/core');
+
+		return host;
+	};
+}
+
 function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
-	const buffer = host.read(path);
-	if (!buffer) {
-		throw new SchematicsException(`Could not read file (${path}).`);
-	}
-	const content = buffer.toString();
+	const content = host.readText(path);
 	const source = ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true);
 
 	return source;
 }
 
 export default function (options: ServiceWorkerOptions): Rule {
-	return async (host: Tree, context: SchematicContext) => {
-		const workspace = await getWorkspace(host);
+	return async (host: Tree) => {
+		const workspace = await readWorkspace(host);
 		const project = workspace.projects.get(options.project);
 		if (!project) {
 			throw new SchematicsException(`Invalid project name (${options.project})`);
@@ -136,27 +128,56 @@ export default function (options: ServiceWorkerOptions): Rule {
 		if (!buildTarget) {
 			throw targetBuildNotFoundError();
 		}
-		const buildOptions = (buildTarget.options || {}) as unknown as BrowserBuilderOptions;
-		const root = project.root;
-		buildOptions.serviceWorker = true;
-		buildOptions.ngswConfigPath = join(normalize(root), 'ngsw-config.json');
 
-		let { resourcesOutputPath = '' } = buildOptions;
-		if (resourcesOutputPath) {
-			resourcesOutputPath = normalize(`/${resourcesOutputPath}`);
+		const buildOptions = buildTarget.options as Record<string, string | boolean>;
+		let browserEntryPoint: string | undefined;
+		let resourcesOutputPath = '';
+		const ngswConfigPath = join(normalize(project.root), 'ngsw-config.json');
+
+		if (buildTarget.builder === Builders.Application) {
+			browserEntryPoint = buildOptions.browser as string;
+			resourcesOutputPath = '/media';
+			const productionConf = buildTarget.configurations?.production;
+			if (productionConf) {
+				productionConf.serviceWorker = ngswConfigPath;
+			}
+		} else {
+			browserEntryPoint = buildOptions.main as string;
+			buildOptions.serviceWorker = true;
+			buildOptions.ngswConfigPath = ngswConfigPath;
+			if (buildOptions.resourcesOutputPath) {
+				resourcesOutputPath = normalize(`/${buildOptions.resourcesOutputPath}`);
+			}
 		}
 
-		const templateSource = apply(url('./files'), [
-			applyTemplates({
-				...options,
-				resourcesOutputPath,
-				relativePathToWorkspaceRoot: relativePathToWorkspaceRoot(project.root),
-			}),
-			move(project.root),
+		await writeWorkspace(host, workspace);
+
+		return chain([
+			addDependencies(),
+			mergeWith(
+				apply(url('./files'), [
+					applyTemplates({
+						...options,
+						resourcesOutputPath,
+						relativePathToWorkspaceRoot: relativePathToWorkspaceRoot(project.root),
+					}),
+					move(project.root),
+				])
+			),
+			isStandaloneApp(host, browserEntryPoint)
+				? addProvideServiceWorker(browserEntryPoint)
+				: updateAppModule(browserEntryPoint),
 		]);
-
-		context.addTask(new NodePackageInstallTask());
-
-		return chain([mergeWith(templateSource), addDependencies(), updateAppModule(buildOptions.main)]);
 	};
+}
+
+function addImport(host: Tree, filePath: string, symbolName: string, moduleName: string): void {
+	const moduleSource = getTsSourceFile(host, filePath);
+	const change = insertImport(moduleSource, filePath, symbolName, moduleName);
+
+	if (change) {
+		const recorder = host.beginUpdate(filePath);
+		applyToUpdateRecorder(recorder, [change]);
+		host.commitUpdate(recorder);
+	}
 }

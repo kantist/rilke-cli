@@ -10,10 +10,7 @@
 		"lint:fix": "ril lint --fix",
 		"lint:styles": "stylelint \"**/*.scss\"",
 		"lint:styles:fix": "stylelint \"**/*.scss\" --fix",
-		"serve:ssr": "node dist/server/main.js",
-		"prod:build:ssr": "ril build && ril run <%= utils.dasherize(name) %>:server:production",
-		"stage:build:ssr": "ril build --configuration staging && ril run <%= utils.dasherize(name) %>:server:staging",
-		"dev:build:ssr": "ril build --configuration development && ril run <%= utils.dasherize(name) %>:server:development"
+		"serve:ssr": "node dist/<%= utils.dasherize(name) %>/server/server.mjs",
 	},
 	"private": true,
 	"dependencies": {
@@ -28,23 +25,21 @@
 		"@angular/platform-browser-dynamic": "<%= latestVersions['@angular'] %>",
 		"@angular/platform-server": "<%= latestVersions['@angular'] %>",
 		"@angular/service-worker": "<%= latestVersions['@angular'] %>",
-		"@nguniversal/express-engine": "<%= latestVersions['@nguniversal'] %>",
+		"@angular/ssr": "<%= latestVersions['@angular/ssr'] %>",
 		"express": "<%= latestVersions['express'] %>",
-		"localstorage-polyfill": "<%= latestVersions['localstorage-polyfill'] %>",
 		"rxjs": "<%= latestVersions['rxjs'] %>",
 		"tslib": "<%= latestVersions['tslib'] %>",
+		"localstorage-polyfill": "<%= latestVersions['localstorage-polyfill'] %>",
 		"zone.js": "<%= latestVersions['zone.js'] %>"
 	},
 	"devDependencies": {
 		"@rilke/cli": "<%= '~' + latestVersions.Rilke %>",
 		"@angular/cli": "<%= '~' + latestVersions['@angular'] %>",
 		"@angular/compiler-cli": "<%= latestVersions['@angular'] %>",
-		"@angular-devkit/build-angular": "<%= latestVersions['@angular'] %>",
-		"@nguniversal/builders": "<%= latestVersions['@nguniversal'] %>",
+		"@angular-devkit/build-angular": "<%= latestVersions['@angular-devkit'] %>",
 		"@angular-eslint/builder": "<%= latestVersions['@angular-eslint'] %>",
 		"@angular-eslint/eslint-plugin": "<%= latestVersions['@angular-eslint'] %>",
 		"@angular-eslint/eslint-plugin-template": "<%= latestVersions['@angular-eslint'] %>",
-		"@angular-eslint/schematics": "<%= latestVersions['@angular-eslint'] %>",
 		"@angular-eslint/template-parser": "<%= latestVersions['@angular-eslint'] %>",
 		"@typescript-eslint/parser": "<%= latestVersions['@typescript-eslint'] %>",
 		"@typescript-eslint/eslint-plugin": "<%= latestVersions['@typescript-eslint'] %>",
@@ -53,8 +48,7 @@
 		"prettier": "<%= latestVersions['prettier'] %>",
 		"stylelint": "<%= latestVersions['stylelint'] %>",
 		"stylelint-config-standard": "<%= latestVersions['stylelint-config-standard'] %>",
-		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>",<% if (!minimal) { %>
-		"@types/jasmine": "<%= latestVersions['@types/jasmine'] %>",<% } %>
+		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>"
 		"@types/express": "<%= latestVersions['@types/express'] %>",
  		"typescript": "<%= latestVersions['typescript'] %>"
 	}

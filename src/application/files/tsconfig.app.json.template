@@ -3,13 +3,12 @@
 	"extends": "<%= relativePathToWorkspaceRoot %>/tsconfig.json",
 	"compilerOptions": {
 		"outDir": "<%= relativePathToWorkspaceRoot %>/out-tsc/app",
-		"types": []
+		"types": ["node"]
 	},
 	"files": [
-		"src/main.ts",
-		"src/polyfills.ts"
+	  "src/main.ts",
+	  "src/main.server.ts",
+	  "server.ts"
 	],
-	"include": [
-		"src/**/*.d.ts"
-	]
+	"include": ["src/**/*.d.ts"]
 }

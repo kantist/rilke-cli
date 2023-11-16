@@ -57,5 +57,5 @@
 			"description": "The declaring NgModule name."
 		}
 	},
-	"required": ["name"]
+	"required": ["name", "project"]
 }

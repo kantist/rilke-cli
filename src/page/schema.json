@@ -136,5 +136,5 @@
 			"description": "The route path for a routes."
 		}
 	},
-	"required": ["name", "module"]
+	"required": ["name", "project", "module"]
 }
