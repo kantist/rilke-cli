@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
 		"baseUrl": "tsconfig",
-		"lib": ["ES2022"],
 		"declaration": true,
 		"module": "commonjs",
 		"moduleResolution": "node",
