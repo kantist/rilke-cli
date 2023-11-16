@@ -26,12 +26,11 @@
 		disableVersionCheckEnv.toLowerCase() !== 'false';
 
 	if (disableVersionCheck) {
-		return (await import('../../node_modules/@angular/cli/lib/cli'))
-			.default;
+		return (await import('@angular/cli/lib/cli')).default;
 	}
 
 	let cli;
-	cli = await import('../../node_modules/@angular/cli/lib/cli');
+	cli = await import('@angular/cli/lib/cli');
 
 	if ('default' in cli) {
 		cli = cli['default'];
