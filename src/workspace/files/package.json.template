@@ -10,7 +10,7 @@
 		"lint:fix": "ril lint --fix",
 		"lint:styles": "stylelint \"**/*.scss\"",
 		"lint:styles:fix": "stylelint \"**/*.scss\" --fix",
-		"serve:ssr": "node dist/<%= utils.dasherize(name) %>/server/server.mjs",
+		"serve:ssr": "node dist/<%= utils.dasherize(name) %>/server/server.mjs"
 	},
 	"private": true,
 	"dependencies": {
@@ -48,7 +48,7 @@
 		"prettier": "<%= latestVersions['prettier'] %>",
 		"stylelint": "<%= latestVersions['stylelint'] %>",
 		"stylelint-config-standard": "<%= latestVersions['stylelint-config-standard'] %>",
-		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>"
+		"stylelint-config-standard-scss": "<%= latestVersions['stylelint-config-standard-scss'] %>",
 		"@types/express": "<%= latestVersions['@types/express'] %>",
  		"typescript": "<%= latestVersions['typescript'] %>"
 	},
